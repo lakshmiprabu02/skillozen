@@ -1,0 +1,257 @@
+// Skillozen Prisma Schema
+// PostgreSQL database schema for the full platform
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── PARENT / ACCOUNT ────────────────────────────────────────────────────────
+
+model User {
+  id          String    @id @default(cuid())
+  email       String    @unique
+  name        String?
+  plan        Plan      @default(FREE)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  children    Child[]
+  toolUsages  ToolUsage[]
+
+  @@map("users")
+}
+
+enum Plan {
+  FREE      // Feature 1 only
+  STANDARD  // Feature 1 + 2  (₹499/yr)
+  PREMIUM   // Feature 1 + 2 + 3  (₹799/yr)
+}
+
+// ─── CHILD PROFILE ────────────────────────────────────────────────────────────
+
+model Child {
+  id          String    @id @default(cuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  name        String
+  age         Int       // 4–20
+  avatarEmoji String    @default("🧒")
+  
+  // XP & Gamification
+  totalXp     Int       @default(0)
+  level       Int       @default(1)
+  streakDays  Int       @default(0)
+  lastActive  DateTime?
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  assessments       Assessment[]
+  skillProfiles     SkillProfile[]
+  activityLogs      ActivityLog[]
+  badges            ChildBadge[]
+
+  @@map("children")
+}
+
+// ─── ASSESSMENT (Feature 1) ───────────────────────────────────────────────────
+
+model Assessment {
+  id          String            @id @default(cuid())
+  childId     String
+  child       Child             @relation(fields: [childId], references: [id], onDelete: Cascade)
+
+  status      AssessmentStatus  @default(IN_PROGRESS)
+  currentQ    Int               @default(0)   // 0–19
+  totalQ      Int               @default(20)
+
+  answers     AssessmentAnswer[]
+  skillProfile SkillProfile?
+
+  startedAt   DateTime          @default(now())
+  completedAt DateTime?
+
+  @@map("assessments")
+}
+
+enum AssessmentStatus {
+  IN_PROGRESS
+  COMPLETED
+  ABANDONED
+}
+
+model AssessmentAnswer {
+  id            String     @id @default(cuid())
+  assessmentId  String
+  assessment    Assessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+
+  questionIndex Int
+  questionText  String
+  skill         SkillArea
+  answerText    String
+  score         Int        // 0–10 score for this answer
+  reasoning     String?    // AI reasoning
+
+  createdAt     DateTime   @default(now())
+
+  @@map("assessment_answers")
+}
+
+// ─── SKILL PROFILE (Assessment Results) ──────────────────────────────────────
+
+model SkillProfile {
+  id            String   @id @default(cuid())
+  childId       String
+  child         Child    @relation(fields: [childId], references: [id], onDelete: Cascade)
+  assessmentId  String   @unique
+  assessment    Assessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+
+  // 0–100 scores per skill area
+  criticalThinking  Int
+  communication     Int
+  socialEmotional   Int
+  creativity        Int
+  digitalLiteracy   Int
+
+  overallScore      Int
+  ageGroup          AgeGroup
+  
+  // AI-generated insights
+  strengths         String[]
+  gaps              String[]
+  recommendations   String[]
+  summary           String
+
+  // Benchmarks vs age group (percentile 0-100)
+  criticalThinkingPct  Int @default(50)
+  communicationPct     Int @default(50)
+  socialEmotionalPct   Int @default(50)
+  creativityPct        Int @default(50)
+  digitalLiteracyPct   Int @default(50)
+
+  createdAt     DateTime @default(now())
+
+  @@map("skill_profiles")
+}
+
+enum SkillArea {
+  CRITICAL_THINKING
+  COMMUNICATION
+  SOCIAL_EMOTIONAL
+  CREATIVITY
+  DIGITAL_LITERACY
+}
+
+enum AgeGroup {
+  EARLY    // 4–7
+  MIDDLE   // 8–12
+  TEEN     // 13–17
+  YOUNG_ADULT // 18–20
+}
+
+// ─── TRAINING ACTIVITIES (Feature 2) ─────────────────────────────────────────
+
+model Activity {
+  id          String      @id @default(cuid())
+  title       String
+  description String
+  skill       SkillArea
+  ageGroup    AgeGroup[]
+  type        ActivityType
+  difficulty  Int         @default(1) // 1–5
+  xpReward    Int         @default(10)
+  durationMin Int         @default(10)
+  content     Json        // flexible content payload
+  tags        String[]
+  isActive    Boolean     @default(true)
+  isOffline   Boolean     @default(false)
+
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  logs        ActivityLog[]
+
+  @@map("activities")
+}
+
+enum ActivityType {
+  QUIZ
+  SIMULATION
+  CREATIVE_TASK
+  REFLECTION
+  CHALLENGE
+  GAME
+}
+
+model ActivityLog {
+  id          String   @id @default(cuid())
+  childId     String
+  child       Child    @relation(fields: [childId], references: [id], onDelete: Cascade)
+  activityId  String
+  activity    Activity @relation(fields: [activityId], references: [id])
+
+  xpEarned    Int
+  score       Int?     // 0-100 if applicable
+  completedAt DateTime @default(now())
+
+  @@map("activity_logs")
+}
+
+// ─── BADGES ───────────────────────────────────────────────────────────────────
+
+model Badge {
+  id          String    @id @default(cuid())
+  name        String
+  emoji       String
+  description String
+  condition   String    // human-readable unlock condition
+  xpThreshold Int?      // optional XP threshold
+  skill       SkillArea?
+
+  children    ChildBadge[]
+
+  @@map("badges")
+}
+
+model ChildBadge {
+  id        String   @id @default(cuid())
+  childId   String
+  child     Child    @relation(fields: [childId], references: [id], onDelete: Cascade)
+  badgeId   String
+  badge     Badge    @relation(fields: [badgeId], references: [id])
+  earnedAt  DateTime @default(now())
+
+  @@unique([childId, badgeId])
+  @@map("child_badges")
+}
+
+// ─── ANALYTICS ────────────────────────────────────────────────────────────────
+
+model ToolUsage {
+  id        String   @id @default(cuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+  feature   String   // "assessment" | "training" | "dashboard"
+  action    String
+  metadata  Json?
+  createdAt DateTime @default(now())
+
+  @@map("tool_usages")
+}
+
+// ─── ADMIN ────────────────────────────────────────────────────────────────────
+
+model Admin {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+
+  @@map("admins")
+}

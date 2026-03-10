@@ -1,0 +1,161 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-nunito: 'Nunito', sans-serif;
+  --font-plus-jakarta: 'Plus Jakarta Sans', sans-serif;
+
+  /* Brand colors as CSS variables */
+  --violet: #5B2EFF;
+  --coral:  #FF6B35;
+  --mint:   #00D68F;
+  --gold:   #FFB800;
+  --sky:    #00B4D8;
+  --rose:   #FF4785;
+  --base:   #FAFAF8;
+  --ink:    #1A1033;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+  }
+
+  html {
+    font-family: var(--font-plus-jakarta), system-ui, sans-serif;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--base);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-nunito), system-ui, sans-serif;
+    font-weight: 800;
+  }
+}
+
+@layer components {
+  /* ── Skill Score Ring ── */
+  .skill-ring {
+    @apply relative w-24 h-24 flex items-center justify-center rounded-full;
+    background: conic-gradient(var(--ring-color) calc(var(--ring-pct) * 1%), #e5e7eb 0%);
+  }
+  .skill-ring::before {
+    content: '';
+    @apply absolute w-20 h-20 bg-white rounded-full;
+  }
+
+  /* ── XP Progress Bar ── */
+  .xp-bar {
+    @apply h-3 rounded-full overflow-hidden bg-gray-100;
+  }
+  .xp-bar-fill {
+    @apply h-full rounded-full bg-gradient-to-r from-brand-violet to-brand-coral;
+    transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  /* ── Activity Card ── */
+  .activity-card {
+    @apply bg-white rounded-3xl p-5 shadow-card border border-gray-100 cursor-pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .activity-card:hover {
+    @apply shadow-skill;
+    transform: translateY(-4px);
+  }
+
+  /* ── Skill Badge ── */
+  .skill-badge {
+    @apply inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-bold;
+  }
+
+  /* ── Glass card ── */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+  }
+
+  /* ── Gradient text ── */
+  .gradient-text {
+    background: linear-gradient(135deg, #5B2EFF 0%, #FF6B35 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ── Page container ── */
+  .page-container {
+    @apply max-w-6xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* ── Button variants ── */
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-6 py-3 rounded-2xl font-bold text-white;
+    background: linear-gradient(135deg, #5B2EFF 0%, #7B4FFF 100%);
+    box-shadow: 0 4px 20px -4px rgba(91, 46, 255, 0.4);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px -4px rgba(91, 46, 255, 0.5);
+  }
+
+  .btn-coral {
+    @apply inline-flex items-center gap-2 px-6 py-3 rounded-2xl font-bold text-white;
+    background: linear-gradient(135deg, #FF6B35 0%, #FF8C5A 100%);
+    box-shadow: 0 4px 20px -4px rgba(255, 107, 53, 0.4);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .btn-coral:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px -4px rgba(255, 107, 53, 0.5);
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center gap-2 px-6 py-3 rounded-2xl font-bold;
+    @apply border-2 border-gray-200 text-gray-700 bg-white;
+    transition: all 0.2s ease;
+  }
+  .btn-ghost:hover {
+    @apply border-brand-violet text-brand-violet;
+    transform: translateY(-1px);
+  }
+}
+
+/* ── Custom scrollbar ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+
+/* ── Radar chart labels ── */
+.recharts-polar-angle-axis-tick-value {
+  font-family: var(--font-plus-jakarta) !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+}
+
+/* ── Confetti overlay ── */
+@keyframes confetti-fall {
+  0%   { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+.confetti-piece {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  animation: confetti-fall linear forwards;
+}
