@@ -5,7 +5,6 @@ const nextConfig = {
       { protocol: 'https', hostname: 'api.dicebear.com' },
     ],
   },
-  // Security headers
   async headers() {
     return [
       {
