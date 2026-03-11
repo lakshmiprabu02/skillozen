@@ -2,38 +2,29 @@ export const dynamic = 'force-dynamic'
 
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import bcrypt from 'bcryptjs'
-import jwt from 'jsonwebtoken'
 
-const JWT_SECRET = process.env.ADMIN_JWT_SECRET || 'dev-secret'
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin@skillozen2024'
 
-function verifyToken(req: NextRequest): boolean {
+function isAuthorized(req: NextRequest): boolean {
   const auth = req.headers.get('Authorization') || ''
   const token = auth.replace('Bearer ', '')
-  try {
-    jwt.verify(token, JWT_SECRET)
-    return true
-  } catch {
-    return false
-  }
+  return token === ADMIN_PASSWORD
 }
 
 export async function POST(req: NextRequest) {
   try {
     const { password } = await req.json()
-    const admin = await prisma.admin.findFirst()
-    if (!admin) return NextResponse.json({ error: 'No admin configured' }, { status: 401 })
-    const valid = await bcrypt.compare(password, admin.passwordHash)
-    if (!valid) return NextResponse.json({ error: 'Invalid password' }, { status: 401 })
-    const token = jwt.sign({ adminId: admin.id }, JWT_SECRET, { expiresIn: '24h' })
-    return NextResponse.json({ token })
+    if (password !== ADMIN_PASSWORD) {
+      return NextResponse.json({ error: 'Invalid password' }, { status: 401 })
+    }
+    return NextResponse.json({ token: ADMIN_PASSWORD })
   } catch {
     return NextResponse.json({ error: 'Server error' }, { status: 500 })
   }
 }
 
 export async function GET(req: NextRequest) {
-  if (!verifyToken(req)) {
+  if (!isAuthorized(req)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
@@ -41,7 +32,6 @@ export async function GET(req: NextRequest) {
 
   if (action === 'export') {
     const users = await prisma.user.findMany({
-      include: { children: { select: { name: true, age: true } } },
       orderBy: { createdAt: 'desc' },
     })
     const rows = ['Email,Name,Plan,Joined']
@@ -114,3 +104,19 @@ export async function GET(req: NextRequest) {
     dailySignups: [],
   })
 }
+```
+
+**Step 2** — Save the file
+
+---
+
+**Step 3** — Also remove `bcryptjs` and `jsonwebtoken` from `package.json`. Open `package.json` and delete these lines:
+```
+"bcryptjs": "^2.4.3",
+"jsonwebtoken": "^9.0.2",
+```
+
+And in `devDependencies` delete:
+```
+"@types/bcryptjs": "^2.4.6",
+"@types/jsonwebtoken": "^9.0.5",
