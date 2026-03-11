@@ -42,7 +42,7 @@ async function main() {
     // CRITICAL THINKING
     {
       title: 'The Mystery Box Challenge',
-      description: 'Use clues to figure out what's inside the mystery box. Practice deduction and logical reasoning!',
+      description: 'Use clues to figure out what is inside the mystery box. Practice deduction and logical reasoning!',
       skill: SkillArea.CRITICAL_THINKING,
       ageGroup: [AgeGroup.EARLY, AgeGroup.MIDDLE],
       type: ActivityType.GAME,
@@ -72,7 +72,7 @@ async function main() {
             headline1: 'Scientists discover water on Mars in underground lakes',
             headline2: 'Eating chocolate daily cures all diseases, say doctors',
             real: 0,
-            explanation: 'Always check: who said it? What's the source? Is it too good/crazy to be true?',
+            explanation: 'Always check: who said it? What is the source? Is it too good/crazy to be true?',
           },
           {
             headline1: 'New study shows exercise improves memory and mood',
