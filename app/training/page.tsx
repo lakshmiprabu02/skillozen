@@ -14,7 +14,7 @@ interface Activity {
   durationMin: number
   tags: string[]
   isOffline: boolean
-  content: Record<string, unknown>
+  content: Record<string, any>
 }
 
 interface ActivityLog {
@@ -125,7 +125,7 @@ export default function TrainingPage() {
   // ── ACTIVITY MODAL ──────────────────────────────────────────────────────────
   if (activeChallenge) {
     const cfg = SKILL_CONFIG[activeChallenge.skill]
-    const content = activeChallenge.content as Record<string, unknown>
+    const content = activeChallenge.content as Record<string, any>
 
     return (
       <div className="min-h-screen bg-brand-base flex items-center justify-center p-4">
