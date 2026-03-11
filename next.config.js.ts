@@ -5,6 +5,7 @@ const nextConfig = {
       { protocol: 'https', hostname: 'api.dicebear.com' },
     ],
   },
+  serverExternalPackages: ['bcryptjs', 'jsonwebtoken', '@prisma/client'],
   async headers() {
     return [
       {
