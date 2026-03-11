@@ -1,6 +1,5 @@
 // prisma/seed.ts — Seeds the Skillozen database with activities & badges
 import { PrismaClient, ActivityType, AgeGroup, SkillArea } from '@prisma/client'
-import bcrypt from 'bcryptjs'
 
 const prisma = new PrismaClient()
 
@@ -8,11 +7,10 @@ async function main() {
   console.log('🌱 Seeding Skillozen database...')
 
   // ── Admin ────────────────────────────────────────────────────────────────
-  const adminHash = await bcrypt.hash(process.env.ADMIN_PASSWORD || 'admin@skillozen2024', 10)
   await prisma.admin.upsert({
     where: { email: 'admin@skillozen.com' },
     update: {},
-    create: { email: 'admin@skillozen.com', passwordHash: adminHash },
+    create: { email: 'admin@skillozen.com', passwordHash: 'unused' },
   })
 
   // ── Badges ───────────────────────────────────────────────────────────────
