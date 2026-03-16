@@ -42,7 +42,7 @@ export default function AssessmentPage() {
   const [question, setQuestion] = useState<Question | null>(null)
   const [answer, setAnswer] = useState('')
   const [selectedOption, setSelectedOption] = useState<number | null>(null)
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [encouragement, setEncouragement] = useState('')
   const [showEncouragement, setShowEncouragement] = useState(false)
