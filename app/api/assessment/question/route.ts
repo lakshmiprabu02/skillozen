@@ -1,5 +1,6 @@
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
+export const maxDuration = 30
 
 // app/api/assessment/question/route.ts
 import { NextRequest, NextResponse } from 'next/server'
