@@ -40,6 +40,7 @@ export default function AssessmentPage() {
   const [assessmentId, setAssessmentId] = useState<string | null>(null)
   const [currentQ, setCurrentQ] = useState(0)
   const [question, setQuestion] = useState<Question | null>(null)
+  const [correctAnswer, setCorrectAnswer] = useState<number | null>(null)
   const [answer, setAnswer] = useState('')
   const [selectedOption, setSelectedOption] = useState<number | null>(null)
   const [loading, setLoading] = useState(false)
@@ -98,6 +99,7 @@ export default function AssessmentPage() {
       const data = await res.json()
       if (!res.ok) throw new Error(data.error)
       setQuestion(data.question)
+      setCorrectAnswer(data.question.correct ?? null)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load question')
     } finally {
@@ -123,6 +125,7 @@ export default function AssessmentPage() {
           answerText: selectedOption !== null ? question.options?.[selectedOption] : answer,
           selectedOption,
           options: question.options,
+          correctAnswer: correctAnswer ?? undefined,
           childAge: sessionData.childAge,
         }),
       })
