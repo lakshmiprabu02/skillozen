@@ -13,19 +13,31 @@ datasource db {
 // ─── PARENT / ACCOUNT ────────────────────────────────────────────────────────
 
 model User {
-  id          String    @id @default(cuid())
-  email       String    @unique
-  name        String?
-  plan        Plan      @default(FREE)
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id           String    @id @default(cuid())
+  email        String    @unique
+  name         String?
+  password     String?
+  plan         Plan      @default(FREE)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 
-  children    Child[]
-  toolUsages  ToolUsage[]
+  children     Child[]
+  toolUsages   ToolUsage[]
+  sessions     Session[]
 
   @@map("users")
 }
 
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String   @unique @default(cuid())
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@map("sessions")
+}
 enum Plan {
   FREE      // Feature 1 only
   STANDARD  // Feature 1 + 2  (₹499/yr)
