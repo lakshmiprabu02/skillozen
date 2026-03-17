@@ -10,6 +10,8 @@ export default function OnboardingPage() {
   const [step, setStep] = useState<'parent' | 'child'>('parent')
   const [parentEmail, setParentEmail] = useState('')
   const [parentName, setParentName] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
   const [childName, setChildName] = useState('')
   const [childAge, setChildAge] = useState(10)
   const [avatar, setAvatar] = useState('🧒')
@@ -17,15 +19,24 @@ export default function OnboardingPage() {
   const [error, setError] = useState('')
 
   async function handleSubmit() {
+    if (password !== confirmPassword) {
+      setError('Passwords do not match')
+      return
+    }
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters')
+      return
+    }
     setLoading(true)
     setError('')
     try {
-      const res = await fetch('/api/user', {
+      const res = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          email: parentEmail,
-          name: parentName,
+          email:       parentEmail,
+          password,
+          name:        parentName,
           childName,
           childAge,
           avatarEmoji: avatar,
@@ -33,10 +44,11 @@ export default function OnboardingPage() {
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Failed to create profile')
-      // Store in localStorage for session
+
+      localStorage.setItem('skillozen_token', data.token)
       localStorage.setItem('skillozen_user', JSON.stringify({
-        userId: data.userId,
-        childId: data.childId,
+        userId:    data.userId,
+        childId:   data.childId,
         childName,
         childAge,
         avatar,
@@ -52,14 +64,12 @@ export default function OnboardingPage() {
 
   return (
     <div className="min-h-screen bg-brand-base flex items-center justify-center p-4">
-      {/* Background orbs */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-20 right-20 w-64 h-64 rounded-full opacity-10 blur-3xl bg-brand-violet" />
         <div className="absolute bottom-20 left-20 w-64 h-64 rounded-full opacity-10 blur-3xl bg-brand-coral" />
       </div>
 
       <div className="relative w-full max-w-md">
-        {/* Logo */}
         <div className="text-center mb-8">
           <a href="/" className="inline-flex items-center gap-2">
             <span className="text-3xl">🌟</span>
@@ -71,8 +81,8 @@ export default function OnboardingPage() {
 
         {/* Progress dots */}
         <div className="flex items-center justify-center gap-2 mb-8">
-          <div className={`w-3 h-3 rounded-full transition-all ${step === 'parent' ? 'bg-brand-violet w-8' : 'bg-brand-mint'}`} />
-          <div className={`w-3 h-3 rounded-full transition-all ${step === 'child' ? 'bg-brand-violet w-8' : 'bg-gray-200'}`} />
+          <div className={`h-3 rounded-full transition-all ${step === 'parent' ? 'bg-brand-violet w-8' : 'bg-brand-mint w-3'}`} />
+          <div className={`h-3 rounded-full transition-all ${step === 'child' ? 'bg-brand-violet w-8' : 'bg-gray-200 w-3'}`} />
         </div>
 
         <div className="bg-white rounded-4xl shadow-card p-8 animate-slide-up">
@@ -80,10 +90,10 @@ export default function OnboardingPage() {
           {step === 'parent' && (
             <>
               <h1 className="font-display text-3xl font-black text-brand-ink mb-2">
-                Welcome, Parent! 👋
+                Create Account 👋
               </h1>
               <p className="text-gray-500 mb-8">
-                Let&apos;s set up your account first. It only takes 30 seconds.
+                Set up your parent account to track your child&apos;s progress from any device.
               </p>
 
               <div className="space-y-4">
@@ -107,13 +117,41 @@ export default function OnboardingPage() {
                     className="w-full px-4 py-3 rounded-2xl border-2 border-gray-200 focus:outline-none focus:border-brand-violet font-semibold text-brand-ink placeholder:text-gray-400"
                     required
                   />
-                  <p className="text-xs text-gray-400 mt-1 font-medium">Your skill reports will be sent here</p>
+                </div>
+                <div>
+                  <label className="block text-sm font-bold text-gray-700 mb-2">Password</label>
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Minimum 6 characters"
+                    className="w-full px-4 py-3 rounded-2xl border-2 border-gray-200 focus:outline-none focus:border-brand-violet font-semibold text-brand-ink placeholder:text-gray-400"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-bold text-gray-700 mb-2">Confirm Password</label>
+                  <input
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder="Re-enter your password"
+                    className="w-full px-4 py-3 rounded-2xl border-2 border-gray-200 focus:outline-none focus:border-brand-violet font-semibold text-brand-ink placeholder:text-gray-400"
+                  />
                 </div>
               </div>
+
+              {error && (
+                <div className="mt-4 p-3 rounded-xl bg-red-50 text-red-600 text-sm font-semibold">
+                  {error}
+                </div>
+              )}
 
               <button
                 onClick={() => {
                   if (!parentEmail) { setError('Please enter your email'); return }
+                  if (!password) { setError('Please enter a password'); return }
+                  if (password !== confirmPassword) { setError('Passwords do not match'); return }
+                  if (password.length < 6) { setError('Password must be at least 6 characters'); return }
                   setError('')
                   setStep('child')
                 }}
@@ -121,6 +159,15 @@ export default function OnboardingPage() {
               >
                 Continue →
               </button>
+
+              <div className="mt-6 text-center">
+                <p className="text-gray-500 text-sm font-medium">
+                  Already have an account?{' '}
+                  <a href="/login" className="text-brand-violet font-bold hover:underline">
+                    Login here
+                  </a>
+                </p>
+              </div>
             </>
           )}
 
@@ -136,11 +183,10 @@ export default function OnboardingPage() {
                 About Your Child 🧒
               </h1>
               <p className="text-gray-500 mb-8">
-                We&apos;ll tailor everything — questions, activities, benchmarks — to their exact age.
+                We will tailor everything to their exact age.
               </p>
 
               <div className="space-y-6">
-                {/* Avatar selection */}
                 <div>
                   <label className="block text-sm font-bold text-gray-700 mb-3">Pick an Avatar</label>
                   <div className="grid grid-cols-6 gap-2">
@@ -161,7 +207,9 @@ export default function OnboardingPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-2">Child&apos;s First Name</label>
+                  <label className="block text-sm font-bold text-gray-700 mb-2">
+                    Child&apos;s First Name
+                  </label>
                   <input
                     type="text"
                     value={childName}
@@ -188,10 +236,10 @@ export default function OnboardingPage() {
                     <span>20 yrs</span>
                   </div>
                   <div className="mt-2 text-sm font-semibold text-brand-violet text-center">
-                    {childAge <= 7 ? '🌱 Early Explorer (4–7)' :
-                     childAge <= 12 ? '🌿 Middle Learner (8–12)' :
-                     childAge <= 17 ? '🌲 Teen Achiever (13–17)' :
-                     '🌳 Young Adult (18–20)'}
+                    {childAge <= 7  ? '🌱 Early Explorer (4–7)'    :
+                     childAge <= 12 ? '🌿 Middle Learner (8–12)'   :
+                     childAge <= 17 ? '🌲 Teen Achiever (13–17)'   :
+                                      '🌳 Young Adult (18–20)'}
                   </div>
                 </div>
               </div>
@@ -202,10 +250,10 @@ export default function OnboardingPage() {
                 </div>
               )}
 
-              <div className="mt-8 p-4 rounded-2xl bg-brand-violet/5 border border-brand-violet/20">
+              <div className="mt-6 p-4 rounded-2xl bg-brand-violet/5 border border-brand-violet/20">
                 <p className="text-sm text-gray-600 font-medium text-center">
-                  🎮 Ready to start <strong>{childName || 'your child'}&apos;s</strong> skill adventure?<br />
-                  The assessment takes about <strong>10 minutes</strong> and feels like a game!
+                  🎮 Ready to start <strong>{childName || 'your child'}&apos;s</strong> skill adventure?
+                  The assessment takes about <strong>10 minutes</strong>!
                 </p>
               </div>
 
