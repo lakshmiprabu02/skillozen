@@ -48,13 +48,13 @@ export default function LoginPage() {
           <a href="/" className="inline-flex items-center gap-2">
             <span className="text-3xl">🌟</span>
             <span className="font-display text-2xl font-black text-brand-ink">
-              Skill<span className="gradient-text">ozen</span>
+              Skillozen
             </span>
           </a>
         </div>
-        <div className="bg-white rounded-4xl shadow-card p-8 animate-slide-up">
+        <div className="bg-white rounded-4xl shadow-card p-8">
           <h1 className="font-display text-3xl font-black text-brand-ink mb-2">
-            Welcome Back! 👋
+            Welcome Back!
           </h1>
           <p className="text-gray-500 mb-8">
             Log in to see your child skill progress.
@@ -109,16 +109,13 @@ export default function LoginPage() {
           </form>
           <div className="mt-6 text-center">
             <p className="text-gray-500 text-sm font-medium">
-              Do not have an account?{' '}
-              <a href="/onboarding" className="text-brand-violet font-bold hover:underline">
+              Do not have an account?
+              <a href="/onboarding" className="text-brand-violet font-bold hover:underline ml-1">
                 Register here
               </a>
             </p>
           </div>
         </div>
-        <p className="text-center text-xs text-gray-400 font-medium mt-6">
-          🔒 Your data is private and secure.
-        </p>
       </div>
     </div>
   )
