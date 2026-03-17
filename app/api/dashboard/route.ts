@@ -37,7 +37,7 @@ export async function GET(req: NextRequest) {
           orderBy: { earnedAt: 'desc' },
         },
         assessments: {
-          orderBy: { createdAt: 'desc' },
+          orderBy: { startedAt: 'desc' },
           take: 5,
           select: {
             id:          true,
