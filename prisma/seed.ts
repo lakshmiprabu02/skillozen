@@ -32,7 +32,8 @@ async function main() {
     })
   }
 
-  // Delete existing activities
+  // Delete existing activity logs first then activities
+  await prisma.activityLog.deleteMany({})
   await prisma.activity.deleteMany({})
 
   const activities = [
