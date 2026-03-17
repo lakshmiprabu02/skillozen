@@ -129,4 +129,3 @@ export default function LoginPage() {
     </div>
   )
 }
-feat: add login page
