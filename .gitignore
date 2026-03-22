@@ -10,8 +10,10 @@ yarn-debug.log*
 
 # Environment
 .env
+.env.txt
 .env.local
 .env.*.local
+*.env
 !.env.example
 
 # Prisma
