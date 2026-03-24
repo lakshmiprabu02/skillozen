@@ -127,9 +127,9 @@ export default function ResultsPage() {
         </div>
 
         <div className="page-container relative text-white">
-          <a href="/" className="text-white/60 hover:text-white font-semibold text-sm transition-colors mb-8 inline-flex items-center gap-1">
-            ← Skillozen
-          </a>
+          <a href="/dashboard" className="text-white/60 hover:text-white font-semibold text-sm transition-colors mb-8 inline-flex items-center gap-1">
+              ← Back to Dashboard
+            </a>
 
           <div className="flex flex-col md:flex-row items-start md:items-center gap-6 mt-4">
             <div className="w-24 h-24 rounded-3xl flex items-center justify-center text-5xl"
