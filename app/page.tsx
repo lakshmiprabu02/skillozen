@@ -164,7 +164,7 @@ export default function LandingPage() {
 
             <p className="text-xl text-gray-600 mb-10 max-w-xl leading-relaxed">
               Skillozen measures, trains, and strengthens <strong>10 essential life skills</strong> — 
-              Critical Thinking, Communication, Creativity, Social-Emotional Learning, Digital Literacy, Financial Literacy, Health & Wellness, Goal Setting, Scientific Thinking and Public Speaking — so your child thrives in the 21st century.
+              <strong>Critical Thinking, Communication, Creativity, Social-Emotional Learning, Digital Literacy, Financial Literacy, Health & Wellness, Goal Setting, Scientific Thinking and Public Speaking</strong> — so your child thrives in the 21st century.
             </p>
 
             {/* Email capture form */}
