@@ -9,130 +9,39 @@ export const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 })
 
-// ─── Assessment Question Generator ───────────────────────────────────────────
-
-export interface AssessmentQuestion {
-  questionText: string
-  questionType: 'scenario' | 'reflection' | 'choice' | 'open-ended'
-  skill: 'CRITICAL_THINKING' | 'COMMUNICATION' | 'SOCIAL_EMOTIONAL' | 'CREATIVITY' | 'DIGITAL_LITERACY'
-  options?: string[]   // for choice type
-  followUp?: string    // adaptive follow-up hint
-}
-
-export async function generateAssessmentQuestion(params: {
-  childAge: number
-  childName: string
-  questionIndex: number  // 0-19
-  previousAnswers: Array<{ skill: string; score: number }>
-  targetSkill: string
-}): Promise<AssessmentQuestion> {
-  const { childAge, childName, questionIndex, previousAnswers, targetSkill } = params
-
-  const ageGroup = childAge <= 7 ? 'early childhood (4-7)' :
-                   childAge <= 12 ? 'middle childhood (8-12)' :
-                   childAge <= 17 ? 'teenager (13-17)' : 'young adult (18-20)'
-
-  const prompt = `You are generating question ${questionIndex + 1} of 20 for a skill assessment for ${childName}, aged ${childAge} (${ageGroup}).
-
-Target skill for this question: ${targetSkill}
-
-Previous answer pattern: ${JSON.stringify(previousAnswers.slice(-3))}
-
-Generate ONE age-appropriate, engaging assessment question that:
-1. Feels like a game or exploration, NOT a test
-2. Is suitable for ${ageGroup}
-3. Assesses: ${targetSkill.replace(/_/g, ' ')}
-4. Uses relatable scenarios or situations
-5. Has a friendly, encouraging tone
-
-Return ONLY valid JSON (no markdown):
-{
-  "questionText": "the question text here",
-  "questionType": "scenario|reflection|choice|open-ended",
-  "skill": "${targetSkill}",
-  "options": ["option1", "option2", "option3", "option4"],  // ONLY for choice type, omit for others
-  "followUp": "optional encouragement or hint text"
-}`
-
-  const response = await openai.chat.completions.create({
-    model: 'gpt-4o-mini',
-    messages: [{ role: 'user', content: prompt }],
-    temperature: 0.8,
-    max_tokens: 400,
-    response_format: { type: 'json_object' },
-  })
-
-  const content = response.choices[0].message.content || '{}'
-  return JSON.parse(content) as AssessmentQuestion
-}
-
-// ─── Answer Scorer ────────────────────────────────────────────────────────────
-
-export interface AnswerScore {
-  score: number       // 0-10
-  reasoning: string   // brief explanation
-  positiveNote: string // encouraging feedback
-}
-
-export async function scoreAnswer(params: {
-  childAge: number
-  questionText: string
-  skill: string
-  answer: string
-  options?: string[]
-  selectedOption?: number
-}): Promise<AnswerScore> {
-  const { childAge, questionText, skill, answer, options, selectedOption } = params
-
-  const prompt = `Score this assessment answer for a ${childAge}-year-old child.
-
-Skill being assessed: ${skill.replace(/_/g, ' ')}
-Question: ${questionText}
-${options ? `Options: ${options.join(', ')}\nSelected: ${options[selectedOption ?? 0]}` : `Answer: ${answer}`}
-
-Score from 0-10 based on:
-- Age-appropriateness (don't penalise for age-expected limitations)
-- Depth of thinking demonstrated
-- Skill-specific indicators
-
-Return ONLY valid JSON:
-{
-  "score": 7,
-  "reasoning": "brief explanation of the score",
-  "positiveNote": "one encouraging sentence for the child"
-}`
-
-  const response = await openai.chat.completions.create({
-    model: 'gpt-4o-mini',
-    messages: [{ role: 'user', content: prompt }],
-    temperature: 0.3,
-    max_tokens: 200,
-    response_format: { type: 'json_object' },
-  })
-
-  const content = response.choices[0].message.content || '{}'
-  return JSON.parse(content) as AnswerScore
-}
-
 // ─── Skill Profile Generator ──────────────────────────────────────────────────
 
 export interface SkillProfileResult {
-  criticalThinking: number   // 0-100
+  // Original 5
+  criticalThinking: number
   communication: number
   socialEmotional: number
   creativity: number
   digitalLiteracy: number
+  // New 5
+  financialLiteracy: number
+  healthWellness: number
+  goalSetting: number
+  scientificThinking: number
+  publicSpeaking: number
+  // Overall
   overallScore: number
   strengths: string[]
   gaps: string[]
   recommendations: string[]
   summary: string
-  // Simulated global percentiles
+  // Percentiles — Original 5
   criticalThinkingPct: number
   communicationPct: number
   socialEmotionalPct: number
   creativityPct: number
   digitalLiteracyPct: number
+  // Percentiles — New 5
+  financialLiteracyPct: number
+  healthWellnessPct: number
+  goalSettingPct: number
+  scientificThinkingPct: number
+  publicSpeakingPct: number
 }
 
 export async function generateSkillProfile(params: {
@@ -142,7 +51,6 @@ export async function generateSkillProfile(params: {
 }): Promise<SkillProfileResult> {
   const { childName, childAge, answers } = params
 
-  // Pre-aggregate scores by skill
   const skillScores: Record<string, number[]> = {}
   for (const a of answers) {
     if (!skillScores[a.skill]) skillScores[a.skill] = []
@@ -158,8 +66,17 @@ export async function generateSkillProfile(params: {
 
 Raw skill averages (0-100 scale): ${JSON.stringify(avgScores)}
 
-Assessment answers summary:
-${answers.slice(0, 10).map(a => `- ${a.skill}: Q="${a.questionText.slice(0, 80)}" Score=${a.score}/10`).join('\n')}
+The child was assessed on these 10 skills:
+1. CRITICAL_THINKING — Critical Thinking and Problem Solving
+2. COMMUNICATION — Communication Skills
+3. SOCIAL_EMOTIONAL — Social-Emotional Learning
+4. CREATIVITY — Creativity and Innovation
+5. DIGITAL_LITERACY — Digital Literacy and AI Awareness
+6. FINANCIAL_LITERACY — Financial Literacy
+7. HEALTH_WELLNESS — Health and Wellness
+8. GOAL_SETTING — Goal Setting and Time Management
+9. SCIENTIFIC_THINKING — Scientific Thinking and Curiosity
+10. PUBLIC_SPEAKING — Public Speaking and Confidence
 
 Generate a parent-friendly skill report. Return ONLY valid JSON:
 {
@@ -168,23 +85,33 @@ Generate a parent-friendly skill report. Return ONLY valid JSON:
   "socialEmotional": <0-100>,
   "creativity": <0-100>,
   "digitalLiteracy": <0-100>,
+  "financialLiteracy": <0-100>,
+  "healthWellness": <0-100>,
+  "goalSetting": <0-100>,
+  "scientificThinking": <0-100>,
+  "publicSpeaking": <0-100>,
   "overallScore": <0-100>,
-  "strengths": ["strength 1 in plain English", "strength 2", "strength 3"],
-  "gaps": ["gap 1 in plain English", "gap 2"],
-  "recommendations": ["specific action step 1", "specific action step 2", "specific action step 3"],
-  "summary": "2-3 sentence parent-friendly summary of the child's skill profile",
-  "criticalThinkingPct": <0-100 global percentile estimate>,
+  "strengths": ["strength 1", "strength 2", "strength 3"],
+  "gaps": ["gap 1", "gap 2"],
+  "recommendations": ["action step 1", "action step 2", "action step 3"],
+  "summary": "2-3 sentence parent-friendly summary",
+  "criticalThinkingPct": <0-100>,
   "communicationPct": <0-100>,
   "socialEmotionalPct": <0-100>,
   "creativityPct": <0-100>,
-  "digitalLiteracyPct": <0-100>
+  "digitalLiteracyPct": <0-100>,
+  "financialLiteracyPct": <0-100>,
+  "healthWellnessPct": <0-100>,
+  "goalSettingPct": <0-100>,
+  "scientificThinkingPct": <0-100>,
+  "publicSpeakingPct": <0-100>
 }`
 
   const response = await openai.chat.completions.create({
     model: 'gpt-4o-mini',
     messages: [{ role: 'user', content: prompt }],
     temperature: 0.4,
-    max_tokens: 800,
+    max_tokens: 1000,
     response_format: { type: 'json_object' },
   })
 
