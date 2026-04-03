@@ -34,7 +34,9 @@ export async function POST(req: NextRequest) {
       where: { id: data.assessmentId },
       include: { child: true, answers: true },
     })
-    if (!assessment) return NextResponse.json({ error: 'Assessment not found' }, { status: 404 })
+    if (!assessment) {
+      return NextResponse.json({ error: 'Assessment not found' }, { status: 404 })
+    }
     if (assessment.status !== 'IN_PROGRESS') {
       return NextResponse.json({ error: 'Assessment not in progress' }, { status: 400 })
     }
@@ -51,7 +53,7 @@ export async function POST(req: NextRequest) {
         assessmentId:  data.assessmentId,
         questionIndex: data.questionIndex,
         questionText:  data.questionText,
-        skill:         data.skill as 'CRITICAL_THINKING' | 'COMMUNICATION' | 'SOCIAL_EMOTIONAL' | 'CREATIVITY' | 'DIGITAL_LITERACY',
+        skill:         data.skill as 'CRITICAL_THINKING' | 'COMMUNICATION' | 'SOCIAL_EMOTIONAL' | 'CREATIVITY' | 'DIGITAL_LITERACY' | 'FINANCIAL_LITERACY' | 'HEALTH_WELLNESS' | 'GOAL_SETTING' | 'SCIENTIFIC_THINKING' | 'PUBLIC_SPEAKING',
         answerText:    data.answerText,
         score:         scoreResult.score,
         reasoning:     scoreResult.reasoning,
@@ -85,27 +87,55 @@ export async function POST(req: NextRequest) {
             })),
           })
         } catch {
+          // Fallback scoring
           const skillTotals: Record<string, number[]> = {}
           for (const a of freshAssessment.answers) {
             if (!skillTotals[a.skill]) skillTotals[a.skill] = []
             skillTotals[a.skill].push(a.score)
           }
-          const avg = (arr: number[]) => Math.round((arr.reduce((a, b) => a + b, 0) / arr.length) * 10)
-          const ct = avg(skillTotals.CRITICAL_THINKING || [5])
-          const cm = avg(skillTotals.COMMUNICATION || [5])
-          const se = avg(skillTotals.SOCIAL_EMOTIONAL || [5])
-          const cr = avg(skillTotals.CREATIVITY || [5])
-          const dl = avg(skillTotals.DIGITAL_LITERACY || [5])
+          const avg = (arr: number[]) => arr.length
+            ? Math.round((arr.reduce((a, b) => a + b, 0) / arr.length) * 10)
+            : 50
+          const ct  = avg(skillTotals.CRITICAL_THINKING  || [])
+          const cm  = avg(skillTotals.COMMUNICATION       || [])
+          const se  = avg(skillTotals.SOCIAL_EMOTIONAL    || [])
+          const cr  = avg(skillTotals.CREATIVITY          || [])
+          const dl  = avg(skillTotals.DIGITAL_LITERACY    || [])
+          const fl  = avg(skillTotals.FINANCIAL_LITERACY  || [])
+          const hw  = avg(skillTotals.HEALTH_WELLNESS     || [])
+          const gs  = avg(skillTotals.GOAL_SETTING        || [])
+          const st  = avg(skillTotals.SCIENTIFIC_THINKING || [])
+          const ps  = avg(skillTotals.PUBLIC_SPEAKING     || [])
           profileData = {
-            criticalThinking: ct, communication: cm, socialEmotional: se,
-            creativity: cr, digitalLiteracy: dl,
-            overallScore: Math.round((ct + cm + se + cr + dl) / 5),
-            strengths: ['Strong foundational thinking skills', 'Good engagement with challenges'],
+            criticalThinking:  ct,
+            communication:     cm,
+            socialEmotional:   se,
+            creativity:        cr,
+            digitalLiteracy:   dl,
+            financialLiteracy: fl,
+            healthWellness:    hw,
+            goalSetting:       gs,
+            scientificThinking:st,
+            publicSpeaking:    ps,
+            overallScore: Math.round((ct+cm+se+cr+dl+fl+hw+gs+st+ps) / 10),
+            strengths: ['Strong foundational life skills', 'Good engagement with challenges'],
             gaps: ['Areas identified for growth and practice'],
-            recommendations: ['Start with daily 10-minute skill activities', 'Focus on your lowest-scoring skill first', 'Retake assessment in 3 months to track progress'],
-            summary: freshAssessment.child.name + ' has completed their first skill assessment. The personalised training modules will help strengthen each skill area.',
-            criticalThinkingPct: 55, communicationPct: 55, socialEmotionalPct: 55,
-            creativityPct: 55, digitalLiteracyPct: 55,
+            recommendations: [
+              'Start with daily 10-minute skill activities',
+              'Focus on your lowest-scoring skill first',
+              'Retake assessment in 3 months to track progress',
+            ],
+            summary: freshAssessment.child.name + ' has completed their skill assessment across all 10 life skills. The personalised training modules will help strengthen each skill area.',
+            criticalThinkingPct:  55,
+            communicationPct:     55,
+            socialEmotionalPct:   55,
+            creativityPct:        55,
+            digitalLiteracyPct:   55,
+            financialLiteracyPct: 55,
+            healthWellnessPct:    55,
+            goalSettingPct:       55,
+            scientificThinkingPct:55,
+            publicSpeakingPct:    55,
           }
         }
 
@@ -118,17 +148,27 @@ export async function POST(req: NextRequest) {
             socialEmotional:     profileData.socialEmotional,
             creativity:          profileData.creativity,
             digitalLiteracy:     profileData.digitalLiteracy,
+            financialLiteracy:   profileData.financialLiteracy,
+            healthWellness:      profileData.healthWellness,
+            goalSetting:         profileData.goalSetting,
+            scientificThinking:  profileData.scientificThinking,
+            publicSpeaking:      profileData.publicSpeaking,
             overallScore:        profileData.overallScore,
             ageGroup:            getAgeGroup(data.childAge),
             strengths:           profileData.strengths,
             gaps:                profileData.gaps,
             recommendations:     profileData.recommendations,
             summary:             profileData.summary,
-            criticalThinkingPct: profileData.criticalThinkingPct,
-            communicationPct:    profileData.communicationPct,
-            socialEmotionalPct:  profileData.socialEmotionalPct,
-            creativityPct:       profileData.creativityPct,
-            digitalLiteracyPct:  profileData.digitalLiteracyPct,
+            criticalThinkingPct:  profileData.criticalThinkingPct,
+            communicationPct:     profileData.communicationPct,
+            socialEmotionalPct:   profileData.socialEmotionalPct,
+            creativityPct:        profileData.creativityPct,
+            digitalLiteracyPct:   profileData.digitalLiteracyPct,
+            financialLiteracyPct: profileData.financialLiteracyPct,
+            healthWellnessPct:    profileData.healthWellnessPct,
+            goalSettingPct:       profileData.goalSettingPct,
+            scientificThinkingPct:profileData.scientificThinkingPct,
+            publicSpeakingPct:    profileData.publicSpeakingPct,
           },
         })
 
