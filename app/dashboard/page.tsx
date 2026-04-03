@@ -55,11 +55,16 @@ interface DashboardData {
 }
 
 const SKILL_CONFIG = [
-  { key: 'criticalThinking', label: 'Critical Thinking', emoji: '🧠', color: '#5B2EFF' },
-  { key: 'communication',    label: 'Communication',     emoji: '🗣️', color: '#00B4D8' },
-  { key: 'socialEmotional',  label: 'Social-Emotional',  emoji: '💛', color: '#FF4785' },
-  { key: 'creativity',       label: 'Creativity',         emoji: '🎨', color: '#FF6B35' },
-  { key: 'digitalLiteracy',  label: 'Digital Literacy',   emoji: '💻', color: '#00D68F' },
+  { key: 'criticalThinking',  pctKey: 'criticalThinkingPct',  label: 'Critical Thinking',  emoji: '🧠', color: '#5B2EFF' },
+  { key: 'communication',     pctKey: 'communicationPct',     label: 'Communication',      emoji: '🗣️', color: '#00B4D8' },
+  { key: 'socialEmotional',   pctKey: 'socialEmotionalPct',   label: 'Social-Emotional',   emoji: '💛', color: '#FF4785' },
+  { key: 'creativity',        pctKey: 'creativityPct',        label: 'Creativity',          emoji: '🎨', color: '#FF6B35' },
+  { key: 'digitalLiteracy',   pctKey: 'digitalLiteracyPct',   label: 'Digital Literacy',   emoji: '💻', color: '#00D68F' },
+  { key: 'financialLiteracy', pctKey: 'financialLiteracyPct', label: 'Financial Literacy', emoji: '💰', color: '#FFB800' },
+  { key: 'healthWellness',    pctKey: 'healthWellnessPct',    label: 'Health & Wellness',  emoji: '🧘', color: '#06D6A0' },
+  { key: 'goalSetting',       pctKey: 'goalSettingPct',       label: 'Goal Setting',        emoji: '🎯', color: '#7209B7' },
+  { key: 'scientificThinking',pctKey: 'scientificThinkingPct',label: 'Scientific Thinking',emoji: '🔬', color: '#3A86FF' },
+  { key: 'publicSpeaking',    pctKey: 'publicSpeakingPct',    label: 'Public Speaking',    emoji: '🎤', color: '#FB5607' },
 ]
 
 export default function DashboardPage() {
