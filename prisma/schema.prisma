@@ -124,28 +124,42 @@ model SkillProfile {
   assessmentId  String   @unique
   assessment    Assessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
 
-  // 0–100 scores per skill area
+  // 0-100 scores per skill area — Original 5
   criticalThinking  Int
   communication     Int
   socialEmotional   Int
   creativity        Int
   digitalLiteracy   Int
 
+  // 0-100 scores per skill area — New 5
+  financialLiteracy   Int @default(0)
+  healthWellness      Int @default(0)
+  goalSetting         Int @default(0)
+  scientificThinking  Int @default(0)
+  publicSpeaking      Int @default(0)
+
   overallScore      Int
   ageGroup          AgeGroup
-  
+
   // AI-generated insights
   strengths         String[]
   gaps              String[]
   recommendations   String[]
   summary           String
 
-  // Benchmarks vs age group (percentile 0-100)
+  // Benchmarks vs age group (percentile 0-100) — Original 5
   criticalThinkingPct  Int @default(50)
   communicationPct     Int @default(50)
   socialEmotionalPct   Int @default(50)
   creativityPct        Int @default(50)
   digitalLiteracyPct   Int @default(50)
+
+  // Benchmarks vs age group (percentile 0-100) — New 5
+  financialLiteracyPct  Int @default(50)
+  healthWellnessPct     Int @default(50)
+  goalSettingPct        Int @default(50)
+  scientificThinkingPct Int @default(50)
+  publicSpeakingPct     Int @default(50)
 
   createdAt     DateTime @default(now())
 
