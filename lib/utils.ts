@@ -38,33 +38,48 @@ export function getSkillForQuestion(index: number): string {
 
 export function getSkillLabel(skill: string): string {
   const labels: Record<string, string> = {
-    CRITICAL_THINKING: 'Critical Thinking',
-    COMMUNICATION:     'Communication',
-    SOCIAL_EMOTIONAL:  'Social-Emotional',
-    CREATIVITY:        'Creativity',
-    DIGITAL_LITERACY:  'Digital Literacy',
+    CRITICAL_THINKING:  'Critical Thinking',
+    COMMUNICATION:      'Communication',
+    SOCIAL_EMOTIONAL:   'Social-Emotional',
+    CREATIVITY:         'Creativity',
+    DIGITAL_LITERACY:   'Digital Literacy',
+    FINANCIAL_LITERACY: 'Financial Literacy',
+    HEALTH_WELLNESS:    'Health & Wellness',
+    GOAL_SETTING:       'Goal Setting',
+    SCIENTIFIC_THINKING:'Scientific Thinking',
+    PUBLIC_SPEAKING:    'Public Speaking',
   }
   return labels[skill] || skill
 }
 
 export function getSkillColor(skill: string): string {
   const colors: Record<string, string> = {
-    CRITICAL_THINKING: '#5B2EFF',
-    COMMUNICATION:     '#00B4D8',
-    SOCIAL_EMOTIONAL:  '#FF4785',
-    CREATIVITY:        '#FF6B35',
-    DIGITAL_LITERACY:  '#00D68F',
+    CRITICAL_THINKING:  '#5B2EFF',
+    COMMUNICATION:      '#00B4D8',
+    SOCIAL_EMOTIONAL:   '#FF4785',
+    CREATIVITY:         '#FF6B35',
+    DIGITAL_LITERACY:   '#00D68F',
+    FINANCIAL_LITERACY: '#FFB800',
+    HEALTH_WELLNESS:    '#06D6A0',
+    GOAL_SETTING:       '#7209B7',
+    SCIENTIFIC_THINKING:'#3A86FF',
+    PUBLIC_SPEAKING:    '#FB5607',
   }
   return colors[skill] || '#5B2EFF'
 }
 
 export function getSkillEmoji(skill: string): string {
   const emojis: Record<string, string> = {
-    CRITICAL_THINKING: '🧠',
-    COMMUNICATION:     '🗣️',
-    SOCIAL_EMOTIONAL:  '💛',
-    CREATIVITY:        '🎨',
-    DIGITAL_LITERACY:  '💻',
+    CRITICAL_THINKING:  '🧠',
+    COMMUNICATION:      '🗣️',
+    SOCIAL_EMOTIONAL:   '💛',
+    CREATIVITY:         '🎨',
+    DIGITAL_LITERACY:   '💻',
+    FINANCIAL_LITERACY: '💰',
+    HEALTH_WELLNESS:    '🧘',
+    GOAL_SETTING:       '🎯',
+    SCIENTIFIC_THINKING:'🔬',
+    PUBLIC_SPEAKING:    '🎤',
   }
   return emojis[skill] || '⭐'
 }
