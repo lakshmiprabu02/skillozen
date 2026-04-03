@@ -5,7 +5,7 @@ export const maxDuration = 30
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
-// ── TIER 1: Ages 4-7 — Pure Emoji + Audio Questions ──────────────────────────
+// ── TIER 1: Ages 4-7 — Emoji + Audio ─────────────────────────────────────────
 const TIER1_QUESTIONS: Record<string, Array<{
   questionText: string
   audioText: string
@@ -27,40 +27,16 @@ const TIER1_QUESTIONS: Record<string, Array<{
       correct: 1,
     },
     {
-      questionText: 'Sun, Moon, Sun, Moon, Sun... What comes next? ⭐',
-      audioText: 'Sun, Moon, Sun, Moon, Sun. What comes next?',
+      questionText: 'Which one does NOT belong? 🍎🍊🍌🚗',
+      audioText: 'Apple, Orange, Banana, Car. Which one does not belong?',
       skill: 'CRITICAL_THINKING',
       options: [
-        { emoji: '☀️', label: 'Sun' },
-        { emoji: '🌙', label: 'Moon' },
-        { emoji: '⭐', label: 'Star' },
-        { emoji: '☁️', label: 'Cloud' },
-      ],
-      correct: 1,
-    },
-    {
-      questionText: 'Which one is the heaviest? 🏋️',
-      audioText: 'Which one is the heaviest?',
-      skill: 'CRITICAL_THINKING',
-      options: [
-        { emoji: '🪶', label: 'Feather' },
         { emoji: '🍎', label: 'Apple' },
-        { emoji: '🐘', label: 'Elephant' },
-        { emoji: '📌', label: 'Pin' },
+        { emoji: '🍊', label: 'Orange' },
+        { emoji: '🍌', label: 'Banana' },
+        { emoji: '🚗', label: 'Car' },
       ],
-      correct: 2,
-    },
-    {
-      questionText: 'Which comes first in the morning? 🌅',
-      audioText: 'Which comes first in the morning?',
-      skill: 'CRITICAL_THINKING',
-      options: [
-        { emoji: '🌙', label: 'Night' },
-        { emoji: '☀️', label: 'Sunrise' },
-        { emoji: '🌆', label: 'Evening' },
-        { emoji: '🌃', label: 'Midnight' },
-      ],
-      correct: 1,
+      correct: 3,
     },
   ],
   COMMUNICATION: [
@@ -88,30 +64,6 @@ const TIER1_QUESTIONS: Record<string, Array<{
       ],
       correct: 1,
     },
-    {
-      questionText: 'When someone talks to you, you should... 👂',
-      audioText: 'When someone talks to you, you should...',
-      skill: 'COMMUNICATION',
-      options: [
-        { emoji: '📱', label: 'Use phone' },
-        { emoji: '👂', label: 'Listen' },
-        { emoji: '💤', label: 'Sleep' },
-        { emoji: '🏃', label: 'Walk away' },
-      ],
-      correct: 1,
-    },
-    {
-      questionText: 'How do you feel when you get a surprise gift? 🎁',
-      audioText: 'How do you feel when you get a surprise gift?',
-      skill: 'COMMUNICATION',
-      options: [
-        { emoji: '😢', label: 'Sad' },
-        { emoji: '😠', label: 'Angry' },
-        { emoji: '🤩', label: 'Excited' },
-        { emoji: '😴', label: 'Sleepy' },
-      ],
-      correct: 2,
-    },
   ],
   SOCIAL_EMOTIONAL: [
     {
@@ -138,56 +90,8 @@ const TIER1_QUESTIONS: Record<string, Array<{
       ],
       correct: 1,
     },
-    {
-      questionText: 'You broke your friend\'s toy by mistake 😬. You should...',
-      audioText: 'You broke your friend\'s toy by mistake. You should...',
-      skill: 'SOCIAL_EMOTIONAL',
-      options: [
-        { emoji: '🏃', label: 'Run away' },
-        { emoji: '🙊', label: 'Hide it' },
-        { emoji: '🙏', label: 'Say sorry' },
-        { emoji: '😐', label: 'Ignore it' },
-      ],
-      correct: 2,
-    },
-    {
-      questionText: 'Your friend wins a prize 🏆. You did not win. You feel...',
-      audioText: 'Your friend wins a prize. You did not win. You should feel...',
-      skill: 'SOCIAL_EMOTIONAL',
-      options: [
-        { emoji: '😠', label: 'Very angry' },
-        { emoji: '👏', label: 'Happy for them' },
-        { emoji: '😭', label: 'Cry all day' },
-        { emoji: '🙅', label: 'Stop being friends' },
-      ],
-      correct: 1,
-    },
   ],
   CREATIVITY: [
-    {
-      questionText: 'You want to make a card for your mum 💝. You use...',
-      audioText: 'You want to make a card for your mum. You use...',
-      skill: 'CREATIVITY',
-      options: [
-        { emoji: '✏️', label: 'Draw and colour' },
-        { emoji: '📺', label: 'Watch TV' },
-        { emoji: '💤', label: 'Sleep instead' },
-        { emoji: '🏃', label: 'Run around' },
-      ],
-      correct: 0,
-    },
-    {
-      questionText: 'What can you build with blocks? 🧱',
-      audioText: 'What can you build with blocks?',
-      skill: 'CREATIVITY',
-      options: [
-        { emoji: '🏰', label: 'A castle' },
-        { emoji: '🚀', label: 'A rocket' },
-        { emoji: '🏠', label: 'A house' },
-        { emoji: '🌈', label: 'Anything!' },
-      ],
-      correct: 3,
-    },
     {
       questionText: 'Blue + Yellow = ? 🎨',
       audioText: 'Blue and Yellow mixed together make which colour?',
@@ -216,7 +120,7 @@ const TIER1_QUESTIONS: Record<string, Array<{
   DIGITAL_LITERACY: [
     {
       questionText: 'A stranger online asks your address 🏠. You...',
-      audioText: 'A stranger online asks for your home address. You should...',
+      audioText: 'A stranger online asks for your home address. What do you do?',
       skill: 'DIGITAL_LITERACY',
       options: [
         { emoji: '📝', label: 'Tell them' },
@@ -227,20 +131,8 @@ const TIER1_QUESTIONS: Record<string, Array<{
       correct: 1,
     },
     {
-      questionText: 'How long should you use a screen each day? 📱',
-      audioText: 'How long should you use a screen each day?',
-      skill: 'DIGITAL_LITERACY',
-      options: [
-        { emoji: '⏰', label: '1-2 hours' },
-        { emoji: '🌙', label: 'All night' },
-        { emoji: '☀️', label: 'All day' },
-        { emoji: '⚡', label: 'No limit' },
-      ],
-      correct: 0,
-    },
-    {
       questionText: 'Someone online is being mean to you 😢. You...',
-      audioText: 'Someone online is being mean to you. You should...',
+      audioText: 'Someone online is being mean to you. What do you do?',
       skill: 'DIGITAL_LITERACY',
       options: [
         { emoji: '😠', label: 'Be mean back' },
@@ -250,22 +142,140 @@ const TIER1_QUESTIONS: Record<string, Array<{
       ],
       correct: 1,
     },
+  ],
+  FINANCIAL_LITERACY: [
     {
-      questionText: 'Before you click a link, you should... 🔗',
-      audioText: 'Before you click a link online, you should...',
-      skill: 'DIGITAL_LITERACY',
+      questionText: 'You get ₹10 pocket money 💰. What is BEST?',
+      audioText: 'You get 10 rupees pocket money. What is the best thing to do?',
+      skill: 'FINANCIAL_LITERACY',
       options: [
-        { emoji: '⚡', label: 'Click fast' },
-        { emoji: '🤔', label: 'Ask a parent' },
-        { emoji: '😴', label: 'Ignore it' },
-        { emoji: '📤', label: 'Share it' },
+        { emoji: '🍬', label: 'Spend it all' },
+        { emoji: '🐷', label: 'Save some' },
+        { emoji: '🎮', label: 'Lose it' },
+        { emoji: '😴', label: 'Forget it' },
+      ],
+      correct: 1,
+    },
+    {
+      questionText: 'Which is a NEED and not a want? 🤔',
+      audioText: 'Which one is something you need and not just want?',
+      skill: 'FINANCIAL_LITERACY',
+      options: [
+        { emoji: '🎮', label: 'Video game' },
+        { emoji: '🍕', label: 'Pizza' },
+        { emoji: '🍚', label: 'Rice and dal' },
+        { emoji: '🧸', label: 'Toy' },
+      ],
+      correct: 2,
+    },
+  ],
+  HEALTH_WELLNESS: [
+    {
+      questionText: 'What makes your body strong and healthy? 💪',
+      audioText: 'What makes your body strong and healthy?',
+      skill: 'HEALTH_WELLNESS',
+      options: [
+        { emoji: '🍭', label: 'Only candy' },
+        { emoji: '📺', label: 'Watch TV all day' },
+        { emoji: '🥦', label: 'Eat vegetables' },
+        { emoji: '💤', label: 'Sleep all day' },
+      ],
+      correct: 2,
+    },
+    {
+      questionText: 'How many hours should you sleep at night? 😴',
+      audioText: 'How many hours should a child sleep at night?',
+      skill: 'HEALTH_WELLNESS',
+      options: [
+        { emoji: '1️⃣', label: '1-2 hours' },
+        { emoji: '4️⃣', label: '4-5 hours' },
+        { emoji: '🌙', label: '8-10 hours' },
+        { emoji: '☀️', label: 'No sleep needed' },
+      ],
+      correct: 2,
+    },
+  ],
+  GOAL_SETTING: [
+    {
+      questionText: 'You want to learn to ride a bike 🚲. What do you do first?',
+      audioText: 'You want to learn to ride a bike. What do you do first?',
+      skill: 'GOAL_SETTING',
+      options: [
+        { emoji: '😴', label: 'Give up' },
+        { emoji: '🎯', label: 'Practice every day' },
+        { emoji: '😭', label: 'Cry about it' },
+        { emoji: '📺', label: 'Watch TV instead' },
+      ],
+      correct: 1,
+    },
+    {
+      questionText: 'What should you do BEFORE playing? 📚',
+      audioText: 'What should you do before playing?',
+      skill: 'GOAL_SETTING',
+      options: [
+        { emoji: '📺', label: 'Watch TV' },
+        { emoji: '📚', label: 'Finish homework' },
+        { emoji: '🍕', label: 'Eat junk food' },
+        { emoji: '💤', label: 'Take a nap' },
+      ],
+      correct: 1,
+    },
+  ],
+  SCIENTIFIC_THINKING: [
+    {
+      questionText: 'Why does ice become water? 🧊💧',
+      audioText: 'Why does ice become water?',
+      skill: 'SCIENTIFIC_THINKING',
+      options: [
+        { emoji: '🧙', label: 'Magic!' },
+        { emoji: '🔥', label: 'Heat melts it' },
+        { emoji: '🌧️', label: 'Rain falls on it' },
+        { emoji: '🤷', label: 'No reason' },
+      ],
+      correct: 1,
+    },
+    {
+      questionText: 'Plants need ___ to grow 🌱',
+      audioText: 'Plants need what to grow?',
+      skill: 'SCIENTIFIC_THINKING',
+      options: [
+        { emoji: '🍕', label: 'Pizza' },
+        { emoji: '☀️', label: 'Sunlight and water' },
+        { emoji: '📱', label: 'A phone' },
+        { emoji: '🎵', label: 'Music only' },
+      ],
+      correct: 1,
+    },
+  ],
+  PUBLIC_SPEAKING: [
+    {
+      questionText: 'You have to speak in class 🎤. You feel nervous. What do you do?',
+      audioText: 'You have to speak in class and you feel nervous. What do you do?',
+      skill: 'PUBLIC_SPEAKING',
+      options: [
+        { emoji: '🏃', label: 'Run away' },
+        { emoji: '😤', label: 'Take a breath and try' },
+        { emoji: '😭', label: 'Cry loudly' },
+        { emoji: '🤫', label: 'Stay silent' },
+      ],
+      correct: 1,
+    },
+    {
+      questionText: 'When you speak to the class you should... 👀',
+      audioText: 'When you speak to the class you should...',
+      skill: 'PUBLIC_SPEAKING',
+      options: [
+        { emoji: '👇', label: 'Look at floor' },
+        { emoji: '👀', label: 'Look at people' },
+        { emoji: '🙈', label: 'Cover your eyes' },
+        { emoji: '🔄', label: 'Turn around' },
       ],
       correct: 1,
     },
   ],
 }
 
-// ── TIER 2: Ages 8-12 — Story + Short Text Choices ───────────────────────────
+// ── TIER 2: Ages 8-12 — Story + Short Text ────────────────────────────────────
 const TIER2_QUESTIONS: Record<string, Array<{
   questionText: string
   story: string
@@ -301,32 +311,6 @@ const TIER2_QUESTIONS: Record<string, Array<{
       ],
       correct: 2,
     },
-    {
-      questionText: 'What is the BEST approach?',
-      story: 'You need to solve a problem but you do not have all the information.',
-      storyEmoji: '🧩',
-      skill: 'CRITICAL_THINKING',
-      options: [
-        'Wait for someone to help',
-        'Guess randomly',
-        'Find what you know and what you need',
-        'Ask someone else to do it',
-      ],
-      correct: 2,
-    },
-    {
-      questionText: 'What do you do?',
-      story: 'Two friends gave you completely opposite advice about the same problem.',
-      storyEmoji: '🤔',
-      skill: 'CRITICAL_THINKING',
-      options: [
-        'Follow the friend you like more',
-        'Ignore both and guess',
-        'Listen to both and weigh the options',
-        'Flip a coin',
-      ],
-      correct: 2,
-    },
   ],
   COMMUNICATION: [
     {
@@ -343,19 +327,6 @@ const TIER2_QUESTIONS: Record<string, Array<{
       correct: 1,
     },
     {
-      questionText: 'Which is the BEST response?',
-      story: 'In a group discussion, someone says something you strongly disagree with.',
-      storyEmoji: '💬',
-      skill: 'COMMUNICATION',
-      options: [
-        'Stay silent and feel frustrated',
-        'Interrupt and say they are wrong',
-        'Wait, then calmly share your view',
-        'Walk out of the room',
-      ],
-      correct: 2,
-    },
-    {
       questionText: 'Which is the BEST message to your teacher?',
       story: 'You need help with an assignment from your teacher.',
       storyEmoji: '✉️',
@@ -367,19 +338,6 @@ const TIER2_QUESTIONS: Record<string, Array<{
         'Send a voice note',
       ],
       correct: 1,
-    },
-    {
-      questionText: 'What makes you a GOOD listener?',
-      story: 'Your friend is telling you about their problem.',
-      storyEmoji: '👂',
-      skill: 'COMMUNICATION',
-      options: [
-        'Check your phone while they talk',
-        'Interrupt with your own stories',
-        'Give full attention and ask questions',
-        'Tell them it is not a big deal',
-      ],
-      correct: 2,
     },
   ],
   SOCIAL_EMOTIONAL: [
@@ -393,32 +351,6 @@ const TIER2_QUESTIONS: Record<string, Array<{
         'Tell everyone the teacher made a mistake',
         'Congratulate your friend sincerely',
         'Pretend you did not want it anyway',
-      ],
-      correct: 2,
-    },
-    {
-      questionText: 'What is the SAFEST thing to do?',
-      story: 'You see a classmate being teased by older students in the playground.',
-      storyEmoji: '🏫',
-      skill: 'SOCIAL_EMOTIONAL',
-      options: [
-        'Walk away and ignore it',
-        'Fight the older students alone',
-        'Get a trusted adult immediately',
-        'Video it and post online',
-      ],
-      correct: 2,
-    },
-    {
-      questionText: 'What is the BEST response?',
-      story: 'You made a mistake that hurt your friend\'s feelings.',
-      storyEmoji: '💔',
-      skill: 'SOCIAL_EMOTIONAL',
-      options: [
-        'Blame them for being sensitive',
-        'Pretend nothing happened',
-        'Sincerely apologise and make it better',
-        'Say sorry quickly to end it',
       ],
       correct: 2,
     },
@@ -451,32 +383,6 @@ const TIER2_QUESTIONS: Record<string, Array<{
       correct: 1,
     },
     {
-      questionText: 'What is your FIRST instinct?',
-      story: 'You are given a blank page and told to make something interesting.',
-      storyEmoji: '📄',
-      skill: 'CREATIVITY',
-      options: [
-        'Wait to be told what to do',
-        'Leave it blank',
-        'Start experimenting freely',
-        'Copy something you have seen',
-      ],
-      correct: 2,
-    },
-    {
-      questionText: 'Which idea shows the MOST creativity?',
-      story: 'Your class needs to raise money for a school trip.',
-      storyEmoji: '💰',
-      skill: 'CREATIVITY',
-      options: [
-        'Ask parents directly for money',
-        'Do a regular bake sale',
-        'Create a unique talent show with student voting',
-        'Do nothing and hope for the best',
-      ],
-      correct: 2,
-    },
-    {
       questionText: 'What do you do NEXT?',
       story: 'You are stuck on a problem and your first idea did not work.',
       storyEmoji: '🔄',
@@ -505,19 +411,6 @@ const TIER2_QUESTIONS: Record<string, Array<{
       correct: 2,
     },
     {
-      questionText: 'Which password is the STRONGEST?',
-      story: 'You need to create a strong password for your account.',
-      storyEmoji: '🔐',
-      skill: 'DIGITAL_LITERACY',
-      options: [
-        'password123',
-        'YourName2015',
-        'correct-horse-battery-staple',
-        '12345678',
-      ],
-      correct: 2,
-    },
-    {
       questionText: 'Which source is MOST trustworthy?',
       story: 'You need reliable information for a school project.',
       storyEmoji: '🔍',
@@ -530,23 +423,150 @@ const TIER2_QUESTIONS: Record<string, Array<{
       ],
       correct: 2,
     },
+  ],
+  FINANCIAL_LITERACY: [
     {
-      questionText: 'What should you do?',
-      story: 'An AI chatbot gives you an answer for your homework.',
-      storyEmoji: '🤖',
-      skill: 'DIGITAL_LITERACY',
+      questionText: 'What is the SMARTEST choice?',
+      story: 'Priya gets ₹500 as a birthday gift. She wants new shoes for ₹800.',
+      storyEmoji: '👟',
+      skill: 'FINANCIAL_LITERACY',
       options: [
-        'Copy it directly — AI is always right',
-        'Verify it with reliable sources first',
-        'Assume it is wrong — never trust AI',
-        'Share it with all classmates',
+        'Buy on credit and worry later',
+        'Save more money and buy later',
+        'Spend all ₹500 on other things',
+        'Cry until parents buy the shoes',
+      ],
+      correct: 1,
+    },
+    {
+      questionText: 'What is the BEST use of pocket money?',
+      story: 'Rahul gets ₹200 pocket money every week.',
+      storyEmoji: '💵',
+      skill: 'FINANCIAL_LITERACY',
+      options: [
+        'Spend everything on snacks',
+        'Save ₹100 and spend ₹100 wisely',
+        'Give it all to friends',
+        'Hide it and forget about it',
+      ],
+      correct: 1,
+    },
+  ],
+  HEALTH_WELLNESS: [
+    {
+      questionText: 'What should Arjun do FIRST?',
+      story: 'Arjun plays video games for 5 hours straight. His eyes hurt and head aches.',
+      storyEmoji: '🎮',
+      skill: 'HEALTH_WELLNESS',
+      options: [
+        'Play for 5 more hours',
+        'Take a break, rest eyes, drink water',
+        'Eat more junk food',
+        'Ignore the pain and continue',
+      ],
+      correct: 1,
+    },
+    {
+      questionText: 'Which routine is HEALTHIEST?',
+      story: 'Meena needs to choose her daily after-school routine.',
+      storyEmoji: '⏰',
+      skill: 'HEALTH_WELLNESS',
+      options: [
+        'Phone for 4 hours then sleep late',
+        'Snacks, play outside, homework, sleep by 9pm',
+        'Skip meals and study all night',
+        'Watch TV until midnight',
+      ],
+      correct: 1,
+    },
+  ],
+  GOAL_SETTING: [
+    {
+      questionText: 'What is the BEST approach?',
+      story: 'Vikram wants to improve his Maths grade from C to A in 3 months.',
+      storyEmoji: '📊',
+      skill: 'GOAL_SETTING',
+      options: [
+        'Hope it improves magically',
+        'Practice 30 minutes daily and track progress',
+        'Copy homework from friends',
+        'Blame the teacher for bad grades',
+      ],
+      correct: 1,
+    },
+    {
+      questionText: 'What is Aisha doing WRONG?',
+      story: 'Aisha always says she will study tomorrow but never does. Exams are in 2 weeks.',
+      storyEmoji: '📅',
+      skill: 'GOAL_SETTING',
+      options: [
+        'She is being smart and resting',
+        'She is procrastinating and wasting time',
+        'She is planning carefully',
+        'She does not need to study',
+      ],
+      correct: 1,
+    },
+  ],
+  SCIENTIFIC_THINKING: [
+    {
+      questionText: 'What is the RIGHT thing to do?',
+      story: 'Riya hears that drinking lemon water every morning cures all diseases.',
+      storyEmoji: '🍋',
+      skill: 'SCIENTIFIC_THINKING',
+      options: [
+        'Start drinking it immediately',
+        'Share it with the whole school',
+        'Ask for scientific evidence first',
+        'Believe it because a friend said it',
+      ],
+      correct: 2,
+    },
+    {
+      questionText: 'What is the BEST next step?',
+      story: 'Karan wants to test if plants grow faster with music playing.',
+      storyEmoji: '🌱',
+      skill: 'SCIENTIFIC_THINKING',
+      options: [
+        'Guess the answer without testing',
+        'Set up two plants — one with music, one without',
+        'Ask friends what they think',
+        'Look up the answer on Wikipedia only',
+      ],
+      correct: 1,
+    },
+  ],
+  PUBLIC_SPEAKING: [
+    {
+      questionText: 'What should Rohan do?',
+      story: 'Rohan has to give a 2-minute speech tomorrow. He is very nervous.',
+      storyEmoji: '🎤',
+      skill: 'PUBLIC_SPEAKING',
+      options: [
+        'Skip school tomorrow',
+        'Practise in front of mirror and time himself',
+        'Read directly from paper without looking up',
+        'Ask someone else to do it',
+      ],
+      correct: 1,
+    },
+    {
+      questionText: 'What is the BEST way to start a speech?',
+      story: 'Divya is about to give a speech on saving water to her class.',
+      storyEmoji: '💧',
+      skill: 'PUBLIC_SPEAKING',
+      options: [
+        'Sorry I am not good at this...',
+        'Did you know India may run out of water by 2030?',
+        'Water is important. We need water.',
+        'I will just read from my notes now.',
       ],
       correct: 1,
     },
   ],
 }
 
-// ── TIER 3: Ages 13-20 — Scenario Text (existing) ────────────────────────────
+// ── TIER 3: Ages 13-20 — Scenario Text ───────────────────────────────────────
 const TIER3_QUESTIONS: Record<string, Array<{
   questionText: string
   skill: string
@@ -566,37 +586,15 @@ const TIER3_QUESTIONS: Record<string, Array<{
       correct: 1,
     },
     {
-      questionText: 'You read a headline: "Eating chocolate daily cures all diseases." What do you do?',
+      questionText: 'A study claims students who eat breakfast score 20% higher. Your school wants to make breakfast mandatory. What is your MOST important concern?',
       skill: 'CRITICAL_THINKING',
       options: [
-        'Share it immediately with all your friends',
-        'Believe it because it is on the internet',
-        'Search for the original study and check other sources',
-        'Ignore it because health news is always fake',
+        'Whether the breakfast will taste good',
+        'Whether the study was peer reviewed with a large sample size',
+        'Whether the school can afford it',
+        'Whether students will wake up earlier',
       ],
-      correct: 2,
-    },
-    {
-      questionText: 'You have to solve a problem but do not have all the information. What is the BEST approach?',
-      skill: 'CRITICAL_THINKING',
-      options: [
-        'Wait until someone gives you all the answers',
-        'Make a random guess and hope for the best',
-        'Identify what you know, what you need, and look for clues',
-        'Ask someone else to solve it for you',
-      ],
-      correct: 2,
-    },
-    {
-      questionText: 'Two of your friends give you opposite advice about the same situation. What do you do?',
-      skill: 'CRITICAL_THINKING',
-      options: [
-        'Follow the advice of whichever friend you like more',
-        'Ignore both and do whatever feels right without thinking',
-        'Listen to both, weigh the pros and cons, then decide',
-        'Flip a coin to decide',
-      ],
-      correct: 2,
+      correct: 1,
     },
   ],
   COMMUNICATION: [
@@ -612,35 +610,13 @@ const TIER3_QUESTIONS: Record<string, Array<{
       correct: 1,
     },
     {
-      questionText: 'During a group discussion, someone says something you strongly disagree with. What do you do?',
+      questionText: 'Your manager publicly criticised your work in front of the team unfairly. Tomorrow you have a 1-on-1. What is the BEST approach?',
       skill: 'COMMUNICATION',
       options: [
-        'Stay silent and feel frustrated inside',
-        'Interrupt them immediately and say they are wrong',
-        'Wait for them to finish, then calmly share your perspective',
-        'Walk out of the discussion',
-      ],
-      correct: 2,
-    },
-    {
-      questionText: 'You need to send an important message to your teacher. Which is the BEST way to write it?',
-      skill: 'COMMUNICATION',
-      options: [
-        'hey sir i need help with assignment k thx',
-        'Dear Sir, I hope you are well. I need help with the assignment. Thank you.',
-        'HELP ME WITH ASSIGNMENT PLEASE!!!',
-        'Send a voice note instead of writing anything',
-      ],
-      correct: 1,
-    },
-    {
-      questionText: 'A friend is talking to you about their problem. What makes you a GOOD listener?',
-      skill: 'COMMUNICATION',
-      options: [
-        'Check your phone while they talk so you do not get bored',
-        'Interrupt often to share your own similar stories',
-        'Make eye contact, nod, and ask questions to understand better',
-        'Tell them their problem is not a big deal',
+        'Confront aggressively and threaten to quit',
+        'Say nothing and bottle up your feelings',
+        'Calmly share how it affected you and ask for private feedback in future',
+        'Complain to all colleagues about the manager',
       ],
       correct: 2,
     },
@@ -658,42 +634,20 @@ const TIER3_QUESTIONS: Record<string, Array<{
       correct: 2,
     },
     {
-      questionText: 'You made a mistake that hurt someone feelings. What is the BEST response?',
+      questionText: 'At a group hangout friends start mocking someone who is not present. They expect you to join in. What shows the highest emotional intelligence?',
       skill: 'SOCIAL_EMOTIONAL',
       options: [
-        'Blame them for being too sensitive',
-        'Pretend nothing happened and avoid them',
-        'Sincerely apologize and ask how you can make it better',
-        'Say sorry quickly just to end the awkwardness',
-      ],
-      correct: 2,
-    },
-    {
-      questionText: 'You feel very angry after losing a competition. What is the HEALTHIEST way to handle it?',
-      skill: 'SOCIAL_EMOTIONAL',
-      options: [
-        'Shout at the winner and say it was unfair',
-        'Take deep breaths, accept the result, and think about what to improve',
-        'Quit all future competitions forever',
-        'Pretend you did not care about winning at all',
-      ],
-      correct: 1,
-    },
-    {
-      questionText: 'A classmate who is usually quiet seems sad today. What do you do?',
-      skill: 'SOCIAL_EMOTIONAL',
-      options: [
-        'Ignore them since you are not close friends',
-        'Tell your other friends to go check on them instead',
-        'Smile, say hello, and ask if they are doing okay',
-        'Make jokes to cheer them up even if they seem serious',
+        'Join in to avoid being left out',
+        'Stay silent and change the subject',
+        'Say clearly but calmly you are not comfortable and suggest doing something else',
+        'Leave without saying anything',
       ],
       correct: 2,
     },
   ],
   CREATIVITY: [
     {
-      questionText: 'Your teacher asks you to present a project WITHOUT using PowerPoint. What do you do?',
+      questionText: 'Your teacher asks you to present WITHOUT using PowerPoint. What do you do?',
       skill: 'CREATIVITY',
       options: [
         'Tell the teacher it is impossible without PowerPoint',
@@ -704,72 +658,28 @@ const TIER3_QUESTIONS: Record<string, Array<{
       correct: 1,
     },
     {
-      questionText: 'You are given a blank page and told to make something interesting. What is your FIRST instinct?',
+      questionText: 'You notice college students struggle to find affordable healthy food near campus. Which solution shows the MOST creative thinking?',
       skill: 'CREATIVITY',
       options: [
-        'Wait for someone to tell you exactly what to draw or write',
-        'Leave it blank because you are not creative',
-        'Start experimenting with ideas, shapes, or words freely',
-        'Copy something you have already seen before',
+        'Open a regular restaurant near campus',
+        'Create a subscription tiffin service connecting home cooks with students',
+        'Start a food blog with healthy recipes',
+        'Petition the college to improve their canteen',
       ],
-      correct: 2,
-    },
-    {
-      questionText: 'You need to raise money for a school event. Which idea shows the MOST creativity?',
-      skill: 'CREATIVITY',
-      options: [
-        'Ask parents to donate money directly',
-        'Organize a regular bake sale like every other school',
-        'Create a unique talent show where students pay to vote for winners',
-        'Do nothing and hope someone else figures it out',
-      ],
-      correct: 2,
-    },
-    {
-      questionText: 'You are stuck on a problem and your first idea did not work. What do you do?',
-      skill: 'CREATIVITY',
-      options: [
-        'Give up immediately since your best idea failed',
-        'Try the exact same approach again hoping for different results',
-        'Think of at least 3 different approaches before choosing one',
-        'Ask someone to solve it for you',
-      ],
-      correct: 2,
+      correct: 1,
     },
   ],
   DIGITAL_LITERACY: [
     {
-      questionText: 'You receive an email saying you won a prize and need to share your bank details. What do you do?',
+      questionText: 'A free flashlight app wants access to your contacts, location, camera and microphone. What does this indicate?',
       skill: 'DIGITAL_LITERACY',
       options: [
-        'Reply immediately with your bank details to claim the prize',
-        'Forward it to all your friends so they can win too',
-        'Delete it as this is a phishing scam',
-        'Click the link to see if the prize is real',
+        'Accept all — popular apps need permissions',
+        'This is a data harvesting red flag — deny unnecessary permissions',
+        'Accept because free apps need data to survive',
+        'Only accept location access',
       ],
-      correct: 2,
-    },
-    {
-      questionText: 'Which password is the STRONGEST and safest to use?',
-      skill: 'DIGITAL_LITERACY',
-      options: [
-        'password123',
-        'YourName2008',
-        'correct-horse-battery-staple',
-        '12345678',
-      ],
-      correct: 2,
-    },
-    {
-      questionText: 'You want to find reliable information for a school project. Which source is MOST trustworthy?',
-      skill: 'DIGITAL_LITERACY',
-      options: [
-        'A random blog post with no author listed',
-        'A YouTube comment with thousands of likes',
-        'A government or university website with cited references',
-        'Your friend social media post about the topic',
-      ],
-      correct: 2,
+      correct: 1,
     },
     {
       questionText: 'An AI chatbot gives you an answer for your homework. What should you do?',
@@ -783,29 +693,150 @@ const TIER3_QUESTIONS: Record<string, Array<{
       correct: 1,
     },
   ],
+  FINANCIAL_LITERACY: [
+    {
+      questionText: 'You have saved ₹50,000. Three options: FD at 7% guaranteed, Stocks with potential 15% return but also 20% loss, Friend business idea promising 30% in 3 months. Which shows BEST financial thinking?',
+      skill: 'FINANCIAL_LITERACY',
+      options: [
+        'Friend business — 30% sounds amazing',
+        'Stocks because they always go up eventually',
+        'FD for emergency fund first then small allocation to stocks',
+        'Keep cash at home to avoid all risk',
+      ],
+      correct: 2,
+    },
+    {
+      questionText: 'You just got your first salary of ₹25,000. What is the SMARTEST first move?',
+      skill: 'FINANCIAL_LITERACY',
+      options: [
+        'Spend it all — you worked hard and deserve it',
+        'Save 20% invest 10% and spend the rest mindfully',
+        'Give it all to parents and keep nothing',
+        'Buy the most expensive thing you wanted',
+      ],
+      correct: 1,
+    },
+  ],
+  HEALTH_WELLNESS: [
+    {
+      questionText: 'Board exams are in 3 weeks. You are sleeping 4 hours and skipping meals. Your anxiety is increasing. What is the MOST effective approach?',
+      skill: 'HEALTH_WELLNESS',
+      options: [
+        'Study 18 hours a day and sleep after exams',
+        'Create a balanced schedule with study blocks 7-8 hours sleep and proper meals',
+        'Stop studying and hope for the best',
+        'Study only your favourite subjects',
+      ],
+      correct: 1,
+    },
+    {
+      questionText: 'You feel constantly exhausted anxious and unmotivated for 3 weeks despite sleeping enough. What should you do?',
+      skill: 'HEALTH_WELLNESS',
+      options: [
+        'Ignore it and push harder',
+        'Drink more coffee and energy drinks',
+        'Talk to a trusted adult or mental health professional',
+        'Blame your school and teachers',
+      ],
+      correct: 2,
+    },
+  ],
+  GOAL_SETTING: [
+    {
+      questionText: 'You want to get into a top engineering college in 2 years. What is the BEST approach?',
+      skill: 'GOAL_SETTING',
+      options: [
+        'Start intensive studying 1 month before the exam',
+        'Break the goal into monthly targets and track weekly progress',
+        'Hope natural talent is enough',
+        'Only study subjects you like',
+      ],
+      correct: 1,
+    },
+    {
+      questionText: 'You keep setting goals but never follow through. What is the ROOT cause?',
+      skill: 'GOAL_SETTING',
+      options: [
+        'You are not smart enough',
+        'Goals are too vague without specific actions and deadlines',
+        'Goal setting does not work for anyone',
+        'You need more motivation before starting',
+      ],
+      correct: 1,
+    },
+  ],
+  SCIENTIFIC_THINKING: [
+    {
+      questionText: 'A school wants to use an AI system to predict which students will fail based on past data. What is the MOST important ethical concern?',
+      skill: 'SCIENTIFIC_THINKING',
+      options: [
+        'The AI might be too expensive',
+        'The AI could create self-fulfilling prophecies and perpetuate bias',
+        'Students might not like being monitored',
+        'Teachers might lose their jobs',
+      ],
+      correct: 1,
+    },
+    {
+      questionText: 'A viral post claims a new berry cures diabetes with no side effects. What is the SCIENTIFIC response?',
+      skill: 'SCIENTIFIC_THINKING',
+      options: [
+        'Share it — it could help people',
+        'Try it immediately on yourself',
+        'Look for peer reviewed clinical trials before believing or sharing',
+        'Believe it because many people shared it',
+      ],
+      correct: 2,
+    },
+  ],
+  PUBLIC_SPEAKING: [
+    {
+      questionText: 'In a job interview the interviewer asks: Tell me about a time you failed. Which response demonstrates the HIGHEST communication intelligence?',
+      skill: 'PUBLIC_SPEAKING',
+      options: [
+        'I have never really failed at anything important',
+        'I missed a project deadline. I owned it communicated proactively and built a task system. All future projects were on time.',
+        'I failed once but it was not really my fault',
+        'Everyone fails so it is not a big deal',
+      ],
+      correct: 1,
+    },
+    {
+      questionText: 'You need to present a controversial idea to a skeptical audience. What is the MOST effective strategy?',
+      skill: 'PUBLIC_SPEAKING',
+      options: [
+        'Speak very fast so they cannot interrupt',
+        'Acknowledge their concerns first then present evidence calmly',
+        'Avoid eye contact so you seem humble',
+        'Read every word from your notes',
+      ],
+      correct: 1,
+    },
+  ],
 }
 
+// ── Question Order: 10 skills × 2 questions = 20 total ───────────────────────
 const QUESTION_ORDER = [
-  { skill: 'CRITICAL_THINKING', index: 0 },
-  { skill: 'COMMUNICATION',     index: 0 },
-  { skill: 'SOCIAL_EMOTIONAL',  index: 0 },
-  { skill: 'CREATIVITY',        index: 0 },
-  { skill: 'DIGITAL_LITERACY',  index: 0 },
-  { skill: 'CRITICAL_THINKING', index: 1 },
-  { skill: 'COMMUNICATION',     index: 1 },
-  { skill: 'SOCIAL_EMOTIONAL',  index: 1 },
-  { skill: 'CREATIVITY',        index: 1 },
-  { skill: 'DIGITAL_LITERACY',  index: 1 },
-  { skill: 'CRITICAL_THINKING', index: 2 },
-  { skill: 'COMMUNICATION',     index: 2 },
-  { skill: 'SOCIAL_EMOTIONAL',  index: 2 },
-  { skill: 'CREATIVITY',        index: 2 },
-  { skill: 'DIGITAL_LITERACY',  index: 2 },
-  { skill: 'CRITICAL_THINKING', index: 3 },
-  { skill: 'COMMUNICATION',     index: 3 },
-  { skill: 'SOCIAL_EMOTIONAL',  index: 3 },
-  { skill: 'CREATIVITY',        index: 3 },
-  { skill: 'DIGITAL_LITERACY',  index: 3 },
+  { skill: 'CRITICAL_THINKING',   index: 0 },
+  { skill: 'COMMUNICATION',       index: 0 },
+  { skill: 'SOCIAL_EMOTIONAL',    index: 0 },
+  { skill: 'CREATIVITY',          index: 0 },
+  { skill: 'DIGITAL_LITERACY',    index: 0 },
+  { skill: 'FINANCIAL_LITERACY',  index: 0 },
+  { skill: 'HEALTH_WELLNESS',     index: 0 },
+  { skill: 'GOAL_SETTING',        index: 0 },
+  { skill: 'SCIENTIFIC_THINKING', index: 0 },
+  { skill: 'PUBLIC_SPEAKING',     index: 0 },
+  { skill: 'CRITICAL_THINKING',   index: 1 },
+  { skill: 'COMMUNICATION',       index: 1 },
+  { skill: 'SOCIAL_EMOTIONAL',    index: 1 },
+  { skill: 'CREATIVITY',          index: 1 },
+  { skill: 'DIGITAL_LITERACY',    index: 1 },
+  { skill: 'FINANCIAL_LITERACY',  index: 1 },
+  { skill: 'HEALTH_WELLNESS',     index: 1 },
+  { skill: 'GOAL_SETTING',        index: 1 },
+  { skill: 'SCIENTIFIC_THINKING', index: 1 },
+  { skill: 'PUBLIC_SPEAKING',     index: 1 },
 ]
 
 function getTier(age: number): 1 | 2 | 3 {
