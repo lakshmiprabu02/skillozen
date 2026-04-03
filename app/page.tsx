@@ -4,11 +4,16 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 const SKILLS = [
-  { emoji: '🧠', label: 'Critical Thinking', color: '#5B2EFF', bg: '#EDE9FF' },
-  { emoji: '🗣️', label: 'Communication',     color: '#00B4D8', bg: '#E0F7FF' },
-  { emoji: '💛', label: 'Social-Emotional',  color: '#FF4785', bg: '#FFE8EF' },
-  { emoji: '🎨', label: 'Creativity',         color: '#FF6B35', bg: '#FFF0EB' },
+  { emoji: '🧠', label: 'Critical Thinking',  color: '#5B2EFF', bg: '#EDE9FF' },
+  { emoji: '🗣️', label: 'Communication',      color: '#00B4D8', bg: '#E0F7FF' },
+  { emoji: '💛', label: 'Social-Emotional',   color: '#FF4785', bg: '#FFE8EF' },
+  { emoji: '🎨', label: 'Creativity',          color: '#FF6B35', bg: '#FFF0EB' },
   { emoji: '💻', label: 'Digital Literacy',   color: '#00D68F', bg: '#E0FFF6' },
+  { emoji: '💰', label: 'Financial Literacy', color: '#FFB800', bg: '#FFF8E0' },
+  { emoji: '🧘', label: 'Health & Wellness',  color: '#06D6A0', bg: '#E0FFF8' },
+  { emoji: '🎯', label: 'Goal Setting',        color: '#7209B7', bg: '#F3E8FF' },
+  { emoji: '🔬', label: 'Scientific Thinking',color: '#3A86FF', bg: '#E8F1FF' },
+  { emoji: '🎤', label: 'Public Speaking',    color: '#FB5607', bg: '#FFF0EB' },
 ]
 
 const FEATURES = [
@@ -280,10 +285,10 @@ export default function LandingPage() {
         <div className="page-container">
           <div className="text-center mb-16">
             <h2 className="font-display text-4xl font-black text-brand-ink mb-4">
-              5 Skills That Define Future Success
+             10 Skills That Define Future Success
             </h2>
             <p className="text-gray-500 text-lg max-w-xl mx-auto">
-              Based on globally recognised 21st-century competency frameworks
+               Based on globally recognised 21st-century competency frameworks
             </p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
