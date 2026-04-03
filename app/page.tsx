@@ -163,9 +163,8 @@ export default function LandingPage() {
             </h1>
 
             <p className="text-xl text-gray-600 mb-10 max-w-xl leading-relaxed">
-              Skillozen measures, trains, and strengthens the 5 essential life skills —{' '}
-              <strong>Critical Thinking, Communication, Creativity, Social-Emotional Learning, and Digital Literacy</strong> —
-              so your child thrives in the 21st century.
+              Skillozen measures, trains, and strengthens <strong>10 essential life skills</strong> — 
+              Critical Thinking, Communication, Creativity, Social-Emotional Learning, Digital Literacy, Financial Literacy, Health & Wellness, Goal Setting, Scientific Thinking and Public Speaking — so your child thrives in the 21st century.
             </p>
 
             {/* Email capture form */}
@@ -226,7 +225,7 @@ export default function LandingPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
               { n: '500+', l: 'Learning Activities' },
-              { n: '5',    l: 'Core Life Skills' },
+              { n: '10',   l: 'Core Life Skills' },
               { n: '4–20', l: 'Age Range (years)' },
               { n: '3mo',  l: 'Reassess & Track Growth' },
             ].map((s) => (
