@@ -25,11 +25,16 @@ interface Activity {
 }
 
 const SKILL_CONFIG: Record<string, { color: string; bg: string; emoji: string; label: string }> = {
-  CRITICAL_THINKING: { color: '#5B2EFF', bg: '#EDE9FF', emoji: '🧠', label: 'Critical Thinking' },
-  COMMUNICATION:     { color: '#00B4D8', bg: '#E0F7FF', emoji: '🗣️', label: 'Communication' },
-  SOCIAL_EMOTIONAL:  { color: '#FF4785', bg: '#FFE8EF', emoji: '💛', label: 'Social-Emotional' },
-  CREATIVITY:        { color: '#FF6B35', bg: '#FFF0EB', emoji: '🎨', label: 'Creativity' },
-  DIGITAL_LITERACY:  { color: '#00D68F', bg: '#E0FFF6', emoji: '💻', label: 'Digital Literacy' },
+  CRITICAL_THINKING:  { color: '#5B2EFF', bg: '#EDE9FF', emoji: '🧠', label: 'Critical Thinking' },
+  COMMUNICATION:      { color: '#00B4D8', bg: '#E0F7FF', emoji: '🗣️', label: 'Communication' },
+  SOCIAL_EMOTIONAL:   { color: '#FF4785', bg: '#FFE8EF', emoji: '💛', label: 'Social-Emotional' },
+  CREATIVITY:         { color: '#FF6B35', bg: '#FFF0EB', emoji: '🎨', label: 'Creativity' },
+  DIGITAL_LITERACY:   { color: '#00D68F', bg: '#E0FFF6', emoji: '💻', label: 'Digital Literacy' },
+  FINANCIAL_LITERACY: { color: '#FFB800', bg: '#FFF8E0', emoji: '💰', label: 'Financial Literacy' },
+  HEALTH_WELLNESS:    { color: '#06D6A0', bg: '#E0FFF8', emoji: '🧘', label: 'Health & Wellness' },
+  GOAL_SETTING:       { color: '#7209B7', bg: '#F3E8FF', emoji: '🎯', label: 'Goal Setting' },
+  SCIENTIFIC_THINKING:{ color: '#3A86FF', bg: '#E8F1FF', emoji: '🔬', label: 'Scientific Thinking' },
+  PUBLIC_SPEAKING:    { color: '#FB5607', bg: '#FFF0EB', emoji: '🎤', label: 'Public Speaking' },
 }
 
 const TYPE_ICONS: Record<string, string> = {
