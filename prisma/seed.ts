@@ -4,16 +4,16 @@ const prisma = new PrismaClient()
 
 // ── BADGES ────────────────────────────────────────────────────────────────────
 const BADGES = [
-  { id: 'badge-first-assessment', name: 'First Step', description: 'Completed your first assessment', emoji: '🎯', condition: 'FIRST_ASSESSMENT', xpReward: 50 },
-  { id: 'badge-streak-7', name: 'Week Warrior', description: 'Maintained a 7-day streak', emoji: '🔥', condition: 'STREAK_7', xpReward: 100 },
-  { id: 'badge-xp-100', name: 'XP Hunter', description: 'Earned 100 XP', emoji: '⚡', condition: 'XP_100', xpReward: 25 },
-  { id: 'badge-xp-500', name: 'XP Legend', description: 'Earned 500 XP', emoji: '💎', condition: 'XP_500', xpReward: 75 },
-  { id: 'badge-activities-10', name: 'Activity Ace', description: 'Completed 10 activities', emoji: '🏆', condition: 'ACTIVITIES_10', xpReward: 50 },
-  { id: 'badge-activities-50', name: 'Training Champion', description: 'Completed 50 activities', emoji: '👑', condition: 'ACTIVITIES_50', xpReward: 150 },
-  { id: 'badge-all-skills', name: 'All-Rounder', description: 'Tried activities in all 10 skills', emoji: '🌈', condition: 'ALL_SKILLS', xpReward: 100 },
-  { id: 'badge-perfect-week', name: 'Perfect Week', description: 'Completed all daily activities for 7 days', emoji: '⭐', condition: 'PERFECT_WEEK', xpReward: 200 },
-  { id: 'badge-assessment-3', name: 'Growth Tracker', description: 'Completed 3 assessments', emoji: '📈', condition: 'ASSESSMENT_3', xpReward: 75 },
-  { id: 'badge-level-5', name: 'Level 5 Hero', description: 'Reached Level 5', emoji: '🦸', condition: 'LEVEL_5', xpReward: 100 },
+  { id: 'badge-first-assessment', name: 'First Step',          description: 'Completed your first assessment',          emoji: '🎯', condition: 'FIRST_ASSESSMENT'  },
+  { id: 'badge-streak-7',         name: 'Week Warrior',        description: 'Maintained a 7-day streak',                emoji: '🔥', condition: 'STREAK_7'          },
+  { id: 'badge-xp-100',           name: 'XP Hunter',           description: 'Earned 100 XP',                            emoji: '⚡', condition: 'XP_100'            },
+  { id: 'badge-xp-500',           name: 'XP Legend',           description: 'Earned 500 XP',                            emoji: '💎', condition: 'XP_500'            },
+  { id: 'badge-activities-10',    name: 'Activity Ace',        description: 'Completed 10 activities',                  emoji: '🏆', condition: 'ACTIVITIES_10'     },
+  { id: 'badge-activities-50',    name: 'Training Champion',   description: 'Completed 50 activities',                  emoji: '👑', condition: 'ACTIVITIES_50'     },
+  { id: 'badge-all-skills',       name: 'All-Rounder',         description: 'Tried activities in all 10 skills',        emoji: '🌈', condition: 'ALL_SKILLS'        },
+  { id: 'badge-perfect-week',     name: 'Perfect Week',        description: 'Completed all daily activities for 7 days',emoji: '⭐', condition: 'PERFECT_WEEK'      },
+  { id: 'badge-assessment-3',     name: 'Growth Tracker',      description: 'Completed 3 assessments',                  emoji: '📈', condition: 'ASSESSMENT_3'      },
+  { id: 'badge-level-5',          name: 'Level 5 Hero',        description: 'Reached Level 5',                          emoji: '🦸', condition: 'LEVEL_5'           },
 ]
 
 // ── ACTIVITIES ────────────────────────────────────────────────────────────────
@@ -898,9 +898,9 @@ async function main() {
   console.log('📛 Seeding badges...')
   for (const badge of BADGES) {
     await prisma.badge.upsert({
-      where: { id: badge.id },
-      update: badge,
-      create: badge,
+      where:  { id: badge.id },
+      update: { name: badge.name, description: badge.description, emoji: badge.emoji, condition: badge.condition },
+      create: { id: badge.id, name: badge.name, description: badge.description, emoji: badge.emoji, condition: badge.condition },
     })
   }
   console.log(`✅ ${BADGES.length} badges seeded`)
