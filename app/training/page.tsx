@@ -79,6 +79,7 @@ export default function TrainingPage() {
   const [filterSkill, setFilterSkill] = useState<string>('ALL')
   const [activeChallenge, setActiveChallenge] = useState<Activity | null>(null)
   const [selectedOption, setSelectedOption] = useState<number | null>(null)
+  const [showAnswers, setShowAnswers] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [isCorrect, setIsCorrect] = useState(false)
   const [xpEarned, setXpEarned] = useState(0)
@@ -208,14 +209,23 @@ export default function TrainingPage() {
 
                 {/* Question */}
                 {content.question && (
-                  <p className="font-display text-lg font-black text-brand-ink mb-4">
-                    {content.question}
-                  </p>
+                <p className="font-display text-lg font-black text-brand-ink mb-4">
+                {content.question}
+                </p>
                 )}
 
-                {/* Options */}
-                <div className="space-y-3">
-                  {options.map((opt, i) => (
+               {/* Options */}
+               {!showAnswers ? (
+                <button
+                onClick={() => setShowAnswers(true)}
+                className="w-full py-4 rounded-2xl font-display font-black text-white text-lg"
+                style={{ background: cfg?.color || '#5B2EFF' }}
+                >
+               Tap to Answer →
+               </button>
+              ) : (
+              <div className="space-y-3">
+              {options.map((opt, i) => (
                     <button
                       key={i}
                       onClick={() => setSelectedOption(i)}
@@ -235,7 +245,8 @@ export default function TrainingPage() {
                       {opt}
                     </button>
                   ))}
-                </div>
+                  </div>
+                 )}
 
                 <button
                   onClick={handleComplete}
@@ -397,6 +408,8 @@ export default function TrainingPage() {
                     key={a.id}
                     onClick={() => {
                       setActiveChallenge(a)
+                      setShowAnswers(false)
+                      setSelectedOption(null)
                       setSelectedOption(null)
                       setSubmitted(false)
                     }}
@@ -468,6 +481,8 @@ export default function TrainingPage() {
                   onClick={() => {
                     if (!done) {
                       setActiveChallenge(a)
+                      setShowAnswers(false)
+                      setSelectedOption(null)
                       setSelectedOption(null)
                       setSubmitted(false)
                     }
