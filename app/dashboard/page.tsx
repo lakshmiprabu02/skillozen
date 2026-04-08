@@ -206,7 +206,7 @@ export default function DashboardPage() {
               Add your child to start their skill assessment journey!
             </p>
             <button
-              onClick={() => router.push('/onboarding')}
+              onClick={() => router.push('/onboarding?addChild=true')}
               className="btn-primary"
             >
               Add Child →
@@ -467,7 +467,7 @@ export default function DashboardPage() {
             </div>
           </div>
           <button
-            onClick={() => router.push('/onboarding')}
+            onClick={() => router.push('/onboarding?addChild=true')}
             className="btn-ghost text-sm py-2 px-4"
           >
             Add Child →
