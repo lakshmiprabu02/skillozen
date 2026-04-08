@@ -253,7 +253,7 @@ async function handleAddChild() {
           <>
             {/* Child overview card */}
             <div className="bg-white rounded-3xl shadow-card p-6 mb-6">
-              <div className="flex items-center gap-4 mb-6">
+              <div className="flex items-center gap-4 mb-6 mt-4">
                 <div className="text-5xl">{child.avatarEmoji}</div>
                 <div>
                   <h2 className="font-display text-2xl font-black text-brand-ink">
