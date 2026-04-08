@@ -93,7 +93,10 @@ async function handleAddChild() {
     const session = localStorage.getItem('skillozen_session')
     const res = await fetch('/api/user', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${session}`,
+      },
       body: JSON.stringify({
         userId: data?.user?.id,
         childName: newChildName.trim(),
