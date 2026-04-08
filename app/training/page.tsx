@@ -321,7 +321,7 @@ export default function TrainingPage() {
            style={{ background: 'linear-gradient(135deg, #1A1033 0%, #2D1B69 100%)' }}>
         <div className="page-container relative text-white">
           <div className="flex items-center justify-between mb-6">
-            <a href="/" className="text-white/60 hover:text-white text-sm font-semibold">
+            <a href="/dashboard" className="text-white/60 hover:text-white text-sm font-semibold">
               Home
             </a>
             <button
