@@ -70,6 +70,12 @@ const SKILL_CONFIG = [
 export default function DashboardPage() {
   const router = useRouter()
   const [data, setData] = useState<DashboardData | null>(null)
+  const [showAddChildModal, setShowAddChildModal] = useState(false)
+  const [newChildName, setNewChildName] = useState('')
+  const [newChildAge, setNewChildAge] = useState('')
+  const [newChildAvatar, setNewChildAvatar] = useState('🧒')
+  const [addingChild, setAddingChild] = useState(false)
+  const [addChildError, setAddChildError] = useState('')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [activeChild, setActiveChild] = useState(0)
@@ -79,7 +85,35 @@ export default function DashboardPage() {
     if (!token) { router.push('/login'); return }
     loadDashboard(token)
   }, [router])
-
+async function handleAddChild() {
+  if (!newChildName.trim() || !newChildAge) return
+  setAddingChild(true)
+  setAddChildError('')
+  try {
+    const session = localStorage.getItem('skillozen_session')
+    const res = await fetch('/api/user', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        userId: data?.user?.id,
+        childName: newChildName.trim(),
+        childAge: parseInt(newChildAge),
+        avatarEmoji: newChildAvatar,
+      }),
+    })
+    const result = await res.json()
+    if (!res.ok) throw new Error(result.error)
+    setShowAddChildModal(false)
+    setNewChildName('')
+    setNewChildAge('')
+    setNewChildAvatar('🧒')
+    window.location.reload()
+  } catch (err) {
+    setAddChildError(err instanceof Error ? err.message : 'Failed to add child')
+  } finally {
+    setAddingChild(false)
+  }
+}
   async function loadDashboard(token: string) {
     setLoading(true)
     try {
@@ -206,7 +240,7 @@ export default function DashboardPage() {
               Add your child to start their skill assessment journey!
             </p>
             <button
-              onClick={() => router.push('/onboarding?addChild=true')}
+              onClick={() => setShowAddChildModal(true)}
               className="btn-primary"
             >
               Add Child →
@@ -467,13 +501,102 @@ export default function DashboardPage() {
             </div>
           </div>
           <button
-            onClick={() => router.push('/onboarding?addChild=true')}
+            onClick={() => setShowAddChildModal(true)}
             className="btn-ghost text-sm py-2 px-4"
           >
             Add Child →
           </button>
         </div>
-      </div>
+ </div>
+
+      {/* Add Child Modal */}
+      {showAddChildModal && (
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-4xl shadow-glow w-full max-w-md p-8 animate-slide-up">
+            <h2 className="font-display text-2xl font-black text-brand-ink mb-2">
+              Add a Child Profile
+            </h2>
+            <p className="text-gray-500 text-sm mb-6">
+              Track multiple children from one account
+            </p>
+
+            {/* Avatar Selection */}
+            <div className="mb-5">
+              <label className="text-sm font-bold text-gray-600 mb-2 block">
+                Choose Avatar
+              </label>
+              <div className="flex gap-3 flex-wrap">
+                {['🧒','👦','👧','🧑','👨','👩','🐣','🦁','🐯','🦊'].map((emoji) => (
+                  <button
+                    key={emoji}
+                    onClick={() => setNewChildAvatar(emoji)}
+                    className="text-2xl w-10 h-10 rounded-xl border-2 transition-all"
+                    style={{
+                      borderColor: newChildAvatar === emoji ? '#5B2EFF' : '#e5e7eb',
+                      background: newChildAvatar === emoji ? '#EDE9FF' : 'white',
+                    }}
+                  >
+                    {emoji}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Child Name */}
+            <div className="mb-4">
+              <label className="text-sm font-bold text-gray-600 mb-2 block">
+                Child's Name
+              </label>
+              <input
+                type="text"
+                value={newChildName}
+                onChange={(e) => setNewChildName(e.target.value)}
+                placeholder="Enter child's name"
+                className="w-full px-4 py-3 rounded-2xl border-2 border-gray-200 focus:border-brand-violet outline-none font-semibold"
+              />
+            </div>
+
+            {/* Child Age */}
+            <div className="mb-6">
+              <label className="text-sm font-bold text-gray-600 mb-2 block">
+                Child's Age
+              </label>
+              <select
+                value={newChildAge}
+                onChange={(e) => setNewChildAge(e.target.value)}
+                className="w-full px-4 py-3 rounded-2xl border-2 border-gray-200 focus:border-brand-violet outline-none font-semibold bg-white"
+              >
+                <option value="">Select age</option>
+                {Array.from({ length: 17 }, (_, i) => i + 4).map((age) => (
+                  <option key={age} value={age}>{age} years old</option>
+                ))}
+              </select>
+            </div>
+
+            {addChildError && (
+              <p className="text-red-500 text-sm font-semibold mb-4">{addChildError}</p>
+            )}
+
+            {/* Buttons */}
+            <div className="flex gap-3">
+              <button
+                onClick={() => setShowAddChildModal(false)}
+                className="flex-1 py-3 rounded-2xl border-2 border-gray-200 font-bold text-gray-600 hover:border-gray-300 transition-all"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleAddChild}
+                disabled={addingChild || !newChildName.trim() || !newChildAge}
+                className="flex-1 py-3 rounded-2xl font-display font-black text-white transition-all disabled:opacity-40"
+                style={{ background: '#5B2EFF' }}
+              >
+                {addingChild ? '⏳ Adding...' : '+ Add Child'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
