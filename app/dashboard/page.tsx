@@ -317,7 +317,7 @@ async function handleAddChild() {
                       <div className="absolute bottom-6 right-0 z-20 w-56 bg-white rounded-2xl shadow-glow p-3 text-left border border-gray-100">
                         <p className="text-xs text-gray-600 font-medium leading-relaxed">
                           {s.label === 'Total XP' && 'XP is earned by completing activities. More XP = higher level!'}
-                          {s.label === 'Level' && 'Level 1: 0 XP | Level 2: 100 XP | Level 3: 250 XP | Level 4: 500 XP | Level 5: 1000 XP'}
+                          {s.label === 'Level' && 'Level 1: 0 XP | Level 2: 50 XP | Level 3: 100 XP | Level 4: 250 XP | Level 5: 500 XP | Level 6: 1000 XP | Level 7: 1500 XP | Level 8: 2000 XP'}
                           {s.label === 'Activities' && 'Total activities completed. Aim for 3 activities every day!'}
                           {s.label === 'Streak' && 'Days in a row your child completed at least one activity. Keep the streak alive!'}
                         </p>
