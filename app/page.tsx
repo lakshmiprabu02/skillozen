@@ -199,7 +199,7 @@ export default function LandingPage() {
           {/* Hero visual — score cards floating */}
           <div className="hidden lg:block absolute top-0 right-0 mt-8 mr-0">
             <div className="relative w-80 h-80">
-              {SKILLS.map((s, i) => (
+              {SKILLS.slice(0, 5).map((s, i) => (
                 <div
                   key={s.label}
                   className="absolute glass-card rounded-2xl p-4 shadow-card animate-float"
