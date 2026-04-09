@@ -204,8 +204,8 @@ export default function LandingPage() {
                   key={s.label}
                   className="absolute glass-card rounded-2xl p-4 shadow-card animate-float"
                   style={{
-                    top:  `${[10, 45, 80, 30, 65][i]}%`,
-                    left: `${[5, 55, 15, 75, 45][i]}%`,
+                    top:  `${[10, 45, 80, 30, 65, 15, 55, 75, 35, 60][i]}%`,
+                    left: `${[5, 55, 15, 75, 45, 35, 80, 20, 65, 50][i]}%`,
                     animationDelay: `${i * 0.4}s`,
                     background: s.bg,
                     border: `2px solid ${s.color}20`,
