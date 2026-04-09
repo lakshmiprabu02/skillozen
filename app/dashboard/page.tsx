@@ -71,6 +71,7 @@ export default function DashboardPage() {
   const router = useRouter()
   const [data, setData] = useState<DashboardData | null>(null)
   const [showAddChildModal, setShowAddChildModal] = useState(false)
+  const [infoPopup, setInfoPopup] = useState<string | null>(null)
   const [newChildName, setNewChildName] = useState('')
   const [newChildAge, setNewChildAge] = useState('')
   const [newChildAvatar, setNewChildAvatar] = useState('🧒')
@@ -306,7 +307,24 @@ async function handleAddChild() {
                   <div key={s.label}
                        className="rounded-2xl p-4 text-center"
                        style={{ background: `${s.color}15` }}>
+                    <div className="relative">
+                    <button
+                      onClick={() => setInfoPopup(infoPopup === s.label ? null : s.label)}
+                      className="absolute -top-6 right-0 w-4 h-4 rounded-full text-xs font-black flex items-center justify-center text-white"
+                      style={{ background: s.color }}
+                    >i</button>
+                    {infoPopup === s.label && (
+                      <div className="absolute bottom-6 right-0 z-20 w-56 bg-white rounded-2xl shadow-glow p-3 text-left border border-gray-100">
+                        <p className="text-xs text-gray-600 font-medium leading-relaxed">
+                          {s.label === 'Total XP' && 'XP is earned by completing activities. More XP = higher level!'}
+                          {s.label === 'Level' && 'Level 1: 0 XP | Level 2: 100 XP | Level 3: 250 XP | Level 4: 500 XP | Level 5: 1000 XP'}
+                          {s.label === 'Activities' && 'Total activities completed. Aim for 3 activities every day!'}
+                          {s.label === 'Streak' && 'Days in a row your child completed at least one activity. Keep the streak alive!'}
+                        </p>
+                      </div>
+                    )}
                     <div className="font-bold text-lg" style={{ color: s.color }}>{s.value}</div>
+                  </div>
                     <div className="text-gray-500 text-xs font-semibold mt-1">{s.label}</div>
                   </div>
                 ))}
