@@ -34,7 +34,6 @@ export function levelFromXp(xp: number): number {
   if (xp >= 50)   return 2
   return 1
 }
-}
 
 // Skill rotation for 20 questions (4 questions per skill)
 const SKILL_ROTATION = [
