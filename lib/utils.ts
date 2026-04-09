@@ -17,11 +17,23 @@ export function getAgeGroup(age: number): AgeGroup {
 
 // XP required per level (level 1 = 0 XP, level 2 = 100 XP, etc.)
 export function xpForLevel(level: number): number {
-  return (level - 1) * 100
+  const xpMap: Record<number, number> = {
+    1: 0, 2: 50, 3: 100, 4: 250,
+    5: 500, 6: 1000, 7: 1500, 8: 2000
+  }
+  return xpMap[level] || 0
 }
 
 export function levelFromXp(xp: number): number {
-  return Math.floor(xp / 100) + 1
+  if (xp >= 2000) return 8
+  if (xp >= 1500) return 7
+  if (xp >= 1000) return 6
+  if (xp >= 500)  return 5
+  if (xp >= 250)  return 4
+  if (xp >= 100)  return 3
+  if (xp >= 50)   return 2
+  return 1
+}
 }
 
 // Skill rotation for 20 questions (4 questions per skill)
