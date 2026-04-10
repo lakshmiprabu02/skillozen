@@ -295,7 +295,7 @@ async function handleAddChild() {
                     
                   </button>
                   <button
-                      onClick={() => router.push('/progress')}
+                      onClick={() => router.push(`/progress?childId=${child.id}&childName=${child.name}&avatar=${child.avatarEmoji}&childAge=${child.age}`)}
                       className="btn-primary text-sm py-2 px-4"
                       style={{ background: '#7209B7' }}
                     >
