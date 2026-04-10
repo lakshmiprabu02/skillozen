@@ -567,7 +567,7 @@ export default function ProgressPage() {
                 </div>
 
                 <input value={goalTitle} onChange={e => setGoalTitle(e.target.value)}
-                  placeholder="Goal title (e.g. Improve Public Speaking)"
+                  placeholder="{goalType === 'SKILL' ? 'Goal title (e.g. Improve Public Speaking)' : 'Goal title (e.g. Score 90% in Maths)'}"
                   className="w-full px-4 py-3 rounded-2xl border-2 border-gray-200 font-semibold outline-none focus:border-brand-violet mb-4" />
 
                 {goalType === 'SKILL' && (
