@@ -150,26 +150,35 @@ export default function ProgressPage() {
     } finally { setSavingMarks(false) }
   }
 
-  async function createGoal() {
-    if (!sessionData || !goalTitle) return
+    async function createGoal() {
+    if (!sessionData || !goalTitle.trim()) return
     setSavingGoal(true)
     try {
       const res = await fetch('/api/progress/goals', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          childId: sessionData.childId, type: goalType, title: goalTitle,
-          skill: goalType === 'SKILL' ? goalSkill : null,
-          targetScore: goalType === 'SKILL' ? parseInt(goalTarget) : null,
-          targetMarks: goalType === 'ACADEMIC' ? parseInt(goalTarget) : null,
+          childId:     sessionData.childId,
+          type:        goalType,
+          title:       goalTitle.trim(),
+          skill:       goalType === 'SKILL' ? goalSkill || null : null,
+          targetScore: goalType === 'SKILL' && goalTarget ? parseInt(goalTarget) : null,
+          targetMarks: goalType === 'ACADEMIC' && goalTarget ? parseInt(goalTarget) : null,
         }),
       })
-      if (res.ok) {
-        const d = await res.json()
-        setGoals(prev => [d.goal, ...prev])
-        setShowGoalForm(false); setGoalTitle(''); setGoalTarget(''); setGoalSkill('')
-      }
-    } finally { setSavingGoal(false) }
+      const d = await res.json()
+      if (!res.ok) throw new Error(d.error)
+      setGoals(prev => [d.goal, ...prev])
+      setShowGoalForm(false)
+      setGoalTitle('')
+      setGoalTarget('')
+      setGoalSkill('')
+      setGoalType('SKILL')
+    } catch (err) {
+      console.error(err)
+    } finally {
+      setSavingGoal(false)
+    }
   }
 
   async function generateReport() {
@@ -544,7 +553,7 @@ export default function ProgressPage() {
                 <h3 className="font-display font-black text-brand-ink mb-4">Set a New Goal</h3>
                 <div className="flex gap-3 mb-4">
                   {(['SKILL', 'ACADEMIC'] as const).map(t => (
-                    <button key={t} onClick={() => setGoalType(t)}
+                    <button key={t} onClick={() => { setGoalType(t); setGoalTitle(''); setGoalTarget(''); setGoalSkill('') }}
                       className="flex-1 py-2 rounded-xl font-bold text-sm transition-all"
                       style={{
                         background: goalType === t ? '#5B2EFF' : '#f3f4f6',
