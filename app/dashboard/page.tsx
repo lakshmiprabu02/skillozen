@@ -292,6 +292,12 @@ async function handleAddChild() {
                     className="btn-primary text-sm py-2 px-4"
                   >
                     ⚡ Start Training
+                    <button
+                      onClick={() => router.push('/progress')}
+                      className="btn-ghost text-sm py-2 px-4"
+                    >
+                      📊 Progress
+                    </button>
                   </button>
                 </div>
               </div>
