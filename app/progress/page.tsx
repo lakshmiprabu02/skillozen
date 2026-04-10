@@ -82,8 +82,13 @@ export default function ProgressPage() {
     const stored = localStorage.getItem('skillozen_user')
     if (!stored) { router.push('/login'); return }
     const s = JSON.parse(stored)
-    setSessionData(s)
-    loadAll(s.childId)
+    const params = new URLSearchParams(window.location.search)
+    const childId   = params.get('childId')   || s.childId
+    const childName = params.get('childName') || s.childName
+    const avatar    = params.get('avatar')    || s.avatar
+    const childAge  = parseInt(params.get('childAge') || s.childAge)
+    setSessionData({ ...s, childId, childName, avatar, childAge })
+    loadAll(childId)
   }, [router])
 
   async function loadAll(childId: string) {
