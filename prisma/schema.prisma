@@ -68,7 +68,9 @@ model Child {
   skillProfiles     SkillProfile[]
   activityLogs      ActivityLog[]
   badges            ChildBadge[]
-
+  exams         Exam[]
+  goals         Goal[]
+  weeklyReports WeeklyReport[]
   @@map("children")
 }
 
@@ -285,4 +287,89 @@ model Admin {
   createdAt    DateTime @default(now())
 
   @@map("admins")
+}
+model Exam {
+  id           String       @id @default(cuid())
+  childId      String
+  child        Child        @relation(fields: [childId], references: [id], onDelete: Cascade)
+  name         String
+  academicYear String
+  examDate     DateTime?
+  totalMarks   Int          @default(100)
+  subjects     ExamSubject[]
+  results      ExamResult[]
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  @@map("exams")
+}
+
+model ExamSubject {
+  id       String       @id @default(cuid())
+  examId   String
+  exam     Exam         @relation(fields: [examId], references: [id], onDelete: Cascade)
+  name     String
+  maxMarks Int          @default(100)
+  order    Int          @default(0)
+  results  ExamResult[]
+  @@map("exam_subjects")
+}
+
+model ExamResult {
+  id            String      @id @default(cuid())
+  examId        String
+  exam          Exam        @relation(fields: [examId], references: [id], onDelete: Cascade)
+  subjectId     String
+  subject       ExamSubject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  childId       String
+  marksObtained Float
+  grade         String?
+  remarks       String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  @@unique([examId, subjectId])
+  @@map("exam_results")
+}
+
+model Goal {
+  id           String     @id @default(cuid())
+  childId      String
+  child        Child      @relation(fields: [childId], references: [id], onDelete: Cascade)
+  type         GoalType
+  title        String
+  description  String?
+  skill        SkillArea?
+  targetScore  Int?
+  subject      String?
+  targetMarks  Float?
+  examName     String?
+  currentValue Float      @default(0)
+  achieved     Boolean    @default(false)
+  achievedAt   DateTime?
+  deadline     DateTime?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  @@map("goals")
+}
+
+model WeeklyReport {
+  id                  String   @id @default(cuid())
+  childId             String
+  child               Child    @relation(fields: [childId], references: [id], onDelete: Cascade)
+  weekStart           DateTime
+  weekEnd             DateTime
+  summary             String
+  highlights          String[]
+  concerns            String[]
+  recommendations     String[]
+  encouragement       String
+  activitiesCompleted Int      @default(0)
+  xpEarned            Int      @default(0)
+  skillsImproved      String[]
+  createdAt           DateTime @default(now())
+  @@map("weekly_reports")
+}
+
+enum GoalType {
+  SKILL
+  ACADEMIC
 }
