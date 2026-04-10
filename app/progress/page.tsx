@@ -153,6 +153,7 @@ export default function ProgressPage() {
     async function createGoal() {
     if (!sessionData || !goalTitle.trim()) return
     setSavingGoal(true)
+    console.log('Creating goal:', { goalType, goalTitle, goalSkill, goalTarget })
     try {
       const res = await fetch('/api/progress/goals', {
         method: 'POST',
