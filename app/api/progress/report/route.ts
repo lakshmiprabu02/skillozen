@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
       include: {
         skillProfiles: { orderBy: { createdAt: 'desc' }, take: 2 },
         activityLogs:  {
-          orderBy: { createdAt: 'desc' },
+          orderBy: { completedAt: 'desc' },
           take: 20,
           include: { activity: true },
         },
