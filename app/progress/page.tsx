@@ -162,7 +162,8 @@ export default function ProgressPage() {
           childId:     sessionData.childId,
           type:        goalType,
           title:       goalTitle.trim(),
-          skill:       goalType === 'SKILL' ? goalSkill || null : null,
+          skill: goalType === 'SKILL' && goalSkill ? 
+            goalSkill.replace(/([A-Z])/g, '_$1').toUpperCase() as any : null,
           targetScore: goalType === 'SKILL' && goalTarget ? parseInt(goalTarget) : null,
           targetMarks: goalType === 'ACADEMIC' && goalTarget ? parseInt(goalTarget) : null,
         }),
