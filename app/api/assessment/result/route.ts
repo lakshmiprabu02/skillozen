@@ -8,7 +8,18 @@ import { prisma } from '@/lib/prisma'
 
 export async function GET(req: NextRequest) {
   const id = req.nextUrl.searchParams.get('id')
-  if (!id) return NextResponse.json({ error: 'id required' }, { status: 400 })
+    const childId = req.nextUrl.searchParams.get('childId')
+
+    // If childId provided fetch all profiles for that child
+    if (childId) {
+      const profiles = await prisma.skillProfile.findMany({
+        where: { childId },
+        orderBy: { createdAt: 'desc' },
+      })
+      return NextResponse.json({ profiles })
+    }
+
+    if (!id) return NextResponse.json({ error: 'id required' }, { status: 400 })
 
   try {
     // Try finding by assessmentId first, then by profileId

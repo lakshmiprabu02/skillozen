@@ -256,7 +256,7 @@ export default function ProgressPage() {
         </div>
       </div>
 
-      <div className="page-container -mt-8">
+      <div className="page-container mt-6">
         {/* Predictive Alerts */}
         {alerts.length > 0 && (
           <div className="bg-orange-50 border border-orange-200 rounded-3xl p-5 mb-6">

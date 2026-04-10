@@ -296,7 +296,8 @@ async function handleAddChild() {
                   </button>
                   <button
                       onClick={() => router.push('/progress')}
-                      className="btn-ghost text-sm py-2 px-4"
+                      className="btn-primary text-sm py-2 px-4"
+                      style={{ background: '#7209B7' }}
                     >
                       📊 Progress
                     </button>
