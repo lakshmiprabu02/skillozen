@@ -36,10 +36,10 @@ export async function POST(req: NextRequest) {
     const goal = await prisma.goal.create({
       data: {
         childId,
-        type,
+        type: type as 'SKILL' | 'ACADEMIC',
         title,
         description,
-        skill:       skill || null,
+        skill: skill ? skill as any : null,
         targetScore: targetScore || null,
         subject:     subject || null,
         targetMarks: targetMarks || null,
