@@ -219,7 +219,7 @@ export default function ResultsPage() {
         </div>
       </div>
 
-      <div className="page-container -mt-8">
+      <div className="page-container -mt-6">
         {/* Summary */}
         <div className="bg-white rounded-3xl shadow-card p-6 mb-6 col-span-full">
           <h2 className="font-display text-xl font-black text-brand-ink mb-3">
