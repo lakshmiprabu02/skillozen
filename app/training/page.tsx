@@ -387,7 +387,7 @@ export default function TrainingPage() {
         </div>
       </div>
 
-      <div className="page-container -mt-8">
+      <div className="page-container mt-4">
 
         {/* Today Queue */}
         {daily.length > 0 && (
