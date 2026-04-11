@@ -25,8 +25,9 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: 'Session expired. Please login again.' }, { status: 401 })
     }
 
-    const children = await prisma.child.findMany({
+  const children = await prisma.child.findMany({
       where: { userId: user.id },
+      orderBy: { createdAt: 'asc' },
       include: {
         skillProfiles: {
           orderBy: { createdAt: 'desc' },
