@@ -422,25 +422,66 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── FOOTER ────────────────────────────────────────────── */}
-      <footer className="py-12 border-t border-gray-100">
-        <div className="page-container flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <span className="text-xl">🌟</span>
-            <span className="font-display font-black text-brand-ink">
-              Skill<span className="gradient-text">ozen</span>
-            </span>
-          </div>
-          <p className="text-sm text-gray-500">
-            © {new Date().getFullYear()} Skillozen. Building life skills for the 21st century.
-          </p>
-          <div className="flex gap-4 text-sm text-gray-500">
-            <a href="#" className="hover:text-brand-violet">Privacy</a>
-            <a href="#" className="hover:text-brand-violet">Terms</a>
-            <a href="/admin" className="hover:text-brand-violet">Admin</a>
-          </div>
-        </div>
-      </footer>
+      {/* Footer */}
+          <footer className="bg-brand-ink text-white py-12 mt-16">
+            <div className="page-container">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
+                
+                {/* Brand */}
+                <div className="col-span-2 md:col-span-1">
+                  <div className="font-display text-2xl font-black mb-3">
+                    🌟 Skill<span style={{ color: '#FF6B35' }}>ozen</span>
+                  </div>
+                  <p className="text-white/60 text-sm leading-relaxed">
+                    AI-powered life skills platform for children aged 4–20.
+                    A product of Clevergen Education.
+                  </p>
+                </div>
+
+                {/* Product */}
+                <div>
+                  <h4 className="font-bold text-white/80 mb-4 text-sm uppercase tracking-wide">Product</h4>
+                  <ul className="space-y-2 text-white/60 text-sm">
+                    <li><a href="/#skills" className="hover:text-white transition-colors">10 Life Skills</a></li>
+                    <li><a href="/#pricing" className="hover:text-white transition-colors">Pricing</a></li>
+                    <li><a href="/login" className="hover:text-white transition-colors">Login</a></li>
+                    <li><a href="/onboarding" className="hover:text-white transition-colors">Get Started</a></li>
+                  </ul>
+                </div>
+
+                {/* Legal */}
+                <div>
+                  <h4 className="font-bold text-white/80 mb-4 text-sm uppercase tracking-wide">Legal</h4>
+                  <ul className="space-y-2 text-white/60 text-sm">
+                    <li><a href="/terms" className="hover:text-white transition-colors">Terms & Conditions</a></li>
+                    <li><a href="/privacy" className="hover:text-white transition-colors">Privacy Policy</a></li>
+                    <li><a href="/refund" className="hover:text-white transition-colors">Refund Policy</a></li>
+                  </ul>
+                </div>
+
+                {/* Contact */}
+                <div>
+                  <h4 className="font-bold text-white/80 mb-4 text-sm uppercase tracking-wide">Contact</h4>
+                  <ul className="space-y-2 text-white/60 text-sm">
+                    <li>support@skillozen.com</li>
+                    <li>Chennai, Tamil Nadu</li>
+                    <li>India</li>
+                  </ul>
+                </div>
+
+              </div>
+
+              {/* Bottom bar */}
+              <div className="border-t border-white/10 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
+                <p className="text-white/40 text-sm">
+                  © 2025 Clevergen Education. All rights reserved.
+                </p>
+                <p className="text-white/40 text-sm">
+                  Skillozen is a product of Clevergen Education
+                </p>
+              </div>
+            </div>
+          </footer>
     </div>
   )
 }
