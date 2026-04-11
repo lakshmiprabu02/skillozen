@@ -92,6 +92,8 @@ async function handleAddChild() {
   setAddChildError('')
   try {
     const session = localStorage.getItem('skillozen_session')
+    console.log('Adding child with userId:', data?.user?.id)
+    const res = await fetch('/api/children', {
     const res = await fetch('/api/children', {
       method: 'POST',
       headers: { 
