@@ -244,7 +244,12 @@ export default function TrainingPage() {
                       }`}>
                         {['A', 'B', 'C', 'D'][i]}
                       </span>
-                      {opt}
+                      {typeof opt === 'object' && opt !== null ? (
+                        <span className="flex items-center gap-2">
+                          <span className="text-2xl">{(opt as {emoji: string; label: string}).emoji}</span>
+                          <span>{(opt as {emoji: string; label: string}).label}</span>
+                        </span>
+                      ) : opt as string}
                     </button>
                   ))}
                   </div>
