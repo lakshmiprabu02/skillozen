@@ -72,6 +72,7 @@ export default function TrainingPage() {
     childId: string; childName: string; avatar: string; childAge: number
   } | null>(null)
   const [activities, setActivities] = useState<Activity[]>([])
+  const [isFree, setIsFree] = useState(false)
   const [completedIds, setCompletedIds] = useState<Set<string>>(new Set())
   const [totalXp, setTotalXp] = useState(0)
   const [streakDays, setStreakDays] = useState(0)
@@ -105,6 +106,7 @@ export default function TrainingPage() {
       setTotalXp(data.totalXp || 0)
       setStreakDays(data.streakDays || 0)
       setLevel(data.level || 1)
+      setIsFree(data.isFree || false)
     } catch {
       console.error('Failed to load activities')
     } finally {
@@ -470,6 +472,7 @@ export default function TrainingPage() {
             ))}
           </div>
         ) : (
+          <>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {filtered.map((a) => {
               const cfg = SKILL_CONFIG[a.skill]
@@ -512,6 +515,25 @@ export default function TrainingPage() {
               )
             })}
           </div>
+          {/* FREE upgrade prompt */}
+          {isFree && (
+            <div className="mt-8 rounded-3xl p-8 text-center text-white"
+                 style={{ background: 'linear-gradient(135deg, #5B2EFF 0%, #FF6B35 100%)' }}>
+              <div className="text-4xl mb-3">🚀</div>
+              <h3 className="font-display text-2xl font-black mb-2">
+                Want 1,500+ More Activities?
+              </h3>
+              <p className="text-white/80 mb-6">
+                You are on the Free plan. Upgrade to Standard to unlock the full training library!
+              </p>
+              <button
+                onClick={() => router.push('/pricing')}
+                className="px-8 py-3 rounded-2xl font-display font-black text-brand-violet bg-white hover:bg-gray-50 transition-all">
+                Upgrade to Standard — ₹499/year →
+              </button>
+            </div>
+          )}
+          </>
         )}
 
         {filtered.length === 0 && !loading && (
