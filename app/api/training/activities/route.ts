@@ -30,7 +30,10 @@ export async function GET(req: NextRequest) {
       },
     })
     if (!child) return NextResponse.json({ error: 'Child not found' }, { status: 404 })
-
+    // Check plan and limit activities for FREE users
+    const user = await prisma.user.findUnique({ where: { id: child.userId } })
+    const isFree = user?.plan === 'FREE'
+    
     const ageGroup = getAgeGroup(childAge)
 
     // Fetch age-appropriate activities
@@ -66,12 +69,13 @@ export async function GET(req: NextRequest) {
     }
 
     return NextResponse.json({
-      activities,
+      activities: isFree ? activities.slice(0, 3) : activities,
       completedIds,
       logs,
       totalXp:    child.totalXp,
       level:      child.level,
       streakDays,
+      isFree,
     })
   } catch (err) {
     console.error('[GET /api/training/activities]', err)
