@@ -45,12 +45,18 @@ const FEATURES = [
 
 const PRICING = [
   {
-    name: 'Basic',
-    price: 'Free',
+    name: 'Free',
+    price: '₹0',
     period: 'Forever',
     color: '#00D68F',
-    features: ['Skill Analysis (1 assessment)', 'Skill Radar Chart', 'Parent Report Card', 'Age-benchmarked comparisons'],
-    cta: 'Start Free',
+    features: [
+      '1 Full Skill Assessment',
+      '10-Skill Report Card',
+      '3 Training Activities to explore',
+      'Skill Radar Chart',
+      'Unlimited Child Profiles',
+    ],
+    cta: 'Start Free →',
     highlight: false,
   },
   {
@@ -58,8 +64,15 @@ const PRICING = [
     price: '₹499',
     period: '/ year',
     color: '#5B2EFF',
-    features: ['Everything in Basic', '500+ Training Activities', 'Daily personalised queues', 'XP, Badges & Streaks', 'Repeatable assessments (3-monthly)'],
-    cta: 'Get Standard',
+    features: [
+      'Everything in Free',
+      'Unlimited Assessments',
+      'Full Training Library (1,500+ activities)',
+      'Daily Personalised Queue',
+      'XP, Badges & Streaks',
+      'Email Skill Reports',
+    ],
+    cta: 'Get Standard →',
     highlight: true,
   },
   {
@@ -67,11 +80,19 @@ const PRICING = [
     price: '₹799',
     period: '/ year',
     color: '#FF6B35',
-    features: ['Everything in Standard', 'Smart Progress Dashboard', 'AI Weekly Reports', 'Predictive alerts', 'Goal-setting wizard'],
-    cta: 'Get Premium',
+    features: [
+      'Everything in Standard',
+      'Smart Progress Dashboard',
+      'AI Weekly Reports',
+      'Goal Wizard',
+      'Academic Tracker',
+      'Predictive Skill Alerts',
+    ],
+    cta: 'Get Premium →',
     highlight: false,
   },
 ]
+
 
 const TESTIMONIALS = [
   { quote: 'My daughter used to freeze up during group discussions. After 3 months on Skillozen, she\'s the one leading them!', name: 'Priya M.', role: 'Parent of 11-year-old', emoji: '👩' },
