@@ -102,7 +102,13 @@ export default function AssessmentPage() {
         body: JSON.stringify({ childId: sessionData.childId }),
       })
       const data = await res.json()
-      if (!res.ok) throw new Error(data.error)
+      if (!res.ok) {
+        if (data.error === 'UPGRADE_REQUIRED') {
+          router.push('/pricing?reason=assessment')
+          return
+        }
+        throw new Error(data.error)
+      }
       setAssessmentId(data.assessmentId)
       setPhase('question')
       await fetchQuestion(data.assessmentId, 0)
