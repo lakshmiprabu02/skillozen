@@ -23,8 +23,22 @@ export async function POST(req: NextRequest) {
     const { childId } = Schema.parse(body)
 
     // Verify child exists
-    const child = await prisma.child.findUnique({ where: { id: childId } })
-    if (!child) return NextResponse.json({ error: 'Child not found' }, { status: 404 })
+      const child = await prisma.child.findUnique({ where: { id: childId } })
+      if (!child) return NextResponse.json({ error: 'Child not found' }, { status: 404 })
+      
+      // Check plan and assessment limit
+      const user = await prisma.user.findUnique({ where: { id: child.userId } })
+      if (user?.plan === 'FREE') {
+        const completedAssessments = await prisma.assessment.count({
+          where: { childId, status: 'COMPLETED' },
+        })
+        if (completedAssessments >= 1) {
+          return NextResponse.json({ 
+            error: 'UPGRADE_REQUIRED',
+            message: 'Free plan allows 1 assessment per child. Upgrade to Standard for unlimited assessments.',
+          }, { status: 403 })
+        }
+      }
 
     // Abandon any in-progress assessments
     await prisma.assessment.updateMany({
