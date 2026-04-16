@@ -273,7 +273,11 @@ async function handleAddChild() {
                         childAge:  child.age,
                         avatar:    child.avatarEmoji,
                       }))
-                      router.push('/assessment')
+                      if (data.user.plan === 'FREE' && child.assessments.filter((a: {status: string}) => a.status === 'COMPLETED').length >= 1) {
+                        router.push('/pricing?reason=assessment')
+                      } else {
+                        router.push('/assessment')
+                      }
                     }}
                     className="btn-coral text-sm py-2 px-4"
                   >
