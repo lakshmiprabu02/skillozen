@@ -313,7 +313,73 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+        {/* ── HOW IT WORKS ──────────────────────────────────────── */}
+        <section id="how-it-works" className="py-24 bg-white">
+          <div className="page-container">
+            <div className="text-center mb-16">
+              <h2 className="font-display text-4xl font-black text-brand-ink mb-4">
+                How Skillozen Works
+              </h2>
+              <p className="text-gray-500 text-lg max-w-xl mx-auto">
+                Three simple steps to unlock your child's hidden potential
+              </p>
+            </div>
 
+            <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+              {[
+                {
+                  step: '01',
+                  emoji: '🎯',
+                  title: 'Take the Assessment',
+                  description: 'Your child answers 20 fun age-appropriate questions across 10 life skills. Takes just 10 minutes!',
+                  color: '#5B2EFF',
+                },
+                {
+                  step: '02',
+                  emoji: '📊',
+                  title: 'Get the Skill Report',
+                  description: 'Receive a detailed 10-skill report card with scores, strengths and personalised recommendations.',
+                  color: '#FF6B35',
+                },
+                {
+                  step: '03',
+                  emoji: '⚡',
+                  title: 'Train Every Day',
+                  description: 'Get a daily personalised queue of 3 activities designed to strengthen your child\'s weakest skills.',
+                  color: '#00D68F',
+                },
+              ].map((item) => (
+                <div key={item.step} className="text-center relative">
+                  {/* Step number */}
+                  <div className="text-6xl font-black mb-4 opacity-10" style={{ color: item.color }}>
+                    {item.step}
+                  </div>
+                  <div className="text-5xl mb-4 -mt-10">{item.emoji}</div>
+                  <h3 className="font-display text-xl font-black text-brand-ink mb-3">
+                    {item.title}
+                  </h3>
+                  <p className="text-gray-500 leading-relaxed">
+                    {item.description}
+                  </p>
+                  {/* Connector arrow */}
+                  {item.step !== '03' && (
+                    <div className="hidden md:block absolute top-8 -right-4 text-2xl text-gray-300">
+                      →
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            <div className="text-center mt-12">
+              <button
+                onClick={() => router.push('/onboarding')}
+                className="btn-primary">
+                Start Free Assessment →
+              </button>
+            </div>
+          </div>
+        </section>
       {/* ── SKILLS BREAKDOWN ──────────────────────────────────── */}
       <section className="py-24">
         <div className="page-container">
