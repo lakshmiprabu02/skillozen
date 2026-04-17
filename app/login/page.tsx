@@ -33,7 +33,9 @@ export default function LoginPage() {
         childAge: data.children?.[0]?.age,
         avatar: data.children?.[0]?.avatarEmoji,
       }))
-      router.push('/dashboard')
+      const params = new URLSearchParams(window.location.search)
+      const redirect = params.get('redirect') || '/dashboard'
+      router.push(redirect)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Login failed')
     } finally {

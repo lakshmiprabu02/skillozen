@@ -29,7 +29,7 @@ export default function PricingPage() {
 
   async function handlePayment(plan: 'standard' | 'premium') {
     if (!userId) {
-      router.push('/login')
+      router.push('/login?redirect=/pricing')
       return
     }
     setLoading(plan)
