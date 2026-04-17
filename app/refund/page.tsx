@@ -49,19 +49,10 @@ export default function RefundPage() {
                 </p>
               </div>
 
-              <div className="p-5 rounded-2xl border-2 border-orange-100 bg-orange-50">
-                <h3 className="font-bold text-orange-700 mb-2">⚠️ Explorer Plan (₹99 one-time)</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  Non-refundable once the additional assessments have been accessed.
-                  If you have not used the assessments, contact us within 48 hours for a refund.
-                </p>
-              </div>
-
               <div className="p-5 rounded-2xl border-2 border-red-100 bg-red-50">
                 <h3 className="font-bold text-red-700 mb-2">❌ Not Eligible for Refund</h3>
                 <ul className="text-gray-600 text-sm space-y-1">
                   <li>• Refund requests made after 7 days of purchase</li>
-                  <li>• Explorer plan after assessments are accessed</li>
                   <li>• Accounts suspended for violation of Terms of Service</li>
                 </ul>
               </div>
