@@ -28,16 +28,23 @@ export default function PricingPage() {
   }, [])
 
   async function handlePayment(plan: 'standard' | 'premium') {
-    if (!userId) {
-      router.push('/login?redirect=/pricing')
-      return
-    }
+    const stored = localStorage.getItem('skillozen_user')
+      if (!stored) {
+        router.push('/login?redirect=/pricing')
+        return
+      }
+      const userData = JSON.parse(stored)
+      const currentUserId = userData.userId
+      if (!currentUserId) {
+        router.push('/login?redirect=/pricing')
+        return
+      }
     setLoading(plan)
     try {
       const res = await fetch('/api/payment/create-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId, plan }),
+        body: JSON.stringify({ userId: currentUserId, plan }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error)
@@ -63,7 +70,7 @@ export default function PricingPage() {
                 razorpay_order_id:   response.razorpay_order_id,
                 razorpay_payment_id: response.razorpay_payment_id,
                 razorpay_signature:  response.razorpay_signature,
-                userId,
+                userId: currentUserId,
                 plan,
               }),
             })
