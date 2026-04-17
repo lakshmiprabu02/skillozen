@@ -1,8 +1,91 @@
 'use client'
+
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+
+declare global {
+  interface Window {
+    Razorpay: any
+  }
+}
 
 export default function PricingPage() {
   const router = useRouter()
+  const [loading, setLoading] = useState<string | null>(null)
+  const [userId, setUserId] = useState<string | null>(null)
+
+  useEffect(() => {
+    const stored = localStorage.getItem('skillozen_user')
+    if (stored) {
+      const s = JSON.parse(stored)
+      setUserId(s.userId)
+    }
+    // Load Razorpay script
+    const script = document.createElement('script')
+    script.src = 'https://checkout.razorpay.com/v1/checkout.js'
+    script.async = true
+    document.body.appendChild(script)
+  }, [])
+
+  async function handlePayment(plan: 'standard' | 'premium') {
+    if (!userId) {
+      router.push('/login')
+      return
+    }
+    setLoading(plan)
+    try {
+      const res = await fetch('/api/payment/create-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId, plan }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error)
+
+      const options = {
+        key:         process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        amount:      data.amount,
+        currency:    data.currency,
+        name:        'Skillozen',
+        description: data.description,
+        order_id:    data.orderId,
+        prefill: {
+          name:  data.userName,
+          email: data.userEmail,
+        },
+        theme: { color: '#5B2EFF' },
+        handler: async (response: any) => {
+          try {
+            const verifyRes = await fetch('/api/payment/verify', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                razorpay_order_id:   response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature:  response.razorpay_signature,
+                userId,
+                plan,
+              }),
+            })
+            const verifyData = await verifyRes.json()
+            if (verifyData.success) {
+              router.push('/dashboard?upgraded=true')
+            }
+          } catch {
+            alert('Payment verification failed. Please contact support.')
+          }
+        },
+      }
+
+      const rzp = new window.Razorpay(options)
+      rzp.open()
+    } catch (err) {
+      alert('Failed to initiate payment. Please try again.')
+      console.error(err)
+    } finally {
+      setLoading(null)
+    }
+  }
 
   return (
     <div className="min-h-screen bg-brand-base">
@@ -28,8 +111,7 @@ export default function PricingPage() {
             Unlock Your Child's Full Potential
           </h1>
           <p className="text-gray-500 text-lg max-w-xl mx-auto">
-            You have used your free assessment. Upgrade to continue tracking
-            your child's growth and access 1,500+ training activities.
+            Upgrade to continue tracking your child's growth and access 1,500+ training activities.
           </p>
         </div>
 
@@ -63,9 +145,10 @@ export default function PricingPage() {
               ))}
             </ul>
             <button
-              onClick={() => router.push('/onboarding?plan=standard')}
-              className="w-full py-3 rounded-2xl font-display font-black text-white btn-primary">
-              Get Standard →
+              onClick={() => handlePayment('standard')}
+              disabled={loading === 'standard'}
+              className="w-full py-3 rounded-2xl font-display font-black text-white btn-primary disabled:opacity-40">
+              {loading === 'standard' ? '⏳ Loading...' : 'Get Standard — ₹499/year →'}
             </button>
           </div>
 
@@ -93,10 +176,11 @@ export default function PricingPage() {
               ))}
             </ul>
             <button
-              onClick={() => router.push('/onboarding?plan=premium')}
-              className="w-full py-3 rounded-2xl font-display font-black text-white transition-all"
+              onClick={() => handlePayment('premium')}
+              disabled={loading === 'premium'}
+              className="w-full py-3 rounded-2xl font-display font-black text-white transition-all disabled:opacity-40"
               style={{ background: '#FF6B35' }}>
-              Get Premium →
+              {loading === 'premium' ? '⏳ Loading...' : 'Get Premium — ₹799/year →'}
             </button>
           </div>
 
