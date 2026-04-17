@@ -129,24 +129,38 @@ export default function LandingPage() {
     <div className="min-h-screen bg-brand-base overflow-hidden">
 
       {/* ── NAV ───────────────────────────────────────────────── */}
-      <nav className="sticky top-0 z-50 glass-card border-b border-white/50">
-        <div className="page-container flex items-center justify-between py-4">
-          <div className="flex items-center gap-2">
-            <span className="text-2xl">🌟</span>
-            <span className="font-display text-2xl font-black text-brand-ink">
-              Skill<span className="gradient-text">ozen</span>
-            </span>
-          </div>
-          <div className="hidden md:flex items-center gap-8">
-            <a href="#features" className="font-semibold text-gray-600 hover:text-brand-violet transition-colors">Features</a>
-            <a href="#pricing" className="font-semibold text-gray-600 hover:text-brand-violet transition-colors">Pricing</a>
-            <a href="/admin" className="font-semibold text-gray-500 hover:text-brand-violet transition-colors text-sm">Admin</a>
-          </div>
-          <button onClick={() => router.push('/onboarding')} className="btn-primary text-sm">
-            Start Free →
-          </button>
+<nav className="sticky top-0 z-50 glass-card border-b border-white/50">
+  <div className="page-container flex items-center justify-between py-4">
+    {/* Logo */}
+    <div className="flex items-center gap-2">
+      <span className="text-2xl">🌟</span>
+      <span className="font-display text-2xl font-black text-brand-ink">
+        Skill<span className="gradient-text">ozen</span>
+      </span>
+    </div>
+
+    {/* Nav Links */}
+        <div className="hidden md:flex items-center gap-8">
+          <a href="#features" className="font-semibold text-gray-600 hover:text-brand-violet transition-colors">Features</a>
+          <a href="#how-it-works" className="font-semibold text-gray-600 hover:text-brand-violet transition-colors">How it Works</a>
+          <a href="#pricing" className="font-semibold text-gray-600 hover:text-brand-violet transition-colors">Pricing</a>
         </div>
-      </nav>
+
+        {/* CTA Buttons */}
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => router.push('/login')}
+                className="hidden md:block font-semibold text-gray-600 hover:text-brand-violet transition-colors text-sm">
+                Login
+              </button>
+              <button
+                onClick={() => router.push('/onboarding')}
+                className="btn-primary text-sm">
+                Start Free →
+              </button>
+            </div>
+          </div>
+        </nav>
 
       {/* ── HERO ──────────────────────────────────────────────── */}
       <section className="relative pt-20 pb-32 overflow-hidden">
