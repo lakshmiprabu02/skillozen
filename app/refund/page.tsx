@@ -15,7 +15,7 @@ export default function RefundPage() {
 
       <div className="max-w-4xl mx-auto px-6 py-12">
         <h1 className="font-display text-4xl font-black text-brand-ink mb-2">Refund Policy</h1>
-        <p className="text-gray-500 mb-8">Last updated: April 2025</p>
+        <p className="text-gray-500 mb-8">Last updated: April {new Date().getFullYear()}</p>
 
         <div className="bg-white rounded-3xl shadow-card p-8 space-y-8">
 
@@ -116,7 +116,7 @@ export default function RefundPage() {
 
       {/* Footer */}
       <div className="text-center py-8 text-gray-400 text-sm">
-        © 2025 Clevergen Education. All rights reserved. Skillozen is a product of Clevergen Education.
+        © {new Date().getFullYear()} Clevergen Education. All rights reserved. Skillozen is a product of Clevergen Education.
       </div>
     </div>
   )

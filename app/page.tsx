@@ -575,7 +575,7 @@ export default function LandingPage() {
               {/* Bottom bar */}
               <div className="border-t border-white/10 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
                 <p className="text-white/40 text-sm">
-                  © 2025 Clevergen Education. All rights reserved.
+                  © {new Date().getFullYear()} Clevergen Education. All rights reserved.
                 </p>
                 <p className="text-white/40 text-sm">
                   Skillozen is a product of Clevergen Education
