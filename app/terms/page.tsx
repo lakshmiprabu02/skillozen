@@ -35,10 +35,9 @@ export default function TermsPage() {
               and weekly AI reports for children. Our platform offers the following plans:
             </p>
             <ul className="mt-3 space-y-2 text-gray-600">
-              <li>• <strong>Starter (Free):</strong> 3 assessments + skill report</li>
-              <li>• <strong>Explorer (₹99 one-time):</strong> 3 additional assessments</li>
-              <li>• <strong>Standard (₹499/year):</strong> Unlimited assessments + full training library</li>
-              <li>• <strong>Premium (₹799/year):</strong> Everything + Smart Progress Dashboard</li>
+              <li>• <strong>Free:</strong> 1 full assessment + skill report + 3 training activities</li>
+              <li>• <strong>Standard (₹499/year):</strong> Unlimited assessments + full training library (1,500+ activities) + daily personalised queue</li>
+              <li>• <strong>Premium (₹799/year):</strong> Everything in Standard + Smart Progress Dashboard + AI weekly reports + Goal Wizard + Academic Tracker</li>
             </ul>
           </section>
 
