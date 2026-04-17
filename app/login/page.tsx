@@ -1,10 +1,17 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
 export default function LoginPage() {
   const router = useRouter()
+  const [redirectTo, setRedirectTo] = useState('/dashboard')
+
+    useEffect(() => {
+      const params = new URLSearchParams(window.location.search)
+      const redirect = params.get('redirect')
+      if (redirect) setRedirectTo(redirect)
+    }, [])
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
@@ -33,9 +40,7 @@ export default function LoginPage() {
         childAge: data.children?.[0]?.age,
         avatar: data.children?.[0]?.avatarEmoji,
       }))
-      const params = new URLSearchParams(window.location.search)
-      const redirect = params.get('redirect') || '/dashboard'
-      router.push(redirect)
+      router.push(redirectTo)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Login failed')
     } finally {
