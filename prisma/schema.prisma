@@ -71,6 +71,7 @@ model Child {
   exams         Exam[]
   goals         Goal[]
   weeklyReports WeeklyReport[]
+  seenQuestions Json?
   @@map("children")
 }
 
