@@ -62,13 +62,40 @@ export async function POST(req: NextRequest) {
         return a
       }
       
-      // Pick 2 random indices from 0-5 for each skill
+      // Get previously seen questions for this child
+      const seenQuestions = (child.seenQuestions as Record<string, number[]> | null) || {}
+      
+      // Pick 2 unseen indices from 0-5 for each skill
       const questionOrder = shuffleArray(
         SKILLS.flatMap(skill => {
-          const indices = shuffleArray([0,1,2,3,4,5]).slice(0,2)
+          const seen = seenQuestions[skill] || []
+          const unseen = [0,1,2,3,4,5].filter(i => !seen.includes(i))
+          
+          // If less than 2 unseen reset this skill
+          const pool = unseen.length >= 2 ? unseen : [0,1,2,3,4,5]
+          const indices = shuffleArray(pool).slice(0, 2)
           return indices.map(index => ({ skill, index }))
         })
       )
+      
+      // Update seen questions for this child
+      const updatedSeen: Record<string, number[]> = { ...seenQuestions }
+      questionOrder.forEach(({ skill, index }) => {
+        if (!updatedSeen[skill]) updatedSeen[skill] = []
+        if (!updatedSeen[skill].includes(index)) {
+          updatedSeen[skill].push(index)
+        }
+        // Reset if all 6 seen
+        if (updatedSeen[skill].length >= 6) {
+          updatedSeen[skill] = []
+        }
+      })
+      
+      // Save updated seen questions
+      await prisma.child.update({
+        where: { id: childId },
+        data: { seenQuestions: updatedSeen },
+      })
       
       // Create new assessment session
       const assessment = await prisma.assessment.create({
