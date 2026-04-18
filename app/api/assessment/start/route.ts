@@ -46,10 +46,34 @@ export async function POST(req: NextRequest) {
       data:  { status: 'ABANDONED' },
     })
 
-    // Create new assessment session
-    const assessment = await prisma.assessment.create({
-      data: { childId, status: 'IN_PROGRESS', currentQ: 0, totalQ: 20 },
-    })
+    // Generate random question order (2 from 6 per skill)
+      const SKILLS = [
+        'CRITICAL_THINKING', 'COMMUNICATION', 'SOCIAL_EMOTIONAL', 'CREATIVITY',
+        'DIGITAL_LITERACY', 'FINANCIAL_LITERACY', 'HEALTH_WELLNESS',
+        'GOAL_SETTING', 'SCIENTIFIC_THINKING', 'PUBLIC_SPEAKING'
+      ]
+      
+      function shuffleArray<T>(arr: T[]): T[] {
+        const a = [...arr]
+        for (let i = a.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [a[i], a[j]] = [a[j], a[i]]
+        }
+        return a
+      }
+      
+      // Pick 2 random indices from 0-5 for each skill
+      const questionOrder = shuffleArray(
+        SKILLS.flatMap(skill => {
+          const indices = shuffleArray([0,1,2,3,4,5]).slice(0,2)
+          return indices.map(index => ({ skill, index }))
+        })
+      )
+      
+      // Create new assessment session
+      const assessment = await prisma.assessment.create({
+        data: { childId, status: 'IN_PROGRESS', currentQ: 0, totalQ: 20, questionOrder },
+      })
 
     // Log
     await prisma.toolUsage.create({
