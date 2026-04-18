@@ -186,6 +186,54 @@ const TIER1_QUESTIONS: Record<string, Array<{
       ],
       correct: 1,
     },
+    {
+      questionText: 'You broke your friend\'s toy by mistake. What do you do? 😟',
+      audioText: 'You broke your friend\'s toy by mistake. What do you do?',
+      skill: 'SOCIAL_EMOTIONAL',
+      options: [
+        { emoji: '🏃', label: 'Run away' },
+        { emoji: '🙏', label: 'Say sorry' },
+        { emoji: '😶', label: 'Hide it' },
+        { emoji: '😂', label: 'Laugh' },
+      ],
+      correct: 1,
+    },
+    {
+      questionText: 'How do you feel when you get a gift? 🎁',
+      audioText: 'How do you feel when you get a surprise gift?',
+      skill: 'SOCIAL_EMOTIONAL',
+      options: [
+        { emoji: '😢', label: 'Sad' },
+        { emoji: '😠', label: 'Angry' },
+        { emoji: '🤩', label: 'Happy and excited' },
+        { emoji: '😴', label: 'Sleepy' },
+      ],
+      correct: 2,
+    },
+    {
+      questionText: 'A new child joins your class. What do you do? 👋',
+      audioText: 'A new child joins your class. What do you do?',
+      skill: 'SOCIAL_EMOTIONAL',
+      options: [
+        { emoji: '😶', label: 'Ignore them' },
+        { emoji: '😝', label: 'Tease them' },
+        { emoji: '👋', label: 'Say hi and smile' },
+        { emoji: '🏃', label: 'Walk away' },
+      ],
+      correct: 2,
+    },
+    {
+      questionText: 'When you feel angry you should... 😤',
+      audioText: 'When you feel very angry what should you do?',
+      skill: 'SOCIAL_EMOTIONAL',
+      options: [
+        { emoji: '👊', label: 'Hit someone' },
+        { emoji: '🌬️', label: 'Take deep breaths' },
+        { emoji: '💥', label: 'Break things' },
+        { emoji: '😱', label: 'Scream at everyone' },
+      ],
+      correct: 1,
+    },
   ],
   CREATIVITY: [
     {
