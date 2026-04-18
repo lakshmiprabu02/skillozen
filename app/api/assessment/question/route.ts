@@ -112,6 +112,54 @@ const TIER1_QUESTIONS: Record<string, Array<{
       ],
       correct: 1,
     },
+    {
+      questionText: 'How do you ask for help nicely? 🙏',
+      audioText: 'How do you ask for help nicely?',
+      skill: 'COMMUNICATION',
+      options: [
+        { emoji: '😠', label: 'Give it to me!' },
+        { emoji: '🙏', label: 'Please help me' },
+        { emoji: '😭', label: 'Cry loudly' },
+        { emoji: '🏃', label: 'Run away' },
+      ],
+      correct: 1,
+    },
+    {
+      questionText: 'What do you say when someone helps you? 😊',
+      audioText: 'What do you say when someone helps you?',
+      skill: 'COMMUNICATION',
+      options: [
+        { emoji: '😶', label: 'Nothing' },
+        { emoji: '🙏', label: 'Thank you!' },
+        { emoji: '😠', label: 'Go away' },
+        { emoji: '😴', label: 'Yawn' },
+      ],
+      correct: 1,
+    },
+    {
+      questionText: 'Your friend is sad. What do you do? 😢',
+      audioText: 'Your friend is sad. What do you do?',
+      skill: 'COMMUNICATION',
+      options: [
+        { emoji: '😂', label: 'Laugh at them' },
+        { emoji: '🤗', label: 'Give a hug' },
+        { emoji: '🏃', label: 'Run away' },
+        { emoji: '😶', label: 'Ignore them' },
+      ],
+      correct: 1,
+    },
+    {
+      questionText: 'In a library you should use a... 📚',
+      audioText: 'In a library you should use a quiet voice or a loud voice?',
+      skill: 'COMMUNICATION',
+      options: [
+        { emoji: '📢', label: 'Loud voice' },
+        { emoji: '🤫', label: 'Quiet voice' },
+        { emoji: '🎤', label: 'Singing voice' },
+        { emoji: '😱', label: 'Screaming voice' },
+      ],
+      correct: 1,
+    },
   ],
   SOCIAL_EMOTIONAL: [
     {
