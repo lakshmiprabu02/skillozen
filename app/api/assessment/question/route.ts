@@ -38,6 +38,54 @@ const TIER1_QUESTIONS: Record<string, Array<{
       ],
       correct: 3,
     },
+    {
+      questionText: 'What comes next? 🌙⭐🌙⭐🌙...?',
+      audioText: 'Moon, Star, Moon, Star, Moon. What comes next?',
+      skill: 'CRITICAL_THINKING',
+      options: [
+        { emoji: '🌙', label: 'Moon' },
+        { emoji: '⭐', label: 'Star' },
+        { emoji: '☀️', label: 'Sun' },
+        { emoji: '☁️', label: 'Cloud' },
+      ],
+      correct: 1,
+    },
+    {
+      questionText: 'Which is the biggest? 🐜🐈🐘🐕',
+      audioText: 'Ant, Cat, Elephant, Dog. Which is the biggest?',
+      skill: 'CRITICAL_THINKING',
+      options: [
+        { emoji: '🐜', label: 'Ant' },
+        { emoji: '🐈', label: 'Cat' },
+        { emoji: '🐘', label: 'Elephant' },
+        { emoji: '🐕', label: 'Dog' },
+      ],
+      correct: 2,
+    },
+    {
+      questionText: 'What melts in the sun? ☀️',
+      audioText: 'What melts when left in the hot sun?',
+      skill: 'CRITICAL_THINKING',
+      options: [
+        { emoji: '🪨', label: 'Rock' },
+        { emoji: '🍦', label: 'Ice cream' },
+        { emoji: '🪵', label: 'Wood' },
+        { emoji: '📚', label: 'Book' },
+      ],
+      correct: 1,
+    },
+    {
+      questionText: 'Which floats on water? 💧',
+      audioText: 'Which one floats on water?',
+      skill: 'CRITICAL_THINKING',
+      options: [
+        { emoji: '🪨', label: 'Stone' },
+        { emoji: '🍃', label: 'Leaf' },
+        { emoji: '🔑', label: 'Key' },
+        { emoji: '🧱', label: 'Brick' },
+      ],
+      correct: 1,
+    },
   ],
   COMMUNICATION: [
     {
