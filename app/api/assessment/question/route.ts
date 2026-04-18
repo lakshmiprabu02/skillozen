@@ -857,7 +857,16 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Assessment not found' }, { status: 404 })
     }
 
-    const qMeta = QUESTION_ORDER[questionIndex]
+    // Use stored random question order if available
+    let qMeta: { skill: string; index: number } | undefined
+    
+    if (assessment.questionOrder) {
+      const storedOrder = assessment.questionOrder as { skill: string; index: number }[]
+      qMeta = storedOrder[questionIndex]
+    } else {
+      qMeta = QUESTION_ORDER[questionIndex]
+    }
+    
     if (!qMeta) {
       return NextResponse.json({ error: 'Invalid question index' }, { status: 400 })
     }
