@@ -90,7 +90,7 @@ model Assessment {
 
   startedAt   DateTime          @default(now())
   completedAt DateTime?
-
+  questionOrder Json?
   @@map("assessments")
 }
 
