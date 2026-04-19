@@ -24,31 +24,34 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Assessment not found' }, { status: 404 })
     }
 
-    // Use stored random question order if available
     let qMeta: { skill: string; index: number } | undefined
-    
+
     if (assessment.questionOrder) {
       const storedOrder = assessment.questionOrder as { skill: string; index: number }[]
       qMeta = storedOrder[questionIndex]
     }
-    
+
     if (!qMeta) {
       return NextResponse.json({ error: 'Invalid question index' }, { status: 400 })
     }
 
     const tier = getTier(childAge || 10)
-    let question: Record<string, unknown>
+    let rawQuestion: Record<string, unknown>
 
     if (tier === 1) {
-      const q = TIER1_QUESTIONS[qMeta.skill][qMeta.index]
-      question = { ...q, questionType: 'emoji', tier: 1 }
+      rawQuestion = { ...TIER1_QUESTIONS[qMeta.skill][qMeta.index], questionType: 'emoji', tier: 1 }
     } else if (tier === 2) {
-      const q = TIER2_QUESTIONS[qMeta.skill][qMeta.index]
-      question = { ...q, questionType: 'story', tier: 2 }
+      rawQuestion = { ...TIER2_QUESTIONS[qMeta.skill][qMeta.index], questionType: 'story', tier: 2 }
     } else {
-      const q = TIER3_QUESTIONS[qMeta.skill][qMeta.index]
-      question = { ...q, questionType: 'choice', tier: 3 }
+      rawQuestion = { ...TIER3_QUESTIONS[qMeta.skill][qMeta.index], questionType: 'choice', tier: 3 }
     }
+
+    // ── Normalise field name so frontend always receives `questionText` ──
+    const question = {
+      ...rawQuestion,
+      questionText: (rawQuestion.questionText || rawQuestion.question || '') as string,
+    }
+    delete question.question
 
     await prisma.assessment.update({
       where: { id: assessmentId },
