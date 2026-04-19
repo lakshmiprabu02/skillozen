@@ -473,42 +473,44 @@ async function handleAddChild() {
             )}
 
             {/* Past Assessments */}
-            {child.assessments.length > 0 && (
+            {child.assessments.filter(a => a.status !== 'ABANDONED').length > 0 && (
               <div className="bg-white rounded-3xl shadow-card p-6 mb-6">
                 <h3 className="font-display text-xl font-black text-brand-ink mb-4">
                   📋 Assessment History
                 </h3>
                 <div className="space-y-3">
-                  {child.assessments.map((a, i) => (
-                    <div key={a.id}
-                         className="flex items-center justify-between p-4 rounded-2xl border border-gray-100 hover:border-brand-violet/20 transition-all">
-                      <div className="flex items-center gap-3">
-                        <span className={`w-8 h-8 rounded-xl flex items-center justify-center text-sm font-black text-white ${
-                          a.status === 'COMPLETED' ? 'bg-brand-mint' : 'bg-gray-300'
-                        }`}>
-                          {i + 1}
-                        </span>
-                        <div>
-                          <div className="font-bold text-brand-ink text-sm">
-                            {a.status === 'COMPLETED' ? '✅ Completed' : `⏳ In Progress (${a.currentQ}/${a.totalQ})`}
-                          </div>
-                          <div className="text-xs text-gray-400 font-medium">
-                            {new Date(a.startedAt).toLocaleDateString('en-IN', {
-                              day: 'numeric', month: 'short', year: 'numeric'
-                            })}
+                  {child.assessments
+                    .filter(a => a.status !== 'ABANDONED')
+                    .map((a, i) => (
+                      <div key={a.id}
+                          className="flex items-center justify-between p-4 rounded-2xl border border-gray-100 hover:border-brand-violet/20 transition-all">
+                        <div className="flex items-center gap-3">
+                          <span className={`w-8 h-8 rounded-xl flex items-center justify-center text-sm font-black text-white ${
+                            a.status === 'COMPLETED' ? 'bg-brand-mint' : 'bg-gray-300'
+                          }`}>
+                            {i + 1}
+                          </span>
+                          <div>
+                            <div className="font-bold text-brand-ink text-sm">
+                              {a.status === 'COMPLETED' ? '✅ Completed' : `⏳ In Progress (${a.currentQ}/${a.totalQ})`}
+                            </div>
+                            <div className="text-xs text-gray-400 font-medium">
+                              {new Date(a.startedAt).toLocaleDateString('en-IN', {
+                                day: 'numeric', month: 'short', year: 'numeric'
+                              })}
+                            </div>
                           </div>
                         </div>
+                        {a.status === 'COMPLETED' && (
+                          <button
+                            onClick={() => router.push(`/results/${a.id}`)}
+                            className="text-sm font-bold text-brand-violet hover:underline"
+                          >
+                            View Report →
+                          </button>
+                        )}
                       </div>
-                      {a.status === 'COMPLETED' && (
-                        <button
-                          onClick={() => router.push(`/results/${a.id}`)}
-                          className="text-sm font-bold text-brand-violet hover:underline"
-                        >
-                          View Report →
-                        </button>
-                      )}
-                    </div>
-                  ))}
+                    ))}
                 </div>
               </div>
             )}
