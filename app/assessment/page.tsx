@@ -23,12 +23,18 @@ interface Question {
 }
 
 const SKILL_CONFIG: Record<string, { color: string; bg: string; emoji: string; label: string }> = {
-  CRITICAL_THINKING: { color: '#5B2EFF', bg: '#EDE9FF', emoji: '🧠', label: 'Critical Thinking' },
-  COMMUNICATION:     { color: '#00B4D8', bg: '#E0F7FF', emoji: '🗣️', label: 'Communication' },
-  SOCIAL_EMOTIONAL:  { color: '#FF4785', bg: '#FFE8EF', emoji: '💛', label: 'Social-Emotional' },
-  CREATIVITY:        { color: '#FF6B35', bg: '#FFF0EB', emoji: '🎨', label: 'Creativity' },
-  DIGITAL_LITERACY:  { color: '#00D68F', bg: '#E0FFF6', emoji: '💻', label: 'Digital Literacy' },
+  CRITICAL_THINKING:  { color: '#5B2EFF', bg: '#EDE9FF', emoji: '🧠', label: 'Critical Thinking' },
+  COMMUNICATION:      { color: '#00B4D8', bg: '#E0F7FF', emoji: '🗣️', label: 'Communication' },
+  SOCIAL_EMOTIONAL:   { color: '#FF4785', bg: '#FFE8EF', emoji: '💛', label: 'Social-Emotional' },
+  CREATIVITY:         { color: '#FF6B35', bg: '#FFF0EB', emoji: '🎨', label: 'Creativity' },
+  DIGITAL_LITERACY:   { color: '#00D68F', bg: '#E0FFF6', emoji: '💻', label: 'Digital Literacy' },
+  FINANCIAL_LITERACY: { color: '#F59E0B', bg: '#FFFBEB', emoji: '💰', label: 'Financial Literacy' },
+  HEALTH_WELLNESS:    { color: '#10B981', bg: '#ECFDF5', emoji: '🧘', label: 'Health & Wellness' },
+  GOAL_SETTING:       { color: '#8B5CF6', bg: '#F5F3FF', emoji: '🎯', label: 'Goal Setting' },
+  SCIENTIFIC_THINKING:{ color: '#3B82F6', bg: '#EFF6FF', emoji: '🔬', label: 'Scientific Thinking' },
+  PUBLIC_SPEAKING:    { color: '#EC4899', bg: '#FDF2F8', emoji: '🎤', label: 'Public Speaking' },
 }
+
 
 const ENCOURAGEMENTS = [
   'Great thinking! 🌟', 'Love that answer! ✨', 'You are crushing it! 🔥',
@@ -129,7 +135,7 @@ export default function AssessmentPage() {
         body: JSON.stringify({
           assessmentId:  assId,
           questionIndex: qIndex,
-          childAge:      sessionData?.childAge || 10,
+          childAge:      Number(sessionData?.childAge || 10),
           childName:     sessionData?.childName || 'Explorer',
           previousAnswers: [],
         }),
@@ -169,7 +175,7 @@ export default function AssessmentPage() {
           options:        isEmojiQ
             ? (opts as EmojiOption[]).map((o) => o.label)
             : opts as string[],
-          childAge:       sessionData.childAge,
+          childAge:       Number(sessionData.childAge),
         }),
       })
       const data = await res.json()
