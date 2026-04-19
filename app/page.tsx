@@ -54,7 +54,7 @@ const PRICING = [
       '10-Skill Report Card',
       '3 Training Activities to explore',
       'Skill Radar Chart',
-      'Unlimited Child Profiles',
+      '1 Child Profile',
     ],
     cta: 'Start Free →',
     highlight: false,
@@ -71,6 +71,7 @@ const PRICING = [
       'Daily Personalised Queue',
       'XP, Badges & Streaks',
       'Email Skill Reports',
+      'Up to 3 Child Profiles',
     ],
     cta: 'Get Standard →',
     highlight: true,
@@ -87,13 +88,12 @@ const PRICING = [
       'Goal Wizard',
       'Academic Tracker',
       'Predictive Skill Alerts',
+      'Up to 5 Child Profiles',
     ],
     cta: 'Get Premium →',
     highlight: false,
   },
 ]
-
-
 const TESTIMONIALS = [
   { quote: 'My daughter used to freeze up during group discussions. After 3 months on Skillozen, she\'s the one leading them!', name: 'Priya M.', role: 'Parent of 11-year-old', emoji: '👩' },
   { quote: 'The assessment was a revelation — we had no idea our son scored so high in creativity but struggled with digital literacy.', name: 'Rahul K.', role: 'Parent of 14-year-old', emoji: '👨' },
