@@ -46,12 +46,12 @@ export async function POST(req: NextRequest) {
       rawQuestion = { ...TIER3_QUESTIONS[qMeta.skill][qMeta.index], questionType: 'choice', tier: 3 }
     }
 
-    // ── Normalise field name so frontend always receives `questionText` ──
+    // ── Normalise: always return questionText, never question ──
+    const { question: _q, ...rest } = rawQuestion
     const question = {
-      ...rawQuestion,
+      ...rest,
       questionText: (rawQuestion.questionText || rawQuestion.question || '') as string,
     }
-    delete question.question
 
     await prisma.assessment.update({
       where: { id: assessmentId },
