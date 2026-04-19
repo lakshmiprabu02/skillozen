@@ -305,9 +305,13 @@ async function handleAddChild() {
                     
                   </button>
                   <button
-                      onClick={() => router.push(`/progress?childId=${child.id}&childName=${child.name}&avatar=${child.avatarEmoji}&childAge=${child.age}`)}
-                      className="btn-primary text-sm py-2 px-4"
-                      style={{ background: '#7209B7' }}
+                      onClick={() => {
+                      if (data.user.plan === 'FREE' || data.user.plan === 'STANDARD') {
+                        router.push('/pricing?reason=premium')
+                      } else {
+                        router.push(`/progress?childId=${child.id}&childName=${child.name}&avatar=${child.avatarEmoji}&childAge=${child.age}`)
+                      }
+                    }}
                     >
                       📊 Progress
                     </button>
