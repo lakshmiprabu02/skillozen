@@ -13,25 +13,17 @@ export default function PricingPage() {
   const router = useRouter()
   const [loading, setLoading] = useState<string | null>(null)
   const [userId, setUserId] = useState<string | null>(null)
-  const [userPlan, setUserPlan] = useState<'FREE' | 'STANDARD' | 'PREMIUM' | null>(null) // ← ADD THIS
+  const [userPlan, setUserPlan] = useState<'FREE' | 'STANDARD' | 'PREMIUM' | null>(null)
 
   useEffect(() => {
-      const stored = localStorage.getItem('skillozen_user')
-      if (stored) {
-        const s = JSON.parse(stored)
-        setUserId(s.userId)
-        setUserPlan(s.plan ?? 'FREE')
-      } else {
-        setUserPlan('FREE')
-      }
-
-      const script = document.createElement('script')
-      script.src = 'https://checkout.razorpay.com/v1/checkout.js'
-      script.async = true
-      document.body.appendChild(script)
-      }, [])
-}
-    // ──────────────────────────────────────────────────────────
+    const stored = localStorage.getItem('skillozen_user')
+    if (stored) {
+      const s = JSON.parse(stored)
+      setUserId(s.userId)
+      setUserPlan(s.plan ?? 'FREE')
+    } else {
+      setUserPlan('FREE')
+    }
 
     const script = document.createElement('script')
     script.src = 'https://checkout.razorpay.com/v1/checkout.js'
@@ -41,16 +33,16 @@ export default function PricingPage() {
 
   async function handlePayment(plan: 'standard' | 'premium') {
     const stored = localStorage.getItem('skillozen_user')
-      if (!stored) {
-        router.push('/login?redirect=/pricing')
-        return
-      }
-      const userData = JSON.parse(stored)
-      const currentUserId = userData.userId
-      if (!currentUserId) {
-        router.push('/login?redirect=/pricing')
-        return
-      }
+    if (!stored) {
+      router.push('/login?redirect=/pricing')
+      return
+    }
+    const userData = JSON.parse(stored)
+    const currentUserId = userData.userId
+    if (!currentUserId) {
+      router.push('/login?redirect=/pricing')
+      return
+    }
     setLoading(plan)
     try {
       const res = await fetch('/api/payment/create-order', {
@@ -106,7 +98,14 @@ export default function PricingPage() {
     }
   }
 
-  // ── ADD THIS: Premium users see a "you're all set" screen ────
+  if (userPlan === null) {
+    return (
+      <div className="min-h-screen bg-brand-base flex items-center justify-center">
+        <p className="text-gray-400 text-lg">Loading...</p>
+      </div>
+    )
+  }
+
   if (userPlan === 'PREMIUM') {
     return (
       <div className="min-h-screen bg-brand-base flex flex-col items-center justify-center px-6 text-center">
@@ -125,7 +124,6 @@ export default function PricingPage() {
       </div>
     )
   }
-  // ─────────────────────────────────────────────────────────────
 
   return (
     <div className="min-h-screen bg-brand-base">
@@ -148,20 +146,19 @@ export default function PricingPage() {
         <div className="text-center mb-12">
           <div className="text-5xl mb-4">🚀</div>
           <h1 className="font-display text-4xl font-black text-brand-ink mb-3">
-            Unlock Your Child's Full Potential
+            Unlock Your Child&apos;s Full Potential
           </h1>
-          {/* ── MODIFY subtitle based on plan ── */}
           <p className="text-gray-500 text-lg max-w-xl mx-auto">
             {userPlan === 'STANDARD'
               ? 'Upgrade to Premium for AI Weekly Reports, Goal Wizard & more.'
-              : 'Upgrade to continue tracking your child\'s growth and access 1,500+ training activities.'}
+              : "Upgrade to continue tracking your child's growth and access 1,500+ training activities."}
           </p>
         </div>
 
         {/* Plans */}
         <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto mb-12">
 
-          {/* Standard — ── HIDE for STANDARD users ── */}
+          {/* Standard — FREE users only */}
           {userPlan !== 'STANDARD' && (
             <div className="bg-white rounded-3xl p-8 border-2 border-brand-violet shadow-glow relative">
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-white text-xs font-black bg-brand-violet">
@@ -197,9 +194,8 @@ export default function PricingPage() {
             </div>
           )}
 
-          {/* Premium — ── ADD "Recommended Upgrade" badge for STANDARD users ── */}
+          {/* Premium */}
           <div className={`bg-white rounded-3xl p-8 border-2 border-orange-200 relative ${userPlan === 'STANDARD' ? 'md:col-span-2 max-w-sm mx-auto w-full' : ''}`}>
-            {/* ── ADD THIS badge ── */}
             {userPlan === 'STANDARD' && (
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-white text-xs font-black bg-orange-500">
                 Recommended Upgrade
@@ -237,7 +233,7 @@ export default function PricingPage() {
 
         </div>
 
-        {/* Trust signals — unchanged */}
+        {/* Trust signals */}
         <div className="flex flex-wrap justify-center gap-6 text-center text-sm text-gray-500">
           <div>🔒 Secure payment via Razorpay</div>
           <div>↩️ 7-day refund guarantee</div>
