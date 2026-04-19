@@ -114,7 +114,12 @@ async function handleAddChild() {
     setNewChildAvatar('🧒')
     window.location.reload()
   } catch (err) {
-    setAddChildError(err instanceof Error ? err.message : 'Failed to add child')
+    const errMsg = err instanceof Error ? err.message : 'Failed to add child'
+    setAddChildError(errMsg)
+    if (errMsg.includes('upgrade')) 
+      {
+      setTimeout(() => router.push('/pricing'), 2000)
+      }
   } finally {
     setAddingChild(false)
   }
