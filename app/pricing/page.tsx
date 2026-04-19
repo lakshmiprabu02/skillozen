@@ -16,17 +16,21 @@ export default function PricingPage() {
   const [userPlan, setUserPlan] = useState<'FREE' | 'STANDARD' | 'PREMIUM' | null>(null) // ← ADD THIS
 
   useEffect(() => {
-    const stored = localStorage.getItem('skillozen_user')
-    if (stored) {
-      const s = JSON.parse(stored)
-      setUserId(s.userId)
-    }
+      const stored = localStorage.getItem('skillozen_user')
+      if (stored) {
+        const s = JSON.parse(stored)
+        setUserId(s.userId)
+        setUserPlan(s.plan ?? 'FREE')
+      } else {
+        setUserPlan('FREE')
+      }
 
-    // ── ADD THIS: fetch current plan ──────────────────────────
-    fetch('/api/dashboard')
-      .then(res => res.json())
-      .then(data => setUserPlan(data.user?.plan ?? 'FREE'))
-      .catch(() => setUserPlan('FREE'))
+      const script = document.createElement('script')
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js'
+      script.async = true
+      document.body.appendChild(script)
+      }, [])
+}
     // ──────────────────────────────────────────────────────────
 
     const script = document.createElement('script')
