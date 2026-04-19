@@ -99,7 +99,7 @@ export default function PricingPage() {
       {/* Header */}
       <div className="bg-white border-b border-gray-100 py-4">
         <div className="max-w-4xl mx-auto px-6 flex items-center justify-between">
-          <a href="/" className="font-display text-xl font-black text-brand-ink">
+          <a href="/dashboard" className="font-display text-xl font-black text-brand-ink">
             🌟 Skill<span style={{ color: '#FF6B35' }}>ozen</span>
           </a>
           <button onClick={() => router.back()}
