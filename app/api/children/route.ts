@@ -12,7 +12,22 @@ export async function POST(req: NextRequest) {
     if (!userId || !childName || !childAge) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
-
+        // Check plan and child limit
+    const user = await prisma.user.findUnique({ where: { id: userId } })
+    const childCount = await prisma.child.count({ where: { userId } })
+    
+    const limits: Record<string, number> = {
+      FREE:     1,
+      STANDARD: 3,
+      PREMIUM:  5,
+    }
+    
+    const limit = limits[user?.plan || 'FREE']
+    if (childCount >= limit) {
+      return NextResponse.json({
+        error: `Your ${user?.plan} plan allows maximum ${limit} child ${limit === 1 ? 'profile' : 'profiles'}. Please upgrade to add more children.`
+      }, { status: 403 })
+    }
     // Check for duplicate
     const existing = await prisma.child.findFirst({
       where: {
