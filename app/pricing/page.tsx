@@ -13,6 +13,7 @@ export default function PricingPage() {
   const router = useRouter()
   const [loading, setLoading] = useState<string | null>(null)
   const [userId, setUserId] = useState<string | null>(null)
+  const [userPlan, setUserPlan] = useState<'FREE' | 'STANDARD' | 'PREMIUM' | null>(null) // ← ADD THIS
 
   useEffect(() => {
     const stored = localStorage.getItem('skillozen_user')
@@ -20,7 +21,14 @@ export default function PricingPage() {
       const s = JSON.parse(stored)
       setUserId(s.userId)
     }
-    // Load Razorpay script
+
+    // ── ADD THIS: fetch current plan ──────────────────────────
+    fetch('/api/dashboard')
+      .then(res => res.json())
+      .then(data => setUserPlan(data.user?.plan ?? 'FREE'))
+      .catch(() => setUserPlan('FREE'))
+    // ──────────────────────────────────────────────────────────
+
     const script = document.createElement('script')
     script.src = 'https://checkout.razorpay.com/v1/checkout.js'
     script.async = true
@@ -94,6 +102,27 @@ export default function PricingPage() {
     }
   }
 
+  // ── ADD THIS: Premium users see a "you're all set" screen ────
+  if (userPlan === 'PREMIUM') {
+    return (
+      <div className="min-h-screen bg-brand-base flex flex-col items-center justify-center px-6 text-center">
+        <div className="text-6xl mb-4">🏆</div>
+        <h1 className="font-display text-3xl font-black text-brand-ink mb-2">
+          You&apos;re on the best plan!
+        </h1>
+        <p className="text-gray-500 mb-6">
+          You already have full access to everything Skillozen offers.
+        </p>
+        <button
+          onClick={() => router.push('/dashboard')}
+          className="py-3 px-8 rounded-2xl font-display font-black text-white btn-primary">
+          Back to Dashboard
+        </button>
+      </div>
+    )
+  }
+  // ─────────────────────────────────────────────────────────────
+
   return (
     <div className="min-h-screen bg-brand-base">
       {/* Header */}
@@ -117,50 +146,61 @@ export default function PricingPage() {
           <h1 className="font-display text-4xl font-black text-brand-ink mb-3">
             Unlock Your Child's Full Potential
           </h1>
+          {/* ── MODIFY subtitle based on plan ── */}
           <p className="text-gray-500 text-lg max-w-xl mx-auto">
-            Upgrade to continue tracking your child's growth and access 1,500+ training activities.
+            {userPlan === 'STANDARD'
+              ? 'Upgrade to Premium for AI Weekly Reports, Goal Wizard & more.'
+              : 'Upgrade to continue tracking your child\'s growth and access 1,500+ training activities.'}
           </p>
         </div>
 
         {/* Plans */}
         <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto mb-12">
 
-          {/* Standard */}
-          <div className="bg-white rounded-3xl p-8 border-2 border-brand-violet shadow-glow relative">
-            <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-white text-xs font-black bg-brand-violet">
-              Most Popular
+          {/* Standard — ── HIDE for STANDARD users ── */}
+          {userPlan !== 'STANDARD' && (
+            <div className="bg-white rounded-3xl p-8 border-2 border-brand-violet shadow-glow relative">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-white text-xs font-black bg-brand-violet">
+                Most Popular
+              </div>
+              <h2 className="font-display text-2xl font-black text-brand-ink mb-1">Standard</h2>
+              <div className="flex items-baseline gap-1 mb-2">
+                <span className="font-display text-4xl font-black text-brand-violet">₹499</span>
+                <span className="text-gray-500">/ year</span>
+              </div>
+              <p className="text-gray-500 text-sm mb-6">Just ₹41/month</p>
+              <ul className="space-y-3 mb-8">
+                {[
+                  'Unlimited Assessments',
+                  'Full Training Library (1,500+ activities)',
+                  'Daily Personalised Queue',
+                  'XP, Badges & Streaks',
+                  'Email Skill Reports',
+                  'Unlimited Child Profiles',
+                ].map(f => (
+                  <li key={f} className="flex items-start gap-2 text-sm font-medium text-gray-700">
+                    <span className="text-brand-violet font-black mt-0.5">✓</span>
+                    {f}
+                  </li>
+                ))}
+              </ul>
+              <button
+                onClick={() => handlePayment('standard')}
+                disabled={loading === 'standard'}
+                className="w-full py-3 rounded-2xl font-display font-black text-white btn-primary disabled:opacity-40">
+                {loading === 'standard' ? '⏳ Loading...' : 'Get Standard — ₹499/year →'}
+              </button>
             </div>
-            <h2 className="font-display text-2xl font-black text-brand-ink mb-1">Standard</h2>
-            <div className="flex items-baseline gap-1 mb-2">
-              <span className="font-display text-4xl font-black text-brand-violet">₹499</span>
-              <span className="text-gray-500">/ year</span>
-            </div>
-            <p className="text-gray-500 text-sm mb-6">Just ₹41/month</p>
-            <ul className="space-y-3 mb-8">
-              {[
-                'Unlimited Assessments',
-                'Full Training Library (1,500+ activities)',
-                'Daily Personalised Queue',
-                'XP, Badges & Streaks',
-                'Email Skill Reports',
-                'Unlimited Child Profiles',
-              ].map(f => (
-                <li key={f} className="flex items-start gap-2 text-sm font-medium text-gray-700">
-                  <span className="text-brand-violet font-black mt-0.5">✓</span>
-                  {f}
-                </li>
-              ))}
-            </ul>
-            <button
-              onClick={() => handlePayment('standard')}
-              disabled={loading === 'standard'}
-              className="w-full py-3 rounded-2xl font-display font-black text-white btn-primary disabled:opacity-40">
-              {loading === 'standard' ? '⏳ Loading...' : 'Get Standard — ₹499/year →'}
-            </button>
-          </div>
+          )}
 
-          {/* Premium */}
-          <div className="bg-white rounded-3xl p-8 border-2 border-orange-200">
+          {/* Premium — ── ADD "Recommended Upgrade" badge for STANDARD users ── */}
+          <div className={`bg-white rounded-3xl p-8 border-2 border-orange-200 relative ${userPlan === 'STANDARD' ? 'md:col-span-2 max-w-sm mx-auto w-full' : ''}`}>
+            {/* ── ADD THIS badge ── */}
+            {userPlan === 'STANDARD' && (
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-white text-xs font-black bg-orange-500">
+                Recommended Upgrade
+              </div>
+            )}
             <h2 className="font-display text-2xl font-black text-brand-ink mb-1">Premium</h2>
             <div className="flex items-baseline gap-1 mb-2">
               <span className="font-display text-4xl font-black text-brand-coral">₹799</span>
@@ -193,7 +233,7 @@ export default function PricingPage() {
 
         </div>
 
-        {/* Trust signals */}
+        {/* Trust signals — unchanged */}
         <div className="flex flex-wrap justify-center gap-6 text-center text-sm text-gray-500">
           <div>🔒 Secure payment via Razorpay</div>
           <div>↩️ 7-day refund guarantee</div>
