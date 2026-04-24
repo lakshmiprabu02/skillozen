@@ -92,7 +92,6 @@ async function handleAddChild() {
   setAddChildError('')
   try {
     const session = localStorage.getItem('skillozen_session')
-    console.log('Adding child with userId:', data?.user?.id)
     const res = await fetch('/api/children', {
       method: 'POST',
       headers: { 
@@ -176,8 +175,7 @@ async function handleAddChild() {
 
   const child = data.children[activeChild]
   const latestProfile = child?.skillProfiles?.[0]
-  console.log(child?.name, '→ assessmentId:', latestProfile?.assessmentId)
-
+ 
   return (
     <div className="min-h-screen bg-brand-base pb-16">
       {/* Header */}
