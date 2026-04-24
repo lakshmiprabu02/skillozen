@@ -189,7 +189,7 @@ export default function PricingPage() {
                 onClick={() => handlePayment('standard')}
                 disabled={loading === 'standard'}
                 className="w-full py-3 rounded-2xl font-display font-black text-white btn-primary disabled:opacity-40">
-                {loading === 'standard' ? '⏳ Loading...' : 'Get Standard — ₹499/year →'}
+                {loading === 'standard' ? '⏳ Loading...' : 'Get Standard — ₹499/yr →'}
               </button>
             </div>
           )}
