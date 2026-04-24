@@ -30,11 +30,14 @@ if (!id) return NextResponse.json({ error: 'id required' }, { status: 400 })
     if (!profile) {
       // If assessment is still processing, wait and try the child's latest
       const assessment = await prisma.assessment.findUnique({
-        where: { id },
-        include: { skillProfile: true },
-      })
-      profile = assessment?.skillProfile || null
+     where: { id },
+    include: { 
+     skillProfile: {
+      include: { child: true }
     }
+    },
+  })
+    profile = assessment?.skillProfile || null
 
     if (!profile) {
       // Still generating — tell client to retry
