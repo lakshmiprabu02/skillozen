@@ -160,7 +160,7 @@ export default function PricingPage() {
 
           {/* Standard — FREE users only */}
           {userPlan !== 'STANDARD' && (
-            <div className="bg-white rounded-3xl p-8 border-2 border-brand-violet shadow-glow relative">
+            <div className="bg-white rounded-3xl p-8 border-2 border-brand-violet shadow-glow relative flex flex-col">
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-white text-xs font-black bg-brand-violet">
                 Most Popular
               </div>
@@ -170,7 +170,7 @@ export default function PricingPage() {
                 <span className="text-gray-500">/ year</span>
               </div>
               <p className="text-gray-500 text-sm mb-6">Just ₹41/month</p>
-              <ul className="space-y-3 mb-8">
+              <ul className="space-y-3 flex-1 mb-8">
                 {[
                   'Unlimited Assessments',
                   'Full Training Library (1,500+ activities)',
@@ -188,14 +188,14 @@ export default function PricingPage() {
               <button
                 onClick={() => handlePayment('standard')}
                 disabled={loading === 'standard'}
-                className="w-full py-3 rounded-2xl font-display font-black text-white btn-primary disabled:opacity-40">
+                className="w-full py-3 rounded-2xl font-display font-black text-white btn-primary disabled:opacity-40 mt-auto">
                 {loading === 'standard' ? '⏳ Loading...' : 'Get Standard — ₹499/yr →'}
               </button>
             </div>
           )}
 
           {/* Premium */}
-          <div className={`bg-white rounded-3xl p-8 border-2 border-orange-200 relative ${userPlan === 'STANDARD' ? 'md:col-span-2 max-w-sm mx-auto w-full' : ''}`}>
+          <div className={`bg-white rounded-3xl p-8 border-2 border-orange-200 relative flex flex-col ${userPlan === 'STANDARD' ? 'md:col-span-2 max-w-sm mx-auto w-full' : ''}`}>
             {userPlan === 'STANDARD' && (
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-white text-xs font-black bg-orange-500">
                 Recommended Upgrade
@@ -226,7 +226,7 @@ export default function PricingPage() {
             <button
               onClick={() => handlePayment('premium')}
               disabled={loading === 'premium'}
-              className="w-full py-3 rounded-2xl font-display font-black text-white transition-all disabled:opacity-40"
+              className="w-full py-3 rounded-2xl font-display font-black text-white transition-all disabled:opacity-40 mt-auto">
               style={{ background: '#FF6B35' }}>
               {loading === 'premium' ? '⏳ Loading...' : 'Get Premium — ₹799/year →'}
             </button>
