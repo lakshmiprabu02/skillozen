@@ -295,7 +295,7 @@ export default function AssessmentPage() {
 
   // ── QUESTION ──────────────────────────────────────────────────────────────
   return (
-    <div className="min-h-screen bg-brand-base">
+    <div className="h-screen flex flex-col bg-brand-base overflow-hidden">
       {/* Top bar */}
       <div className="sticky top-0 z-10 glass-card border-b border-white/50 py-4">
         <div className="page-container">
@@ -321,8 +321,9 @@ export default function AssessmentPage() {
           {encouragement}
         </div>
       )}
-
+      <div className="flex-1 overflow-y-auto">
       <div className="page-container py-8 max-w-2xl mx-auto">
+
         {/* Skill tag */}
         {question && (
           <div className="flex items-center gap-2 mb-5 animate-fade-in">
@@ -492,20 +493,7 @@ export default function AssessmentPage() {
                   </div>
                 </div>
               )}
-
-              {/* Submit button */}
-              <div className="px-6 pb-6">
-                {error && (
-                  <div className="mb-3 p-3 rounded-xl bg-red-50 text-red-600 text-sm font-semibold">{error}</div>
-                )}
-                <button
-                  onClick={submitAnswer}
-                  disabled={submitting || selectedOption === null}
-                  className="btn-primary w-full justify-center py-4 text-lg font-display disabled:opacity-40 disabled:cursor-not-allowed"
-                >
-                  {submitting ? '🔄 Saving...' : currentQ === 19 ? '🏁 Finish!' : 'Next →'}
-                </button>
-              </div>
+            
             </>
           ) : null}
         </div>
@@ -522,6 +510,24 @@ export default function AssessmentPage() {
           </p>
         )}
       </div>
+      </div> {/* end scrollable */}
+
+      {/* Sticky Next Button */}
+      <div className="bg-white border-t border-gray-100 px-4 py-4 w-full">
+        <div className="max-w-2xl mx-auto">
+          {error && (
+            <div className="mb-3 p-3 rounded-xl bg-red-50 text-red-600 text-sm font-semibold">{error}</div>
+          )}
+          <button
+            onClick={submitAnswer}
+            disabled={submitting || selectedOption === null}
+            className="btn-primary w-full justify-center py-4 text-lg font-display disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            {submitting ? '🔄 Saving...' : currentQ === 19 ? '🏁 Finish!' : 'Next →'}
+          </button>
+        </div>
+      </div>
+
     </div>
   )
 }
