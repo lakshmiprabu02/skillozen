@@ -454,33 +454,34 @@ export default function ResultsPage() {
           </div>
         </div>
 
+        console.log('sessionData plan:', sessionData?.plan)
         {/* Reassessment notice */}
-        {!sessionData ? null : sessionData.plan === 'FREE' ? (
-          <div className="mt-6 p-5 rounded-2xl bg-white shadow-card flex items-center gap-4">
-            <span className="text-3xl">🔒</span>
-            <div className="flex-1">
-              <div className="font-bold text-brand-ink">Want to track growth over time?</div>
-              <div className="text-sm text-gray-500 mt-1">
-                Upgrade to Standard to unlock unlimited assessments and measure{' '}
-                {sessionData?.childName}&apos;s improvement every month.
-              </div>
-            </div>
-            <a href="/pricing"
-               className="flex-shrink-0 px-4 py-2 rounded-xl bg-brand-violet text-white text-sm font-black hover:opacity-90 transition-opacity">
-              Upgrade →
-            </a>
-          </div>
-        ) : (
-          <div className="mt-6 p-5 rounded-2xl bg-white shadow-card flex items-center gap-4">
-            <span className="text-3xl">🔄</span>
-            <div>
-              <div className="font-bold text-brand-ink">Next Assessment</div>
-              <div className="text-sm text-gray-500">
-                Come back in 3 months to track{' '}
-                {sessionData?.childName}&apos;s measurable growth across all 10 skills!
-              </div>
+        {!sessionData ? null : (sessionData.plan === 'STANDARD' || sessionData.plan === 'PREMIUM') ? (
+        <div className="mt-6 p-5 rounded-2xl bg-white shadow-card flex items-center gap-4">
+          <span className="text-3xl">🔄</span>
+          <div>
+            <div className="font-bold text-brand-ink">Next Assessment</div>
+            <div className="text-sm text-gray-500">
+              Come back in 3 months to track{' '}
+              {sessionData.childName}&apos;s measurable growth across all 10 skills!
             </div>
           </div>
+        </div>
+      ) : (
+        <div className="mt-6 p-5 rounded-2xl bg-white shadow-card flex items-center gap-4">
+          <span className="text-3xl">🔒</span>
+          <div className="flex-1">
+            <div className="font-bold text-brand-ink">Want to track growth over time?</div>
+            <div className="text-sm text-gray-500 mt-1">
+              Upgrade to Standard to unlock unlimited assessments and measure{' '}
+              {sessionData.childName}&apos;s improvement every month.
+            </div>
+          </div>
+          <a href="/pricing"
+            className="flex-shrink-0 px-4 py-2 rounded-xl bg-brand-violet text-white text-sm font-black hover:opacity-90 transition-opacity">
+            Upgrade →
+          </a>
+        </div>
       )}
       </div>
     </div>
