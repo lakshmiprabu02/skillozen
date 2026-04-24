@@ -35,9 +35,9 @@ export default function TermsPage() {
               and weekly AI reports for children. Our platform offers the following plans:
             </p>
             <ul className="mt-3 space-y-2 text-gray-600">
-              <li>• <strong>Free:</strong> 1 full assessment + skill report + 3 training activities</li>
-              <li>• <strong>Standard (₹499/year):</strong> Unlimited assessments + full training library (1,500+ activities) + daily personalised queue</li>
-              <li>• <strong>Premium (₹799/year):</strong> Everything in Standard + Smart Progress Dashboard + AI weekly reports + Goal Wizard + Academic Tracker</li>
+              <li>• <strong>Free:</strong> 1 full assessment + skill report + 3 training activities + 1 Child Profile</li>
+              <li>• <strong>Standard (₹499/year):</strong> Unlimited assessments + full training library (1,500+ activities) + daily personalised queue + up to 3 Child Profiles</li>
+              <li>• <strong>Premium (₹799/year):</strong> Everything in Standard + Smart Progress Dashboard + AI weekly reports + Goal Wizard + Academic Tracker + up to 5 Child Profiles</li>
             </ul>
           </section>
 
@@ -67,7 +67,7 @@ export default function TermsPage() {
               We offer a 7-day refund policy for annual subscriptions. If you are not satisfied with
               our service, contact us within 7 days of purchase at
               <strong> support@skillozen.com</strong> for a full refund.
-              One-time Explorer purchases (₹99) are non-refundable once assessments are accessed.
+              Free plan users are not eligible for refunds as no payment is made.
             </p>
           </section>
 
