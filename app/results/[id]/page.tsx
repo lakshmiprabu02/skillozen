@@ -469,7 +469,7 @@ export default function ResultsPage() {
             <div className="font-bold text-brand-ink">Next Assessment</div>
             <div className="text-sm text-gray-500">
               Come back in 3 months to track{' '}
-              {sessionData.childName}&apos;s measurable growth across all 10 skills!
+              {profile?.child?.name || sessionData?.childName}&apos;s measurable growth across all 10 skills!
             </div>
           </div>
         </div>
