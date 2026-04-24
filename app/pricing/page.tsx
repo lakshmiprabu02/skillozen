@@ -226,7 +226,7 @@ export default function PricingPage() {
             <button
               onClick={() => handlePayment('premium')}
               disabled={loading === 'premium'}
-              className="w-full py-3 rounded-2xl font-display font-black text-white transition-all disabled:opacity-40 mt-auto">
+              className="w-full py-3 rounded-2xl font-display font-black text-white transition-all disabled:opacity-40 mt-auto"
               style={{ background: '#FF6B35' }}>
               {loading === 'premium' ? '⏳ Loading...' : 'Get Premium — ₹799/year →'}
             </button>
