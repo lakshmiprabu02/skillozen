@@ -455,7 +455,7 @@ export default function ResultsPage() {
         </div>
 
         {/* Reassessment notice */}
-        {sessionData?.plan === 'FREE' ? (
+        {!sessionData ? null : sessionData.plan === 'FREE' ? (
           <div className="mt-6 p-5 rounded-2xl bg-white shadow-card flex items-center gap-4">
             <span className="text-3xl">🔒</span>
             <div className="flex-1">
