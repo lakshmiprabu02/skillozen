@@ -177,7 +177,7 @@ export default function PricingPage() {
                   'Daily Personalised Queue',
                   'XP, Badges & Streaks',
                   'Email Skill Reports',
-                  'Unlimited Child Profiles',
+                  'Up to 3 Child Profiles',
                 ].map(f => (
                   <li key={f} className="flex items-start gap-2 text-sm font-medium text-gray-700">
                     <span className="text-brand-violet font-black mt-0.5">✓</span>
@@ -210,6 +210,7 @@ export default function PricingPage() {
             <ul className="space-y-3 mb-8">
               {[
                 'Everything in Standard',
+                'Up to 5 Child Profiles',
                 'Smart Progress Dashboard',
                 'AI Weekly Reports',
                 'Goal Wizard',
@@ -237,7 +238,7 @@ export default function PricingPage() {
         <div className="flex flex-wrap justify-center gap-6 text-center text-sm text-gray-500">
           <div>🔒 Secure payment via Razorpay</div>
           <div>↩️ 7-day refund guarantee</div>
-          <div>👶 Unlimited child profiles</div>
+          <div>👶 Up to 5 child profiles on Premium</div>
           <div>🇮🇳 Made for Indian families</div>
         </div>
 
