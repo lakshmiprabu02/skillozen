@@ -239,10 +239,10 @@ export default function PricingPage() {
           <div>🔒 Secure payment via Razorpay</div>
           <div>↩️ 7-day refund guarantee</div>
           <div>👶 Up to 5 child profiles on Premium</div>
-          <div>🇮🇳 Made for Indian families</div>
+          <div>🌍 Trusted by Families Worldwide</div>
         </div>
 
       </div>
-    </div>
+    </div>  
   )
 }
