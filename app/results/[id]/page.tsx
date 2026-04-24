@@ -454,7 +454,6 @@ export default function ResultsPage() {
           </div>
         </div>
 
-        console.log('sessionData plan:', sessionData?.plan)
         {/* Reassessment notice */}
         {!sessionData ? null : (sessionData.plan === 'STANDARD' || sessionData.plan === 'PREMIUM') ? (
         <div className="mt-6 p-5 rounded-2xl bg-white shadow-card flex items-center gap-4">
