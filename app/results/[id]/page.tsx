@@ -33,6 +33,11 @@ interface SkillProfile {
   goalSettingPct: number
   scientificThinkingPct: number
   publicSpeakingPct: number
+  child?: {
+    name: string
+    age: number
+    avatarEmoji: string
+  }
 }
 
 const SKILL_CONFIG = [
@@ -109,7 +114,7 @@ export default function ResultsPage() {
           Building Your Skill Report Card...
         </h2>
         <p className="text-gray-500 mb-4">
-          Analysing {sessionData?.childName || 'your child'}&apos;s answers across all 10 skills
+          Analysing {profile?.child?.name || sessionData?.childName || 'your child'}&apos;s answers across all 10 skills
         </p>
         <div className="flex items-center justify-center gap-2 text-gray-400">
           <div className="w-4 h-4 rounded-full border-2 border-brand-violet border-t-transparent animate-spin" />
@@ -173,19 +178,19 @@ export default function ResultsPage() {
           <div className="flex flex-col md:flex-row items-start md:items-center gap-6 mt-4">
             <div className="w-24 h-24 rounded-3xl flex items-center justify-center text-5xl"
                  style={{ background: 'rgba(255,255,255,0.1)' }}>
-              {sessionData?.avatar || '🧒'}
+              {profile?.child?.avatarEmoji || sessionData?.avatar || '🧒'}
             </div>
             <div>
               <div className="text-white/60 font-semibold mb-1">
                 10-Skill Report Card
               </div>
               <h1 className="font-display text-4xl font-black">
-                {sessionData?.childName || 'Explorer'}&apos;s Results
+                {profile?.child?.name || sessionData?.childName || 'Explorer'}&apos;s Results
               </h1>
               <div className="flex items-center gap-3 mt-3">
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold"
                      style={{ background: 'rgba(255,255,255,0.15)' }}>
-                  Age {sessionData?.childAge}
+                  Age {profile?.child?.age || sessionData?.childAge}
                 </div>
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold"
                      style={{ background: 'rgba(91,46,255,0.4)' }}>
@@ -440,7 +445,7 @@ export default function ResultsPage() {
           </h2>
           <p className="text-white/80 mb-6">
             Start daily 5-15 minute activities personalised to{' '}
-            {sessionData?.childName}&apos;s skill gaps across all 10 life skills.
+            {profile?.child?.name || sessionData?.childName}&apos;s skill gaps across all 10 life skills.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <button

@@ -23,7 +23,8 @@ if (!id) return NextResponse.json({ error: 'id required' }, { status: 400 })
   try {
     // Try finding by assessmentId first, then by profileId
     let profile = await prisma.skillProfile.findUnique({
-      where: { assessmentId: id },
+    where: { assessmentId: id },
+    include: { child: true },
     })
 
     if (!profile) {
