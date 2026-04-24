@@ -176,6 +176,7 @@ async function handleAddChild() {
 
   const child = data.children[activeChild]
   const latestProfile = child?.skillProfiles?.[0]
+  console.log(child?.name, '→ assessmentId:', latestProfile?.assessmentId)
 
   return (
     <div className="min-h-screen bg-brand-base pb-16">
@@ -369,7 +370,7 @@ async function handleAddChild() {
                       })}
                     </span>
                     <button
-                      onClick={() => router.push(`/results/${latestProfile.assessmentId}`)}
+                      onClick={() => router.push(`/results/${latestProfile.assessmentId}?name=${encodeURIComponent(child.name)}`)}
                       className="btn-ghost text-sm py-2 px-4"
                     >
                       View Full Report →

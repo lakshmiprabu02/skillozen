@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useRouter, useParams } from 'next/navigation'
+import { useRouter, useParams, useSearchParams } from 'next/navigation'
 import {
   RadarChart, PolarGrid, PolarAngleAxis, Radar, ResponsiveContainer,
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Cell,
@@ -72,6 +72,8 @@ export default function ResultsPage() {
   const router = useRouter()
   const params = useParams()
   const assessmentId = params.id as string
+  const searchParams = useSearchParams()
+  const urlChildName = searchParams.get('name')
   const [profile, setProfile] = useState<SkillProfile | null>(null)
   const [sessionData, setSessionData] = useState<{
     childName: string; avatar: string; childAge: number; plan: string
@@ -114,7 +116,7 @@ export default function ResultsPage() {
           Building Your Skill Report Card...
         </h2>
         <p className="text-gray-500 mb-4">
-          Analysing {profile?.child?.name || sessionData?.childName || 'your child'}&apos;s answers across all 10 skills
+          Analysing {urlChildName || profile?.child?.name || sessionData?.childName || 'your child'}&apos;s answers across all 10 skills
         </p>
         <div className="flex items-center justify-center gap-2 text-gray-400">
           <div className="w-4 h-4 rounded-full border-2 border-brand-violet border-t-transparent animate-spin" />
